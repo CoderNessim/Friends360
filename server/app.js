@@ -9,6 +9,9 @@ const helmet = require('helmet');
 const compression = require('compression');
 const cookieParser = require('cookie-parser');
 
+const AppError = require('./utils/appError');
+const globalErrorHandler = require('./controllers/errorController');
+
 const app = express();
 
 // Set security HTTP headers
@@ -53,7 +56,9 @@ app.use('/api', limiter);
 
 // Custom error handling
 app.all('*', (req, res, next) => {
-  console.log('An error occurred');
+  next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
+
+app.use(globalErrorHandler);
 
 module.exports = app;
