@@ -1,6 +1,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import Map from '../features/Map';
 
 function App() {
   const queryClient = new QueryClient({
@@ -16,6 +17,10 @@ function App() {
       path: '/',
       element: <div>app</div>,
     },
+    {
+      path: '/map',
+      element: <Map />
+    }
   ]);
 
   return (
