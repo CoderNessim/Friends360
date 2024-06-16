@@ -18,6 +18,12 @@ const groupSchema = new mongoose.Schema(
         ref: 'Conversation',
       },
     ],
+    plans: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Plan',
+      },
+    ],
   },
   {
     toJSON: { virtuals: true },
