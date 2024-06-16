@@ -16,6 +16,12 @@ const userSchema = new mongoose.Schema(
       lowercase: true,
       validate: [validator.isEmail, 'Please provide a valid email'],
     },
+    groups: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Group',
+      },
+    ],
     photo: {
       type: String,
       default: 'default.jpg',
