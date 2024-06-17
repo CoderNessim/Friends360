@@ -11,6 +11,7 @@ const cookieParser = require('cookie-parser');
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
+const userRouter = require('./routes/userRoutes');
 
 const app = express();
 
@@ -53,7 +54,7 @@ const limiter = rateLimit({
   message: 'Too many requests from this IP, please try again in an hour!',
 });
 app.use('/api', limiter);
-
+app.use('/api/users', userRouter);
 // Custom error handling
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
