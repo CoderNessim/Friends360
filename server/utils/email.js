@@ -1,27 +1,44 @@
 const nodemailer = require('nodemailer');
 
 module.exports = class Email {
-  constructor(user, url) {}
+  constructor(user, url) {
+    this.to = user.email;
+    this.username = user.username;
+    this.url = url;
+    this.from = `Nessim Yohros <${process.env.EMAIL_FROM}>`;
+  }
+
+  createTransport() {
+    if (process.env.NODE_ENV === 'production') {
+      return nodemailer.createTransport({
+        service: 'SendGrid',
+        auth: {
+          user: process.env.SENDGRID_USERNAME,
+          pass: process.env.SENDGRID_PASSWORD,
+        },
+      });
+    }
+
+    return nodemailer.createTransport({
+      host: process.env.EMAIL_HOST,
+      port: process.env.EMAIL_PORT,
+      auth: {
+        user: process.env.EMAIL_USERNAME,
+        pass: process.env.EMAIL_PASSWORD,
+      },
+    });
+  }
+
+  async send(subject, text) {
+    const mailOptions = {
+      from: this.from,
+      to: this.to,
+      subject,
+      text,
+    };
+
+    await this.createTransport().sendMail(mailOptions);
+  }
+
+  async sendConfirmEmail() {}
 };
-
-const sendEmail = async (options) => {
-  const transporter = nodemailer.createTransport({
-    host: process.env.EMAIL_HOST,
-    port: process.env.EMAIL_PORT,
-    auth: {
-      user: process.env.EMAIL_USERNAME,
-      pass: process.env.EMAIL_PASSWORD,
-    },
-  });
-
-  const mailOptions = {
-    from: 'Nessim Yohros <hello@gmail.com>',
-    to: options.email,
-    subject: options.subject,
-    text: options.message,
-  };
-
-  await transporter.sendMail(mailOptions);
-};
-
-module.exports = sendEmail;
