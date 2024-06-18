@@ -40,5 +40,10 @@ module.exports = class Email {
     await this.createTransport().sendMail(mailOptions);
   }
 
-  async sendConfirmEmail() {}
+  async sendConfirmEmail() {
+    this.send(
+      'Welcome to Friends360!',
+      `Please confirm your email address: ${this.url}`,
+    );
+  }
 };

@@ -1,8 +1,10 @@
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const User = require('../models/userModel');
+const Email = require('../utils/email');
 
 function signToken(id) {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -21,7 +23,7 @@ function createSendToken(user, statusCode, req, res) {
     secure: req.secure || req.headers['x-forwarded-proto'] === 'https',
   });
 
-  user.password = undefined;
+  // user.password = undefined;
   res.status(statusCode).json({
     status: 'success',
     token,
@@ -38,6 +40,10 @@ exports.signup = catchAsync(async (req, res, next) => {
     password: req.body.password,
     phone: req.body.phone,
   });
+  const signupToken = newUser.createToken('signup');
+  await newUser.save({ validateBeforeSave: false });
+  const url = `${req.protocol}://${req.get('host')}/confirmEmail/${signupToken}`;
+  await new Email(newUser, url).sendConfirmEmail();
 
   res.status(201).json({
     status: 'success',
@@ -45,6 +51,31 @@ exports.signup = catchAsync(async (req, res, next) => {
       user: newUser,
     },
   });
+});
+
+exports.confirmEmail = catchAsync(async (req, res, next) => {
+  const hashedToken = crypto
+    .createHash('sha256')
+    .update(req.params.token)
+    .digest('hex');
+
+  const user = await User.findOne({
+    signupToken: hashedToken,
+    signupExpires: { $gt: Date.now() },
+  });
+
+  if (!user) {
+    return next(new AppError('Token is invalid or has expired', 400));
+  }
+  if (user.signupExpires > Date.now() + 10 * 60 * 1000) {
+    return next(new AppError('Signup token has expired', 400));
+  }
+
+  user.signupToken = undefined;
+  user.signupExpires = undefined;
+  await user.save();
+
+  createSendToken(user, 200, req, res);
 });
 
 exports.login = catchAsync(async (req, res, next) => {
