@@ -1,0 +1,44 @@
+.root {
+  padding-top: 80px; /* Converted rem(80px) to 80px */
+  padding-bottom: 80px; /* Converted rem(80px) to 80px */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.label {
+  text-align: center;
+  font-weight: 900;
+  font-size: 38px; /* Converted rem(38px) to 38px */
+  line-height: 1;
+  margin-bottom: calc(
+    1.5 * 32px
+  ); /* Assuming --mantine-spacing-xl to be 32px */
+  color: #e0e0e0; /* Assuming --mantine-color-gray-2 to be #e0e0e0 based on a typical gray color scale */
+
+  @media (max-width: 768px) {
+    /* Assuming $mantine-breakpoint-sm to be 768px */
+    font-size: 32px; /* Converted rem(32px) to 32px */
+  }
+}
+
+.description {
+  max-width: 500px; /* Converted rem(500px) to 500px */
+  margin: auto;
+  margin-top: 32px; /* Assuming --mantine-spacing-xl to be 32px */
+  margin-bottom: calc(
+    1.5 * 32px
+  ); /* Again assuming --mantine-spacing-xl to be 32px */
+}
+
+.title {
+  font-family: 'Greycliff CF'; /* Assuming --mantine-font-family to be sans-serif */
+  text-align: center;
+  font-weight: 900;
+  font-size: 38px; /* Converted rem(38px) to 38px */
+
+  @media (max-width: 768px) {
+    /* Assuming $mantine-breakpoint-sm to be 768px */
+    font-size: 32px; /* Converted rem(32px) to 32px */
+  }
+}
