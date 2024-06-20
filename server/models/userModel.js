@@ -46,6 +46,10 @@ const userSchema = new mongoose.Schema(
         'Please provide a valid phone number',
       ],
     },
+    emailVerified: {
+      type: Boolean,
+      default: false,
+    },
     passwordChangedAt: Date,
     passwordResetToken: String,
     passwordResetExpires: Date,

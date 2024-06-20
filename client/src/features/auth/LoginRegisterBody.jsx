@@ -8,6 +8,9 @@ import {
   Button,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
+import { login } from '../../services/apiAuth';
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 function LoginBody() {
   const form = useForm({
@@ -24,9 +27,21 @@ function LoginBody() {
     },
   });
 
+  const navigate = useNavigate();
+
+  async function handleSubmit(values) {
+    try {
+      const newUser = await login(values);
+      toast.success(`Welcome back, ${newUser.data.user.username}!`);
+      navigate('/map')
+    } catch (err) {
+      toast.error(err.message);
+    }
+  }
+
   return (
     <Paper withBorder shadow="md" p={30} mt={30} radius="md">
-      <form onSubmit={form.onSubmit((values) => console.log(values))}>
+      <form onSubmit={form.onSubmit(handleSubmit)}>
         <TextInput
           label="Email"
           placeholder="Your email"
