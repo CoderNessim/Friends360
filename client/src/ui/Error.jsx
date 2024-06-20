@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Title, Text, Button, Container, Group } from '@mantine/core';
 import classes from './Error.module.css';
 
-function Error({ routeDoesNotExist }) {
+function Error({ routeDoesNotExist, customErrorMessage }) {
   const error = useRouteError();
   const navigate = useNavigate();
 
@@ -27,7 +27,11 @@ function Error({ routeDoesNotExist }) {
     return (
       <div>
         <h1>Something went wrong 😢</h1>
-        <p>{error.data || error.message}</p>
+        {customErrorMessage ? (
+          <p>{customErrorMessage}</p>
+        ) : (
+          <p>{error.data || error.message}</p>
+        )}
         <Link onClick={() => navigate(-1)}>&larr; Go back</Link>
       </div>
     );

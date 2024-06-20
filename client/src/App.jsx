@@ -5,6 +5,8 @@ import { Toaster } from 'react-hot-toast';
 import Map from './features/map/Map';
 import LoginRegisterPage from './features/auth/LoginRegisterPage';
 import Error from './ui/Error';
+import ForgotPassword from './features/auth/ForgotPassword';
+import ConfirmEmail from './features/auth/ConfirmEmail';
 
 function App() {
   const queryClient = new QueryClient({
@@ -29,8 +31,12 @@ function App() {
       element: <LoginRegisterPage type="register" />,
     },
     {
+      path: '/forgotPassword',
+      element: <ForgotPassword />,
+    },
+    {
       path: '/confirmEmail/:confirmEmailToken',
-      element: <div>Confirm Email</div>,
+      element: <ConfirmEmail />,
     },
     {
       path: 'map',

@@ -47,7 +47,11 @@ function LoginBody() {
         />
         <Group justify="space-between" mt="lg">
           <Checkbox label="Remember me" />
-          <Anchor component="button" size="sm">
+          <Anchor
+            component="button"
+            size="sm"
+            onClick={() => navigate('/forgotPassword')}
+          >
             Forgot password?
           </Anchor>
         </Group>

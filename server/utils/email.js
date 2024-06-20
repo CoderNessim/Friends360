@@ -40,6 +40,13 @@ module.exports = class Email {
     await this.createTransport().sendMail(mailOptions);
   }
 
+  async sendPasswordReset() {
+    this.send(
+      'Password Reset Request',
+      `Forgot your password? follow the url below to reset it: ${this.url}`,
+    );
+  }
+
   async sendConfirmEmail() {
     this.send(
       'Welcome to Friends360!',

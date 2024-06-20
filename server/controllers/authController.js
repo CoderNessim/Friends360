@@ -51,7 +51,7 @@ exports.signup = catchAsync(async (req, res, next) => {
 
   const signupToken = newUser.createToken('signup');
   await newUser.save({ validateBeforeSave: false });
-  const url = `${req.protocol}://${req.get('host')}/confirmEmail/${signupToken}`;
+  const url = `http://localhost:5173/confirmEmail/${signupToken}`;
   await new Email(newUser, url).sendConfirmEmail();
 
   res.status(201).json({
@@ -115,4 +115,56 @@ exports.logout = catchAsync(async (req, res) => {
     httpOnly: true,
   });
   res.status(200).json({ status: 'success' });
+});
+
+exports.forgotPassword = catchAsync(async (req, res, next) => {
+  const user = await User.findOne({ email: req.body.email });
+  if (!user) {
+    return next(new AppError('No user found with that email', 404));
+  }
+  if (!user.emailVerified) {
+    return next(new AppError('Please verify your email', 401));
+  }
+  const resetToken = user.createToken('passwordReset');
+  await user.save({ validateBeforeSave: false });
+  try {
+    const resetURL = `${req.protocol}://${req.get('host')}/confirmEmail/${resetToken}`;
+    await new Email(user, resetURL).sendPasswordReset();
+
+    res.status(200).json({
+      status: 'success',
+      message: 'Token sent to email!',
+    });
+  } catch (err) {
+    user.passwordResetToken = undefined;
+    user.passwordResetExpires = undefined;
+    await user.save({ validateBeforeSave: false });
+
+    return next(
+      new AppError('There was an error sending the email. Try again later!'),
+      500,
+    );
+  }
+});
+
+exports.resetPassword = catchAsync(async (req, res, next) => {
+  const hashedToken = crypto
+    .createHash('sha256')
+    .update(req.params.token)
+    .digest('hex');
+
+  const user = await User.findOne({
+    passwordResetToken: hashedToken,
+    passwordResetExpires: { $gt: Date.now() },
+  });
+
+  if (!user) {
+    return next(new AppError('Token is invalid or has expired', 400));
+  }
+
+  user.password = req.body.password;
+  user.passwordResetToken = undefined;
+  user.passwordResetExpires = undefined;
+  await user.save();
+  createSendToken(user, 200, req, res);
 });
