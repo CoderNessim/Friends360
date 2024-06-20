@@ -1,7 +1,22 @@
 import { Paper, TextInput, PasswordInput, Button, Stack } from '@mantine/core';
 import { useForm } from '@mantine/form';
+import { signup } from '../../services/apiAuth';
+import toast from 'react-hot-toast';
 
 function RegisterBody() {
+
+  async function handleSubmit(values) {
+    try {
+      const newUser = await signup(values);
+      const username = newUser.data.user.username;
+      toast.success(
+        `Welcome, ${username}! Please confirm your email at ${newUser.data.user.email}.`
+      );
+    } catch (err) {
+      toast.error(err.message);
+    }
+  }
+
   const form = useForm({
     initialValues: {
       username: '',
@@ -27,7 +42,7 @@ function RegisterBody() {
 
   return (
     <Paper withBorder shadow="md" p={30} mt={30} radius="md">
-      <form onSubmit={form.onSubmit((values) => console.log(values))}>
+      <form onSubmit={form.onSubmit(handleSubmit)}>
         <Stack spacing="md">
           <TextInput
             label="Username"
@@ -43,7 +58,7 @@ function RegisterBody() {
           />
           <TextInput
             label="Email"
-            placeholder="you@mantine.dev"
+            placeholder="Your email"
             required
             {...form.getInputProps('email')}
           />

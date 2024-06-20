@@ -1,6 +1,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { Toaster } from 'react-hot-toast';
 import Map from './features/map/Map';
 import LoginRegisterPage from './features/auth/LoginRegisterPage';
 import Error from './ui/Error';
@@ -28,6 +29,10 @@ function App() {
       element: <LoginRegisterPage type="register" />,
     },
     {
+      path: '/confirmEmail/:confirmEmailToken',
+      element: <div>Confirm Email</div>,
+    },
+    {
       path: 'map',
       element: <Map />,
     },
@@ -40,6 +45,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={false} />
+      <Toaster />
       <RouterProvider router={router} />
     </QueryClientProvider>
   );
