@@ -13,11 +13,13 @@ import {
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { IconArrowLeft } from '@tabler/icons-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import { resetPassword } from '../../services/apiAuth';
 
 export default function ResetPassword() {
   const navigate = useNavigate();
+  const { resetPasswordToken } = useParams();
   const form = useForm({
     initialValues: {
       password: '',
@@ -30,15 +32,16 @@ export default function ResetPassword() {
     },
   });
 
-  // async function handleSubmit(values) {
-  //   try {
-  //     await loginSignup(values, 'forgotPassword');
-  //     toast.success(`An email has been sent to ${values.email}!`);
-  //     form.reset();
-  //   } catch (err) {
-  //     toast.error(err.message);
-  //   }
-  // }
+  async function handleSubmit(values) {
+    try {
+      await resetPassword(values, resetPasswordToken);
+      toast.success('Password has been successfully reset');
+      navigate('/map');
+      form.reset();
+    } catch (err) {
+      toast.error(err.message);
+    }
+  }
 
   return (
     <Container size={460} my={70}>
@@ -46,13 +49,13 @@ export default function ResetPassword() {
       <Text c="dimmed" fz="sm" ta="center">
         Enter a new password to reset your old one
       </Text>
-      <form>
+      <form onSubmit={form.onSubmit(handleSubmit)}>
         <Paper withBorder shadow="md" p={30} radius="md" mt="xl">
           <PasswordInput
             label="New password"
             placeholder="Your new password"
             required
-            {...form.getInputProps('pasword')}
+            {...form.getInputProps('password')}
             error={form.errors.password}
           />
           <Group justify="space-between" mt="lg">

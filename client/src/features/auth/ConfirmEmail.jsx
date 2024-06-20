@@ -12,6 +12,7 @@ import {
   Loader,
   Space,
 } from '@mantine/core';
+import toast from 'react-hot-toast';
 
 function ConfirmEmail() {
   const { confirmEmailToken } = useParams();
@@ -24,6 +25,8 @@ function ConfirmEmail() {
       try {
         setIsLoading(true);
         await confirmEmail(confirmEmailToken);
+        navigate('/map');
+        toast.success('Email has been confirmed');
       } catch (err) {
         setError(err.message);
       } finally {
@@ -31,7 +34,7 @@ function ConfirmEmail() {
       }
     }
     confirmEmailFunc();
-  }, [confirmEmailToken]);
+  }, [confirmEmailToken, navigate]);
 
   if (error) return <Error customErrorMessage={error} />;
 
