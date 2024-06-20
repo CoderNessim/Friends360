@@ -1,6 +1,6 @@
 import { useForm } from '@mantine/form';
 
-export async function useLoginForm() {
+export function useLoginForm() {
   const form = useForm({
     initialValues: {
       email: '',

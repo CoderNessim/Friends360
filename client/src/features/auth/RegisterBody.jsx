@@ -1,5 +1,5 @@
 import { Paper, TextInput, PasswordInput, Button, Stack } from '@mantine/core';
-import { signup } from '../../services/apiAuth';
+import { loginSignup } from '../../services/apiAuth';
 import toast from 'react-hot-toast';
 import { useRegisterForm } from './useRegisterForm';
 
@@ -8,11 +8,12 @@ function RegisterBody() {
 
   async function handleSubmit(values) {
     try {
-      const newUser = await signup(values);
+      const newUser = await loginSignup(values, 'signup');
       const username = newUser.data.user.username;
       toast.success(
         `Welcome, ${username}! Please confirm your email at ${newUser.data.user.email}.`
       );
+      form.reset();
     } catch (err) {
       toast.error(err.message);
     }

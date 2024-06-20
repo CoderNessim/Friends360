@@ -7,7 +7,7 @@ import {
   Anchor,
   Button,
 } from '@mantine/core';
-import { login } from '../../services/apiAuth';
+import { loginSignup } from '../../services/apiAuth';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { useLoginForm } from './useLoginForm';
@@ -18,8 +18,9 @@ function LoginBody() {
 
   async function handleSubmit(values) {
     try {
-      const newUser = await login(values);
+      const newUser = await loginSignup(values, 'login');
       toast.success(`Welcome back, ${newUser.data.user.username}!`);
+      form.reset();
       navigate('/map');
     } catch (err) {
       toast.error(err.message);
