@@ -23,7 +23,7 @@ function createSendToken(user, statusCode, req, res) {
     secure: req.secure || req.headers['x-forwarded-proto'] === 'https',
   });
 
-  // user.password = undefined;
+  user.password = undefined;
   res.status(statusCode).json({
     status: 'success',
     token,
@@ -34,12 +34,21 @@ function createSendToken(user, statusCode, req, res) {
 }
 
 exports.signup = catchAsync(async (req, res, next) => {
+  const { username, email, password, phone } = req.body;
+
+  if (password.length < 8 || password.length > 20) {
+    return next(
+      new AppError('Password must be between 8 and 20 characters', 400),
+    );
+  }
+
   const newUser = await User.create({
-    username: req.body.username,
-    email: req.body.email,
-    password: req.body.password,
-    phone: req.body.phone,
+    username,
+    email,
+    password,
+    phone,
   });
+
   const signupToken = newUser.createToken('signup');
   await newUser.save({ validateBeforeSave: false });
   const url = `${req.protocol}://${req.get('host')}/confirmEmail/${signupToken}`;
@@ -73,6 +82,7 @@ exports.confirmEmail = catchAsync(async (req, res, next) => {
 
   user.signupToken = undefined;
   user.signupExpires = undefined;
+  user.emailVerified = true;
   await user.save();
 
   createSendToken(user, 200, req, res);
@@ -89,6 +99,13 @@ exports.login = catchAsync(async (req, res, next) => {
   if (!user || !(await user.correctPassword(password, user.password))) {
     return next(new AppError('Incorrect email or password', 401));
   }
+
+  if (!user.emailVerified) {
+    return next(new AppError('Please verify your email', 401));
+  }
+
+  user.emailVerified = undefined;
+  await user.save({ validateBeforeSave: false });
   createSendToken(user, 200, req, res);
 });
 

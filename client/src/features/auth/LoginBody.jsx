@@ -7,33 +7,20 @@ import {
   Anchor,
   Button,
 } from '@mantine/core';
-import { useForm } from '@mantine/form';
 import { login } from '../../services/apiAuth';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import { useLoginForm } from './useLoginForm';
 
 function LoginBody() {
-  const form = useForm({
-    initialValues: {
-      email: '',
-      password: '',
-    },
-    validate: {
-      email: (val) => (/^\S+@\S+$/.test(val) ? null : 'Invalid email'),
-      password: (val) =>
-        val.length >= 8
-          ? null
-          : 'Password should include at least 8 characters',
-    },
-  });
-
+  const form = useLoginForm();
   const navigate = useNavigate();
 
   async function handleSubmit(values) {
     try {
       const newUser = await login(values);
       toast.success(`Welcome back, ${newUser.data.user.username}!`);
-      navigate('/map')
+      navigate('/map');
     } catch (err) {
       toast.error(err.message);
     }

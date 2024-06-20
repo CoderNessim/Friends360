@@ -24,7 +24,6 @@ export async function login(body) {
     },
     body: JSON.stringify(body),
   });
-
   if (!response.ok) {
     const errorData = await response.json();
     throw new Error(errorData.message || 'Something went wrong');

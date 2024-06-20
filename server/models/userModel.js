@@ -9,6 +9,8 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, 'A username field is required'],
       unique: [true, 'This username is already taken'],
+      minlength: [3, 'A username must have at least 3 characters'],
+      maxlength: [20, 'A username must have less than 20 characters'],
     },
     email: {
       type: String,
@@ -35,8 +37,7 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: [true, 'Please provide a password'],
-      minlength: [8, 'A username must have at least 8 characters'],
-      maxlength: [20, 'A username must have less than 20 characters'],
+      minlength: [8, 'Password should include at least 8 characters'],
       select: false,
     },
     phone: {

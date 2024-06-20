@@ -1,6 +1,6 @@
 import { Container } from '@mantine/core';
 import LoginRegisterHeader from './LoginRegisterHeader';
-import LoginBody from './LoginRegisterBody';
+import LoginBody from './LoginBody';
 import RegisterBody from './RegisterBody';
 
 function LoginRegisterPage({ type }) {
