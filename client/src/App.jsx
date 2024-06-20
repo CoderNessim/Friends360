@@ -7,6 +7,7 @@ import LoginRegisterPage from './features/auth/LoginRegisterPage';
 import Error from './ui/Error';
 import ForgotPassword from './features/auth/ForgotPassword';
 import ConfirmEmail from './features/auth/ConfirmEmail';
+import ResetPassword from './features/auth/ResetPassword';
 
 function App() {
   const queryClient = new QueryClient({
@@ -33,6 +34,10 @@ function App() {
     {
       path: '/forgotPassword',
       element: <ForgotPassword />,
+    },
+    {
+      path: '/resetPassword/:resetPasswordToken',
+      element: <ResetPassword />,
     },
     {
       path: '/confirmEmail/:confirmEmailToken',
