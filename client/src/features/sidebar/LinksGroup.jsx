@@ -3,7 +3,7 @@ import { Group, Box, Collapse, ThemeIcon, Text, UnstyledButton, rem } from '@man
 import { IconCalendarStats, IconChevronRight } from '@tabler/icons-react';
 import classes from './LinksGroup.module.css';
 
-export function LinksGroup({ icon: Icon, label, initiallyOpened, links }) {
+export default function LinksGroup({ icon: Icon, label, initiallyOpened, links }) {
   const hasLinks = Array.isArray(links);
   const [opened, setOpened] = useState(initiallyOpened || false);
   const items = (hasLinks ? links : []).map((link) => (

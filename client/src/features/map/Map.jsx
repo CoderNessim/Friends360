@@ -1,7 +1,6 @@
 import { Loader } from '@mantine/core';
 import {
   GoogleMap,
-  LoadScript,
   Marker,
   useJsApiLoader,
 } from '@react-google-maps/api';

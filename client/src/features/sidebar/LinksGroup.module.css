@@ -2,50 +2,31 @@
   font-weight: 500;
   display: block;
   width: 100%;
-  padding: 8px 16px;
-  color: #000;
-  font-size: 14px;
-}
+  padding: var(--mantine-spacing-xs) var(--mantine-spacing-md);
+  color: var(--mantine-color-text);
+  font-size: var(--mantine-font-size-sm);
 
-.control:hover {
-  background-color: #f0f0f0;
-  color: #000;
-}
-
-.control.dark {
-  color: #fff;
-}
-
-.control.dark:hover {
-  background-color: #2d2d2d;
-  color: #fff;
+  @mixin hover {
+    background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-7));
+    color: light-dark(var(--mantine-color-black), var(--mantine-color-dark-0));
+  }
 }
 
 .link {
   font-weight: 500;
   display: block;
   text-decoration: none;
-  padding: 8px 16px;
-  padding-left: 16px;
-  margin-left: 24px;
-  font-size: 14px;
-  color: #555;
-  border-left: 1px solid #ccc;
-}
+  padding: var(--mantine-spacing-xs) var(--mantine-spacing-md);
+  padding-left: var(--mantine-spacing-md);
+  margin-left: var(--mantine-spacing-xl);
+  font-size: var(--mantine-font-size-sm);
+  color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-0));
+  border-left: 1px solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
 
-.link:hover {
-  background-color: #f0f0f0;
-  color: #000;
-}
-
-.link.dark {
-  color: #ccc;
-  border-left-color: #444;
-}
-
-.link.dark:hover {
-  background-color: #2d2d2d;
-  color: #fff;
+  @mixin hover {
+    background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-7));
+    color: light-dark(var(--mantine-color-black), var(--mantine-color-dark-0));
+  }
 }
 
 .chevron {
