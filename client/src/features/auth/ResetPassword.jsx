@@ -36,7 +36,7 @@ export default function ResetPassword() {
     try {
       await resetPassword(values, resetPasswordToken);
       toast.success('Password has been successfully reset');
-      navigate('/map');
+      navigate('/app/map');
       form.reset();
     } catch (err) {
       toast.error(err.message);

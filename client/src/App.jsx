@@ -8,6 +8,8 @@ import Error from './ui/Error';
 import ForgotPassword from './features/auth/ForgotPassword';
 import ConfirmEmail from './features/auth/ConfirmEmail';
 import ResetPassword from './features/auth/ResetPassword';
+import HomeRedirect from './ui/HomeRedirect';
+import Sidebar from './features/sidebar/Sidebar';
 
 function App() {
   const queryClient = new QueryClient({
@@ -21,7 +23,7 @@ function App() {
   const router = createBrowserRouter([
     {
       path: '/',
-      element: <div>Home</div>,
+      element: <HomeRedirect />,
     },
     {
       path: '/login',
@@ -44,8 +46,15 @@ function App() {
       element: <ConfirmEmail />,
     },
     {
-      path: 'map',
-      element: <Map />,
+      path: '/app',
+      element: <Sidebar />,
+      errorElement: <Error />,
+      children: [
+        {
+          path: 'map',
+          element: <Map />,
+        },
+      ],
     },
     {
       path: '*',

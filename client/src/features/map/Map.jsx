@@ -1,8 +1,14 @@
-import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
+import { Loader } from '@mantine/core';
+import {
+  GoogleMap,
+  LoadScript,
+  Marker,
+  useJsApiLoader,
+} from '@react-google-maps/api';
 
 const containerStyle = {
   width: '100%',
-  height: '400px',
+  height: '100vh',
 };
 
 const center = {
@@ -11,21 +17,19 @@ const center = {
 };
 
 function Map() {
-  return (
-    <LoadScript
-      googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API}
-      //may need to add more libraries
-      libraries={['maps', 'marker']}
-    >
-      <GoogleMap
-        mapContainerStyle={containerStyle}
-        center={center}
-        zoom={4}
-        mapId="DEMO_MAP_ID"
-      >
-        <Marker position={center} title="My location" />
+  const { isLoaded } = useJsApiLoader({
+    id: 'google-map-script',
+    googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API,
+  });
+
+  return isLoaded ? (
+    <>
+      <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={10}>
+        {/* Child components, such as markers, info windows, etc. */}
       </GoogleMap>
-    </LoadScript>
+    </>
+  ) : (
+    <Loader />
   );
 }
 

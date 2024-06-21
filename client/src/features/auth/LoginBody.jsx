@@ -21,7 +21,7 @@ function LoginBody() {
       const newUser = await loginSignup(values, 'login');
       toast.success(`Welcome back, ${newUser.data.user.username}!`);
       form.reset();
-      navigate('/map');
+      navigate('/app/map');
     } catch (err) {
       toast.error(err.message);
     }

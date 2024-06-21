@@ -104,7 +104,6 @@ exports.login = catchAsync(async (req, res, next) => {
     return next(new AppError('Please verify your email', 401));
   }
 
-  user.emailVerified = undefined;
   await user.save({ validateBeforeSave: false });
   createSendToken(user, 200, req, res);
 });

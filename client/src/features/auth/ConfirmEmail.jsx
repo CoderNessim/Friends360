@@ -25,7 +25,7 @@ function ConfirmEmail() {
       try {
         setIsLoading(true);
         await confirmEmail(confirmEmailToken);
-        navigate('/map');
+        navigate('/app/map');
         toast.success('Email has been confirmed');
       } catch (err) {
         setError(err.message);
@@ -55,7 +55,7 @@ function ConfirmEmail() {
           {isLoading ? (
             <Loader size="md" />
           ) : (
-            <Button onClick={() => navigate('/map')}>Home page</Button>
+            <Button onClick={() => navigate('/app/map')}>Home page</Button>
           )}
         </Center>
       </Paper>
