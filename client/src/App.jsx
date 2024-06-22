@@ -10,6 +10,7 @@ import ConfirmEmail from './features/auth/ConfirmEmail';
 import ResetPassword from './features/auth/ResetPassword';
 import HomeRedirect from './ui/HomeRedirect';
 import Sidebar from './features/sidebar/Sidebar';
+import Protect from './ui/Protect';
 
 function App() {
   const queryClient = new QueryClient({
@@ -47,7 +48,11 @@ function App() {
     },
     {
       path: '/app',
-      element: <Sidebar />,
+      element: (
+        <Protect>
+          <Sidebar />
+        </Protect>
+      ),
       errorElement: <Error />,
       children: [
         {

@@ -6,25 +6,33 @@ import {
   Checkbox,
   Anchor,
   Button,
+  Loader,
 } from '@mantine/core';
 import { loginSignup } from '../../services/apiAuth';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { useLoginForm } from './useLoginForm';
+import { useLoginQuery } from './useLoginQuery';
 
 function LoginBody() {
   const form = useLoginForm();
   const navigate = useNavigate();
+  const { mutate, isPending } = useLoginQuery();
 
-  async function handleSubmit(values) {
-    try {
-      const newUser = await loginSignup(values, 'login');
-      toast.success(`Welcome back, ${newUser.data.user.username}!`);
-      form.reset();
-      navigate('/app/map');
-    } catch (err) {
-      toast.error(err.message);
-    }
+  // async function handleSubmit(values) {
+  //   try {
+  //     const newUser = await loginSignup(values, 'login');
+  //     toast.success(`Welcome back, ${newUser.data.user.username}!`);
+  //     form.reset();
+  //     navigate('/app/map');
+  //   } catch (err) {
+  //     toast.error(err.message);
+  //   }
+  // }
+
+  function handleSubmit(values) {
+    mutate({ body: values, type: 'login' });
+    form.reset();
   }
 
   return (
@@ -56,7 +64,7 @@ function LoginBody() {
           </Anchor>
         </Group>
         <Button fullWidth mt="xl" type="submit">
-          Sign in
+          {isPending ? <Loader color='white' size={20} /> : 'Sign in'}
         </Button>
       </form>
     </Paper>

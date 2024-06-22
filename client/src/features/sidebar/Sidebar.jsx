@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Center, Tooltip, UnstyledButton, Stack, rem } from '@mantine/core';
+import { Center, Loader, Stack } from '@mantine/core';
 import {
   IconHome2,
   IconGauge,
@@ -9,25 +9,11 @@ import {
   IconUser,
   IconSettings,
   IconLogout,
-  IconSwitchHorizontal,
 } from '@tabler/icons-react';
-import { MantineLogo } from '@mantinex/mantine-logo';
 import classes from './Sidebar.module.css';
-import { Outlet } from 'react-router-dom';
-
-export function NavbarLink({ icon: Icon, label, active, onClick }) {
-  return (
-    <Tooltip label={label} position="right" transitionProps={{ duration: 0 }}>
-      <UnstyledButton
-        onClick={onClick}
-        className={classes.link}
-        data-active={active || undefined}
-      >
-        <Icon style={{ width: rem(20), height: rem(20) }} stroke={1.5} />
-      </UnstyledButton>
-    </Tooltip>
-  );
-}
+import { Outlet, useNavigation } from 'react-router-dom';
+import { SidebarLink } from './SidebarLink';
+import imagePath from '../../assets/friends360-removebg-preview.png';
 
 const mockdata = [
   { icon: IconHome2, label: 'Home' },
@@ -40,10 +26,11 @@ const mockdata = [
 ];
 
 export default function Sidebar() {
+  const navigation = useNavigation();
   const [active, setActive] = useState(2);
-
+  const isLoading = navigation.state === 'loading';
   const links = mockdata.map((link, index) => (
-    <NavbarLink
+    <SidebarLink
       {...link}
       key={link.label}
       active={index === active}
@@ -52,24 +39,33 @@ export default function Sidebar() {
   ));
 
   return (
-    <div className={classes.container}>
-      <nav className={classes.navbar}>
-        <Center>
-          <MantineLogo type="mark" size={30} />
-        </Center>
+    <div>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <div className={classes.container}>
+          <nav className={classes.navbar}>
+            <Center>
+              <img
+                src={imagePath}
+                className={classes.image}
+                alt="Friends 360"
+              />
+            </Center>
 
-        <div className={classes.navbarMain}>
-          <Stack justify="center" gap={0}>
-            {links}
-          </Stack>
+            <div className={classes.navbarMain}>
+              <Stack justify="center" gap={0}>
+                {links}
+              </Stack>
+            </div>
+
+            <Stack justify="center" gap={0}>
+              <SidebarLink icon={IconLogout} label="Logout" />
+            </Stack>
+          </nav>
+          <Outlet />
         </div>
-
-        <Stack justify="center" gap={0}>
-          <NavbarLink icon={IconSwitchHorizontal} label="Change account" />
-          <NavbarLink icon={IconLogout} label="Logout" />
-        </Stack>
-      </nav>
-      <Outlet />
+      )}
     </div>
   );
 }

@@ -5,6 +5,7 @@ export async function loginSignup(body, type) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(body),
+    credentials: 'include',
   });
 
   if (!response.ok) {
@@ -24,6 +25,7 @@ export async function confirmEmail(token) {
       headers: {
         'Content-Type': 'application/json',
       },
+      credentials: 'include',
     }
   );
 
@@ -44,6 +46,7 @@ export async function resetPassword(body, token) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(body),
+      credentials: 'include',
     }
   );
 

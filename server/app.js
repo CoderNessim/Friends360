@@ -19,8 +19,19 @@ const app = express();
 app.use(helmet());
 
 // Enable CORS
-app.use(cors());
-app.options('*', cors());
+app.use(
+  cors({
+    origin: 'http://localhost:5173', // Allow requests from this origin
+    credentials: true, // Allow credentials (cookies, authorization headers, etc.)
+  }),
+);
+app.options(
+  '*',
+  cors({
+    origin: 'http://localhost:5173',
+    credentials: true,
+  }),
+);
 
 // Logger
 app.use(morgan('dev'));
