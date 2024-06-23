@@ -1,6 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { confirmEmail } from '../../services/apiAuth';
 import Error from '../../ui/Error';
 import {
   Container,
@@ -12,31 +11,19 @@ import {
   Loader,
   Space,
 } from '@mantine/core';
-import toast from 'react-hot-toast';
+import { useConfirmEmailQuery } from './useConfirmEmailQuery';
 
 function ConfirmEmail() {
   const { confirmEmailToken } = useParams();
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState('');
+
   const navigate = useNavigate();
+  const { mutate, isPending, isError } = useConfirmEmailQuery();
 
   useEffect(() => {
-    async function confirmEmailFunc() {
-      try {
-        setIsLoading(true);
-        await confirmEmail(confirmEmailToken);
-        navigate('/app/map');
-        toast.success('Email has been confirmed');
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-    confirmEmailFunc();
-  }, [confirmEmailToken, navigate]);
+    mutate({ token: confirmEmailToken });
+  }, [mutate, confirmEmailToken]);
 
-  if (error) return <Error customErrorMessage={error} />;
+  if (isError) return <Error customErrorMessage={isError} />;
 
   return (
     <Container size={460} my={70}>
@@ -46,13 +33,13 @@ function ConfirmEmail() {
         </Center>
         <Space h="md" />
         <Text color="dimmed" size="sm" align="center">
-          {isLoading
+          {isPending
             ? 'Please wait while we confirm your email...'
             : 'Your email has been confirmed!'}
         </Text>
         <Space h="md" />
         <Center>
-          {isLoading ? (
+          {isPending ? (
             <Loader size="md" />
           ) : (
             <Button onClick={() => navigate('/app/map')}>Home page</Button>
