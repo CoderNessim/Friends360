@@ -33,8 +33,8 @@ export async function confirmEmail(token) {
     const errorData = await response.json();
     throw new Error(errorData.message || 'Something went wrong');
   }
-  // const data = await response.json();
-  // return data;
+  const data = await response.json();
+  return data;
 }
 
 export async function resetPassword(body, token) {

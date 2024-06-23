@@ -1,10 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import { getUser } from '../services/apiUser';
-import { Loader } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import Cookies from 'js-cookie';
-import { useEffect } from 'react';
+import CustomLoader from './CustomLoader';
 
 function Protect({ children }) {
   const navigate = useNavigate();
@@ -12,14 +10,18 @@ function Protect({ children }) {
     queryKey: ['user'],
     queryFn: getUser,
   });
-  if (isPending) return <Loader />;
 
   if (!user) {
     toast.error('Please login to access this page');
     navigate('/login');
   }
 
-  return children;
+  return (
+    <>
+      {children}
+      {isPending && <CustomLoader size="lg" />}
+    </>
+  );
 }
 
 export default Protect;

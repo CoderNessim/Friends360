@@ -1,9 +1,5 @@
-import { Loader } from '@mantine/core';
-import {
-  GoogleMap,
-  Marker,
-  useJsApiLoader,
-} from '@react-google-maps/api';
+import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api';
+import CustomLoader from '../../ui/CustomLoader';
 
 const containerStyle = {
   width: '100%',
@@ -28,7 +24,7 @@ function Map() {
       </GoogleMap>
     </>
   ) : (
-    <Loader />
+    <CustomLoader />
   );
 }
 

@@ -11,9 +11,12 @@ import {
   IconLogout,
 } from '@tabler/icons-react';
 import classes from './Sidebar.module.css';
-import { Outlet, useNavigation } from 'react-router-dom';
+import { Outlet, useNavigate, useNavigation } from 'react-router-dom';
 import { SidebarLink } from './SidebarLink';
 import imagePath from '../../assets/friends360-removebg-preview.png';
+import { loginSignup } from '../../services/apiAuth';
+import toast from 'react-hot-toast';
+import { useQueryClient } from '@tanstack/react-query';
 
 const mockdata = [
   { icon: IconHome2, label: 'Home' },
@@ -27,6 +30,8 @@ const mockdata = [
 
 export default function Sidebar() {
   const navigation = useNavigation();
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
   const [active, setActive] = useState(2);
   const isLoading = navigation.state === 'loading';
   const links = mockdata.map((link, index) => (
@@ -37,6 +42,17 @@ export default function Sidebar() {
       onClick={() => setActive(index)}
     />
   ));
+
+  async function handleLogout() {
+    try {
+      await loginSignup({}, 'logout');
+      toast.success('Logout successful');
+      queryClient.removeQueries(['user']);
+      navigate('/login');
+    } catch (err) {
+      toast.error(err.message);
+    }
+  }
 
   return (
     <div>
@@ -60,7 +76,11 @@ export default function Sidebar() {
             </div>
 
             <Stack justify="center" gap={0}>
-              <SidebarLink icon={IconLogout} label="Logout" />
+              <SidebarLink
+                onClick={handleLogout}
+                icon={IconLogout}
+                label="Logout"
+              />
             </Stack>
           </nav>
           <Outlet />
