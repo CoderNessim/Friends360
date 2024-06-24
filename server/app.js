@@ -12,6 +12,7 @@ const cookieParser = require('cookie-parser');
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
 const userRouter = require('./routes/userRoutes');
+const groupRouter = require('./routes/groupRoutes');
 
 const app = express();
 
@@ -66,6 +67,7 @@ const limiter = rateLimit({
 });
 app.use('/api', limiter);
 app.use('/api/users', userRouter);
+app.use('/api/groups', groupRouter);
 // Custom error handling
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));

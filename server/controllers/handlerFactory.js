@@ -34,9 +34,13 @@ exports.updateOne = (Model) =>
     });
   });
 
-exports.createOne = (Model) =>
+exports.createOne = (Model, modelType = '') =>
   catchAsync(async (req, res, next) => {
     const doc = await Model.create(req.body);
+    if (modelType === 'Group') {
+      doc.members.push(req.user.id);
+      await doc.save();
+    }
 
     res.status(201).json({
       status: 'success',

@@ -19,12 +19,12 @@ const userSchema = new mongoose.Schema(
       lowercase: true,
       validate: [validator.isEmail, 'Please provide a valid email'],
     },
-    groups: [
-      {
-        type: mongoose.Schema.ObjectId,
-        ref: 'Group',
-      },
-    ],
+    // groups: [
+    //   {
+    //     type: mongoose.Schema.ObjectId,
+    //     ref: 'Group',
+    //   },
+    // ],
     photo: {
       type: String,
       default: 'default.jpg',
@@ -64,9 +64,21 @@ const userSchema = new mongoose.Schema(
   },
 );
 
+userSchema.virtual('groups', {
+  ref: 'Group',
+  foreignField: 'members',
+  localField: '_id',
+});
+
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
   this.password = await bcrypt.hash(this.password, 12);
+  next();
+});
+
+userSchema.pre('save', function (next) {
+  if (!this.isModified('password') || this.isNew) return next();
+  this.passwordChangedAt = Date.now() - 1000;
   next();
 });
 
@@ -86,6 +98,20 @@ userSchema.methods.correctPassword = async function (
   userPassword,
 ) {
   return await bcrypt.compare(candidatePassword, userPassword);
+};
+
+userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
+  if (this.passwordChangedAt) {
+    const changedTimestamp = parseInt(
+      this.passwordChangedAt.getTime() / 1000,
+      10,
+    );
+
+    return JWTTimestamp < changedTimestamp;
+  }
+
+  // False means NOT changed
+  return false;
 };
 
 const User = mongoose.model('User', userSchema);
