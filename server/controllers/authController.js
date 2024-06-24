@@ -70,7 +70,7 @@ exports.confirmEmail = catchAsync(async (req, res, next) => {
   const user = await User.findOne({
     signupToken: hashedToken,
     signupExpires: { $gt: Date.now() },
-  });
+  }).populate('groups');
 
   if (!user) {
     return next(new AppError('Token is invalid or has expired', 400));
@@ -93,7 +93,9 @@ exports.login = catchAsync(async (req, res, next) => {
   if (!email || !password) {
     return next(new AppError('Please provide email and password!', 400));
   }
-  const user = await User.findOne({ email }).select('+password');
+  const user = await User.findOne({ email })
+    .select('+password')
+    .populate('groups');
 
   if (!user || !(await user.correctPassword(password, user.password))) {
     return next(new AppError('Incorrect email or password', 401));
@@ -154,7 +156,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   const user = await User.findOne({
     passwordResetToken: hashedToken,
     passwordResetExpires: { $gt: Date.now() },
-  });
+  }).populate('groups');
 
   if (!user) {
     return next(new AppError('Token is invalid or has expired', 400));

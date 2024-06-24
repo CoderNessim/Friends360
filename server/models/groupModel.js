@@ -32,6 +32,11 @@ const groupSchema = new mongoose.Schema(
   },
 );
 
+groupSchema.pre(/^find/, function (next) {
+  this.select('-__v');
+  next();
+});
+
 const Group = mongoose.model('Group', groupSchema);
 
 module.exports = Group;
