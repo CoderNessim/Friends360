@@ -1,15 +1,6 @@
 import { useState } from 'react';
 import { Center, Loader, Stack } from '@mantine/core';
-import {
-  IconHome2,
-  IconGauge,
-  IconDeviceDesktopAnalytics,
-  IconFingerprint,
-  IconCalendarStats,
-  IconUser,
-  IconSettings,
-  IconLogout,
-} from '@tabler/icons-react';
+import { IconLogout } from '@tabler/icons-react';
 import classes from './Sidebar.module.css';
 import { Outlet, useNavigate, useNavigation } from 'react-router-dom';
 import { SidebarLink } from './SidebarLink';
@@ -17,29 +8,27 @@ import imagePath from '../../assets/friends360-removebg-preview.png';
 import { loginSignup } from '../../services/apiAuth';
 import toast from 'react-hot-toast';
 import { useQueryClient } from '@tanstack/react-query';
-
-const mockdata = [
-  { icon: IconHome2, label: 'Home' },
-  { icon: IconGauge, label: 'Dashboard' },
-  { icon: IconDeviceDesktopAnalytics, label: 'Analytics' },
-  { icon: IconCalendarStats, label: 'Releases' },
-  { icon: IconUser, label: 'Account' },
-  { icon: IconFingerprint, label: 'Security' },
-  { icon: IconSettings, label: 'Settings' },
-];
+import { Header } from '../header/Header';
+import SidebarLinksGroup from './SidebarLinksGroup';
+import Nav from './Nav';
+import { getNavLinks } from '../../utils/navLinks.jsx';
 
 export default function Sidebar() {
+  const navLinks = getNavLinks();
   const navigation = useNavigation();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [active, setActive] = useState(2);
   const isLoading = navigation.state === 'loading';
-  const links = mockdata.map((link, index) => (
+  const links = navLinks.map((link, index) => (
     <SidebarLink
       {...link}
       key={link.label}
       active={index === active}
-      onClick={() => setActive(index)}
+      onClick={() => {
+        link.onClick();
+        setActive(index);
+      }}
     />
   ));
 
@@ -55,36 +44,37 @@ export default function Sidebar() {
   }
 
   return (
-    <div>
+    <div className={classes.layout}>
       {isLoading ? (
         <Loader />
       ) : (
-        <div className={classes.container}>
-          <nav className={classes.navbar}>
-            <Center>
-              <img
-                src={imagePath}
-                className={classes.image}
-                alt="Friends 360"
-              />
-            </Center>
+        <>
+          <Header />
+          <div className={classes.container}>
+            <Nav>
+              <Center>
+                <img
+                  src={imagePath}
+                  className={classes.image}
+                  alt="Friends 360"
+                />
+              </Center>
 
-            <div className={classes.navbarMain}>
+              <SidebarLinksGroup links={links} />
+
               <Stack justify="center" gap={0}>
-                {links}
+                <SidebarLink
+                  onClick={handleLogout}
+                  icon={IconLogout}
+                  label="Logout"
+                />
               </Stack>
+            </Nav>
+            <div className={classes.content}>
+              <Outlet />
             </div>
-
-            <Stack justify="center" gap={0}>
-              <SidebarLink
-                onClick={handleLogout}
-                icon={IconLogout}
-                label="Logout"
-              />
-            </Stack>
-          </nav>
-          <Outlet />
-        </div>
+          </div>
+        </>
       )}
     </div>
   );

@@ -16,7 +16,6 @@ import { loginSignup } from '../../services/apiAuth';
 function LoginBody() {
   const form = useLoginForm();
   const navigate = useNavigate();
-  const transformLoginParams = (params) => [params.body, params.type];
   const { mutate, isPending } = useAuthQuery(loginSignup);
 
   function handleSubmit(values) {
