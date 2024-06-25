@@ -9,7 +9,7 @@ import {
   Loader,
 } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
-import { useLoginForm } from './useLoginForm';
+import { useLoginForm } from '../../forms/useLoginForm';
 import { useAuthQuery } from './useAuthQuery';
 import { loginSignup } from '../../services/apiAuth';
 

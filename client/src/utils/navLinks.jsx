@@ -7,12 +7,13 @@ import {
   IconUser,
   IconUsersGroup,
 } from '@tabler/icons-react';
-import { useQueryClient } from '@tanstack/react-query';
 import { openGroupModal } from './navLinkHandlers';
+import { useQueryClient } from '@tanstack/react-query';
 
 // This function returns an array of objects with icon and label properties
 export function useNavLinks() {
   const queryClient = useQueryClient();
+
   const links = [
     { icon: IconHome2, label: 'Home' },
     { icon: IconMessage2, label: 'Messages' },

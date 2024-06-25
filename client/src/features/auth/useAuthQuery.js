@@ -8,7 +8,6 @@ export function useAuthQuery(authFunction) {
   const { mutate, isPending, isError } = useMutation({
     mutationFn: ({ body, type }) => authFunction(body, type),
     onSuccess: (user) => {
-      console.log(user)
       const groups = user.data.user.groups;
       delete user.data.user.groups;
       queryClient.setQueryData(['groups'], groups);

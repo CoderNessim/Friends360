@@ -1,7 +1,7 @@
 import { Paper, TextInput, PasswordInput, Button, Stack } from '@mantine/core';
 import { loginSignup } from '../../services/apiAuth';
 import toast from 'react-hot-toast';
-import { useRegisterForm } from './useRegisterForm';
+import { useRegisterForm } from '../../forms/useRegisterForm';
 
 function RegisterBody() {
   const form = useRegisterForm();

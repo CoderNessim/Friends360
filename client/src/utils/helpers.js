@@ -25,11 +25,11 @@ export async function crudOperations(type, endPoint, operation, body = {}) {
 
   if (!response.ok) {
     const errorData = await response.json();
+    console.log(errorData);
     throw new Error(errorData.message || 'Something went wrong');
   }
 
   const data = await response.json();
-  console.log(data);
   if (type === 'users') delete data.data.data.groups;
   return data;
 }
