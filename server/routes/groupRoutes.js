@@ -7,5 +7,6 @@ const router = express.Router();
 router.use(authController.protect);
 
 router.post('/createGroup', groupController.createGroup);
+router.get('/getGroups', groupController.getGroups);
 
 module.exports = router;

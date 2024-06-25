@@ -15,6 +15,7 @@ router.post('/resetPassword/:token', authController.resetPassword);
 
 router.use(authController.protect);
 
-router.get('/getMe', userController.getMe, factory.getOne(User, 'groups'));
+//populate groups?
+router.get('/getMe', userController.getMe, factory.getOne(User));
 
 module.exports = router;

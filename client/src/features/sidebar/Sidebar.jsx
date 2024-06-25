@@ -11,10 +11,10 @@ import { useQueryClient } from '@tanstack/react-query';
 import { Header } from '../header/Header';
 import SidebarLinksGroup from './SidebarLinksGroup';
 import Nav from './Nav';
-import { getNavLinks } from '../../utils/navLinks.jsx';
+import { useNavLinks } from '../../utils/navLinks.jsx';
 
 export default function Sidebar() {
-  const navLinks = getNavLinks();
+  const navLinks = useNavLinks();
   const navigation = useNavigation();
   const queryClient = useQueryClient();
   const navigate = useNavigate();

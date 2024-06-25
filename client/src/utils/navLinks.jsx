@@ -1,5 +1,3 @@
-import { Button, TextInput } from '@mantine/core';
-import { modals } from '@mantine/modals';
 import {
   IconCalendarStats,
   IconHome2,
@@ -9,9 +7,12 @@ import {
   IconUser,
   IconUsersGroup,
 } from '@tabler/icons-react';
+import { useQueryClient } from '@tanstack/react-query';
+import { openGroupModal } from './navLinkHandlers';
 
 // This function returns an array of objects with icon and label properties
-export function getNavLinks() {
+export function useNavLinks() {
+  const queryClient = useQueryClient();
   const links = [
     { icon: IconHome2, label: 'Home' },
     { icon: IconMessage2, label: 'Messages' },
@@ -21,23 +22,7 @@ export function getNavLinks() {
     {
       icon: IconUsersGroup,
       label: 'Groups',
-      onClick: () => {
-        modals.open({
-          title: 'Create a new group',
-          children: (
-            <>
-              <TextInput
-                label="Group name"
-                placeholder="Your group name"
-                data-autofocus
-              />
-              <Button  onClick={() => modals.closeAll()} mt="md">
-                Submit
-              </Button>
-            </>
-          ),
-        });
-      },
+      onClick: () => openGroupModal(queryClient),
     },
     { icon: IconSettings, label: 'Settings' },
   ];
