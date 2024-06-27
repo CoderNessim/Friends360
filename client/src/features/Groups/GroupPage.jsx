@@ -1,18 +1,22 @@
-import { Button, Container, Stack, Title } from '@mantine/core';
-import { openGroupModal } from '../../utils/navLinkHandlers';
+import { Container, Stack, Title } from '@mantine/core';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import GroupSelect from './GroupSelect';
 import styles from './GroupPage.module.css';
 import { crudOperations } from '../../utils/helpers';
+import GroupOptions from './GroupOptions';
 import CustomLoader from '../../ui/CustomLoader';
+import GroupItem from './GroupItem';
 
 function GroupPage() {
   const queryClient = useQueryClient();
-  const { data: groups } = useQuery({
+  const { data, isPending } = useQuery({
     queryKey: ['groups'],
     queryFn: () => crudOperations('groups', 'getGroups', 'GET'),
   });
-  
+
+  if (isPending) return <CustomLoader />;
+
+  const groups = data.data.data;
+console.log(groups)
   return (
     <>
       <Container>
@@ -25,15 +29,12 @@ function GroupPage() {
         >
           Your Groups
         </Title>
-        <div className={styles.centerStack}>
-          <Stack spacing="sm" mb="lg">
-            <GroupSelect />
-            <Button onClick={() => openGroupModal(queryClient)} size="sm">
-              Create a Group
-            </Button>
-          </Stack>
-        </div>
-        <Stack></Stack>
+        <GroupOptions queryClient={queryClient} styles={styles} />
+        <Stack>
+          {groups.map((group, i) => (
+            <GroupItem key={i} group={group} />
+          ))}
+        </Stack>
       </Container>
     </>
   );

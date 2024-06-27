@@ -8,3 +8,33 @@
   width: 100%; /* Adjust the width as necessary, or use max-width for better control */
   margin: 0 auto; /* Ensures the div is centered horizontally */
 }
+
+@media (max-width: 768px) {
+  .centerStack {
+    justify-content: center;
+  }
+}
+
+.groupItem {
+  margin-bottom: 20px; /* Ensures spacing between items */
+  padding: 10px; /* Reduced padding for less height */
+}
+
+.groupDetails {
+  display: flex;
+  align-items: center; /* Ensures vertical alignment */
+  justify-content: space-between; /* Spreads out elements across the available space */
+  gap: 10px; /* Consistent spacing between members */
+  flex-wrap: wrap; /* Allows items to wrap in smaller views */
+}
+
+.groupTitle {
+  flex-grow: 1; /* Allows the title to take up available space */
+  margin-bottom: 0; /* Reduced unnecessary margin */
+}
+
+.groupMembers {
+  display: flex;
+  align-items: center; /* Ensures vertical alignment */
+  gap: 10px; /* Consistent spacing between members */
+}
