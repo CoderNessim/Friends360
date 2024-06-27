@@ -26,8 +26,9 @@ export default function Sidebar() {
       key={link.label}
       active={index === active}
       onClick={() => {
-        link.onClick();
+        // link.onClick();
         setActive(index);
+        navigate(link.label === 'Home' ? 'map' : link.label.toLowerCase());
       }}
     />
   ));
@@ -49,7 +50,7 @@ export default function Sidebar() {
         <Loader />
       ) : (
         <>
-          <Header />
+          {/* <Header /> */}
           <div className={classes.container}>
             <Nav>
               <Center>

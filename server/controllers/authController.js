@@ -97,6 +97,13 @@ exports.login = catchAsync(async (req, res, next) => {
     .select('+password')
     .populate('groups');
 
+  const groupNames = user.groups.map((group) => group.name);
+
+  res.cookie('groupNames', JSON.stringify(groupNames), {
+    secure: process.env.NODE_ENV === 'production',
+    maxAge: 24 * 60 * 60 * 1000, // 1 day
+  });
+
   if (!user || !(await user.correctPassword(password, user.password))) {
     return next(new AppError('Incorrect email or password', 401));
   }

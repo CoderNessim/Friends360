@@ -39,6 +39,7 @@ exports.createOne = (Model, modelType = '') =>
     const doc = await Model.create(req.body);
     if (modelType === 'Group') {
       doc.members.push(req.user.id);
+      doc.admin = req.user.id;
       await doc.save();
     }
 

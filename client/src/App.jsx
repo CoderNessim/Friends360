@@ -11,6 +11,7 @@ import ResetPassword from './features/auth/ResetPassword';
 import HomeRedirect from './ui/HomeRedirect';
 import Sidebar from './features/sidebar/Sidebar';
 import Protect from './ui/Protect';
+import GroupPage from './features/Groups/GroupPage';
 
 function App() {
   const queryClient = new QueryClient({
@@ -58,6 +59,10 @@ function App() {
         {
           path: 'map',
           element: <Map />,
+        },
+        {
+          path: 'groups',
+          element: <GroupPage />,
         },
       ],
     },

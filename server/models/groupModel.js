@@ -12,6 +12,10 @@ const groupSchema = new mongoose.Schema(
         ref: 'User',
       },
     ],
+    admin: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'User',
+    },
     conversations: [
       {
         type: mongoose.Schema.ObjectId,

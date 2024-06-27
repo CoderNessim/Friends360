@@ -1,5 +1,5 @@
 import { modals } from '@mantine/modals';
-import GroupModal from '../ui/GroupModal';
+import GroupModal from '../features/Groups/GroupModal';
 
 export function openGroupModal(queryClient) {
   modals.open({

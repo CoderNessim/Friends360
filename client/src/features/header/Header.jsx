@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { Container, Group, Burger } from '@mantine/core';
+import { Container, Group, Burger, Select } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import classes from './Header.module.css';
+import GroupSelect from '../Groups/GroupSelect';
 
 const links = [
   { link: '/about', label: 'Features' },
@@ -34,6 +35,7 @@ export function Header() {
       <Container size="md" className={classes.inner}>
         <Group gap={5} visibleFrom="xs">
           {items}
+          <GroupSelect />
         </Group>
 
         <Burger opened={opened} onClick={toggle} hiddenFrom="xs" size="sm" />

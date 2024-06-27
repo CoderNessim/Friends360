@@ -19,7 +19,7 @@ function Protect({ children }) {
     initialData: () => {
       const initialGroups = queryClient.getQueryData(['groups']);
       return initialGroups ? initialGroups : undefined;
-    }
+    },
   });
 
   if (!user) {

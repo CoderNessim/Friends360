@@ -25,7 +25,6 @@ export async function crudOperations(type, endPoint, operation, body = {}) {
 
   if (!response.ok) {
     const errorData = await response.json();
-    console.log(errorData);
     throw new Error(errorData.message || 'Something went wrong');
   }
 

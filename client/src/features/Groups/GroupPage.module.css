@@ -1,0 +1,10 @@
+.title {
+  padding-top: 40px;
+}
+
+.centerStack {
+  display: flex;
+  justify-content: flex-end; /* Centers the content horizontally */
+  width: 100%; /* Adjust the width as necessary, or use max-width for better control */
+  margin: 0 auto; /* Ensures the div is centered horizontally */
+}

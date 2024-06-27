@@ -1,8 +1,8 @@
 import { Button, TextInput } from '@mantine/core';
-import { crudOperations } from '../utils/helpers';
+import { crudOperations } from '../../utils/helpers';
 import toast from 'react-hot-toast';
 import { modals } from '@mantine/modals';
-import { useCreateGroupForm } from '../forms/useCreateGroupForm';
+import { useCreateGroupForm } from '../../forms/useCreateGroupForm';
 
 function GroupModal({ queryClient }) {
   const form = useCreateGroupForm();
