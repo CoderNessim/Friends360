@@ -30,5 +30,5 @@ export async function crudOperations(type, endPoint, operation, body = {}) {
 
   const data = await response.json();
   if (type === 'users') delete data.data.data.groups;
-  return data;
+  return data.data.data;
 }

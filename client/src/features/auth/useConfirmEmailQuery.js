@@ -9,8 +9,14 @@ export function useConfirmEmailQuery() {
   const { mutate, isPending, isError } = useMutation({
     mutationFn: ({ token }) => confirmEmail(token),
     onSuccess: (user) => {
-      queryClient.setQueryData(['user'], user);
-      toast.success(`Welcome to Friends360, ${user.data.user.username}!`);
+      const { user: userData } = user.data;
+
+      const flattenedUser = {
+        ...userData,
+      };
+      
+      queryClient.setQueryData(['user'], flattenedUser);
+      toast.success(`Welcome to Friends360, ${flattenedUser.username}!`);
       navigate('/app/map');
     },
     onError: (error) => {

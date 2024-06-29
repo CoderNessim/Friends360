@@ -8,11 +8,17 @@ export function useAuthQuery(authFunction) {
   const { mutate, isPending, isError } = useMutation({
     mutationFn: ({ body, type }) => authFunction(body, type),
     onSuccess: (user) => {
-      const groups = user.data.user.groups;
-      delete user.data.user.groups;
+      const { user: userData } = user.data;
+
+      const flattenedUser = {
+        ...userData,
+      };
+
+      const groups = flattenedUser.groups;
+      delete flattenedUser.groups;
       queryClient.setQueryData(['groups'], groups);
-      queryClient.setQueryData(['user'], user);
-      toast.success(`Welcome back, ${user.data.user.username}!`);
+      queryClient.setQueryData(['user'], flattenedUser);
+      toast.success(`Welcome back, ${flattenedUser.username}!`);
       navigate('/app/map');
     },
     onError: (error) => {

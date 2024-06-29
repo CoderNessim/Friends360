@@ -8,15 +8,16 @@ import GroupItem from './GroupItem';
 
 function GroupPage() {
   const queryClient = useQueryClient();
-  const { data, isPending } = useQuery({
+  const { data: groups, isPending } = useQuery({
     queryKey: ['groups'],
     queryFn: () => crudOperations('groups', 'getGroups', 'GET'),
   });
-
+  console.log(groups);
   if (isPending) return <CustomLoader />;
+  if (!groups) return <div>no groups</div>;
 
-  const groups = data.data.data;
-console.log(groups)
+  
+
   return (
     <>
       <Container>
