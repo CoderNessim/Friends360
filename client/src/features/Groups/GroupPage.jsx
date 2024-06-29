@@ -12,11 +12,9 @@ function GroupPage() {
     queryKey: ['groups'],
     queryFn: () => crudOperations('groups', 'getGroups', 'GET'),
   });
-  console.log(groups);
   if (isPending) return <CustomLoader />;
-  if (!groups) return <div>no groups</div>;
 
-  
+  const groupNames = groups?.map((group) => group.name);
 
   return (
     <>
@@ -30,12 +28,22 @@ function GroupPage() {
         >
           Your Groups
         </Title>
-        <GroupOptions queryClient={queryClient} styles={styles} />
-        <Stack>
-          {groups.map((group, i) => (
-            <GroupItem key={i} group={group} />
-          ))}
-        </Stack>
+        <GroupOptions
+          queryClient={queryClient}
+          styles={styles}
+          groupNames={groupNames}
+        />
+        {groups.length === 0 ? (
+          <h3 className={styles.noGroups}>
+            No groups yet, click on &quot;Create a Group&quot; to get started!
+          </h3>
+        ) : (
+          <Stack>
+            {groups.map((group, i) => (
+              <GroupItem key={i} group={group} />
+            ))}
+          </Stack>
+        )}
       </Container>
     </>
   );

@@ -2,11 +2,11 @@ import { Button, Stack } from '@mantine/core';
 import { openGroupModal } from '../../utils/navLinkHandlers';
 import GroupSelect from './GroupSelect';
 
-function GroupOptions({ styles, queryClient }) {
+function GroupOptions({ styles, queryClient, groupNames }) {
   return (
     <div className={styles.centerStack}>
       <Stack spacing="sm" mb="lg">
-        <GroupSelect />
+        <GroupSelect groupNames={groupNames} />
         <Button onClick={() => openGroupModal(queryClient)} size="sm">
           Create a Group
         </Button>

@@ -33,6 +33,11 @@
   margin-bottom: 0; /* Reduced unnecessary margin */
 }
 
+.noGroups {
+  text-align: center;
+  padding-top: 20px;
+}
+
 .groupMembers {
   display: flex;
   align-items: center; /* Ensures vertical alignment */

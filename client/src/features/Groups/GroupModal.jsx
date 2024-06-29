@@ -13,7 +13,7 @@ function GroupModal({ queryClient }) {
       const group = await crudOperations('groups', 'createGroup', 'POST', {
         name: form.values.groupName,
       });
-      toast.success(`Group "${group.data.data.name}" created successfully`);
+      toast.success(`Group "${group.name}" created successfully`);
       queryClient.invalidateQueries(['groups']);
       form.reset();
       modals.closeAll();
