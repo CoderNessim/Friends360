@@ -43,3 +43,8 @@
   align-items: center; /* Ensures vertical alignment */
   gap: 10px; /* Consistent spacing between members */
 }
+
+.paginationWrapper {
+  display: flex;
+  justify-content: center;
+}
