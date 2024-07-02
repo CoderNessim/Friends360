@@ -12,6 +12,7 @@ import HomeRedirect from './ui/HomeRedirect';
 import Sidebar from './features/sidebar/Sidebar';
 import Protect from './ui/Protect';
 import GroupPage from './features/Groups/GroupPage';
+import InboxPage from './features/inbox/InboxPage';
 
 function App() {
   const queryClient = new QueryClient({
@@ -63,6 +64,10 @@ function App() {
         {
           path: 'groups',
           element: <GroupPage />,
+        },
+        {
+          path: 'inbox',
+          element: <InboxPage />,
         },
       ],
     },

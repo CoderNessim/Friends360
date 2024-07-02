@@ -8,7 +8,6 @@ import imagePath from '../../assets/friends360-removebg-preview.png';
 import { loginSignup } from '../../services/apiAuth';
 import toast from 'react-hot-toast';
 import { useQueryClient } from '@tanstack/react-query';
-import { Header } from '../header/Header';
 import SidebarLinksGroup from './SidebarLinksGroup';
 import Nav from './Nav';
 import { useNavLinks } from '../../utils/navLinks.jsx';
@@ -18,7 +17,7 @@ export default function Sidebar() {
   const navigation = useNavigation();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const [active, setActive] = useState(2);
+  const [active, setActive] = useState(0);
   const isLoading = navigation.state === 'loading';
   const links = navLinks.map((link, index) => (
     <SidebarLink
@@ -26,7 +25,6 @@ export default function Sidebar() {
       key={link.label}
       active={index === active}
       onClick={() => {
-        // link.onClick();
         setActive(index);
         navigate(link.label === 'Home' ? 'map' : link.label.toLowerCase());
       }}
