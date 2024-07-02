@@ -43,3 +43,14 @@ exports.inviteToGroup = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+exports.deleteGroupProtect = catchAsync(async (req, res, next) => {
+  const group = await Group.findById(req.params.id);
+
+  if (group.admin.toString() !== req.user.id) {
+    return next(new AppError('You are not the creator of this group', 403));
+  }
+  next();
+});
+
+exports.deleteGroup = factory.deleteOne(Group);

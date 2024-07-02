@@ -10,7 +10,15 @@ export async function handleAsyncSubmit(asyncFunction, form, values) {
   }
 }
 
-export async function crudOperations(type, endPoint, operation, body = {}) {
+export async function crudOperations(
+  type,
+  endPoint,
+  operation,
+  body = {},
+  param = ''
+) {
+  if (param) endPoint += `/${param}`;
+
   const response = await fetch(
     `http://localhost:3000/api/${type}/${endPoint}`,
     {
@@ -28,7 +36,10 @@ export async function crudOperations(type, endPoint, operation, body = {}) {
     throw new Error(errorData.message || 'Something went wrong');
   }
 
+  if (operation === 'DELETE') return;
+
   const data = await response.json();
   if (type === 'users') delete data.data.data.groups;
+
   return data.data.data;
 }

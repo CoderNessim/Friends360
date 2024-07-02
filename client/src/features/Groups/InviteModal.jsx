@@ -6,7 +6,6 @@ import { modals } from '@mantine/modals';
 
 function InviteModal({ group }) {
   const form = useInviteForm();
-  console.log(group);
 
   async function handleSubmit(event) {
     event.preventDefault(); // Prevent default form submission behavior
@@ -15,8 +14,7 @@ function InviteModal({ group }) {
         username: form.values.username,
         groupId: group._id,
       });
-      console.log(user);
-      toast.success(`Invite sent`);
+      toast.success(`Invite sent to ${user.username}!`);
       form.reset();
       modals.closeAll();
     } catch (error) {

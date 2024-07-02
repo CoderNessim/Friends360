@@ -1,11 +1,18 @@
 import { ActionIcon, Group } from '@mantine/core';
 import { IconTrash, IconUserPlus } from '@tabler/icons-react';
-import { openInviteModal } from '../../utils/modalHandlers';
+import { openDeleteModal, openInviteModal } from '../../utils/modalHandlers';
+import { useQueryClient } from '@tanstack/react-query';
 
 function ActionIcons({ group }) {
+  const queryClient = useQueryClient();
   return (
     <Group spacing="xs" noWrap>
-      <ActionIcon color="red" size="lg" title="Delete group">
+      <ActionIcon
+        color="red"
+        size="lg"
+        title="Delete group"
+        onClick={() => openDeleteModal(group, queryClient)}
+      >
         <IconTrash size={18} stroke={1.5} />
       </ActionIcon>
       <ActionIcon
