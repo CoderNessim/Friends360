@@ -1,6 +1,8 @@
 const factory = require('./handlerFactory');
 const Group = require('../models/groupModel');
 const catchAsync = require('../utils/catchAsync');
+const User = require('../models/userModel');
+const AppError = require('../utils/appError');
 
 exports.createGroup = factory.createOne(Group, 'Group');
 
@@ -13,6 +15,21 @@ exports.getGroups = catchAsync(async (req, res, next) => {
     status: 'success',
     data: {
       data: groups,
+    },
+  });
+});
+
+exports.inviteToGroup = catchAsync(async (req, res, next) => {
+  const user = await User.findById(req.body.userId);
+  if (!user) {
+    return next(new AppError('This user does not exist', 404));
+  }
+  user.invites.push(req.body.groupId);
+  await user.save();
+  res.status(200).json({
+    status: 'success',
+    data: {
+      data: user,
     },
   });
 });
