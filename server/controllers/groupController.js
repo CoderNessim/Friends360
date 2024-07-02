@@ -20,10 +20,20 @@ exports.getGroups = catchAsync(async (req, res, next) => {
 });
 
 exports.inviteToGroup = catchAsync(async (req, res, next) => {
-  const user = await User.findById(req.body.userId);
+  const user = await User.findOne({ username: req.body.username });
+
   if (!user) {
     return next(new AppError('This user does not exist', 404));
   }
+
+  if (user.username === req.user.username) {
+    return next(new AppError('You cannot invite yourself', 400));
+  }
+
+  if (user.invites.includes(req.body.groupId)) {
+    return next(new AppError('User has already been invited', 400));
+  }
+
   user.invites.push(req.body.groupId);
   await user.save();
   res.status(200).json({

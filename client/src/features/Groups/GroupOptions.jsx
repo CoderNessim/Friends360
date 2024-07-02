@@ -1,5 +1,5 @@
 import { Button, Stack } from '@mantine/core';
-import { openGroupModal } from '../../utils/navLinkHandlers';
+import { openGroupModal } from '../../utils/modalHandlers';
 import GroupSelect from './GroupSelect';
 
 function GroupOptions({ styles, queryClient, groupNames }) {

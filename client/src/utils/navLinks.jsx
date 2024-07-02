@@ -7,7 +7,7 @@ import {
   IconUser,
   IconUsersGroup,
 } from '@tabler/icons-react';
-import { openGroupModal } from './navLinkHandlers';
+import { openGroupModal } from './modalHandlers';
 import { useQueryClient } from '@tanstack/react-query';
 
 // This function returns an array of objects with icon and label properties

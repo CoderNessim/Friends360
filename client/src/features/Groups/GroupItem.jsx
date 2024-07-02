@@ -1,6 +1,6 @@
-import { Paper, Text, Group, Avatar, Badge, ActionIcon } from '@mantine/core';
-import { IconTrash, IconUserPlus } from '@tabler/icons-react';
+import { Paper, Text, Group, Avatar, Badge } from '@mantine/core';
 import styles from './GroupPage.module.css'; // Ensure correct import path
+import ActionIcons from './ActionIcons';
 
 function GroupItem({ group }) {
   const displayMembers = group.members.slice(0, 3);
@@ -21,14 +21,7 @@ function GroupItem({ group }) {
         <Text size="lg" weight={500}>
           {group.name}
         </Text>
-        <Group spacing="xs" noWrap>
-          <ActionIcon color="red" size="lg" title="Delete group">
-            <IconTrash size={18} stroke={1.5} />
-          </ActionIcon>
-          <ActionIcon color="blue" size="lg" title="Invite member">
-            <IconUserPlus size={18} stroke={1.5} />
-          </ActionIcon>
-        </Group>
+        <ActionIcons group={group} />
       </Group>
 
       <Group spacing="sm" align="center" className={styles.groupDetails}>
