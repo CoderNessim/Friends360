@@ -8,11 +8,14 @@ import { crudOperations } from '../utils/helpers';
 function Protect({ children }) {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const { data: user, isPending, isError } = useQuery({
+  const {
+    data: user,
+    isPending,
+    isError,
+  } = useQuery({
     queryKey: ['user'],
     queryFn: () => crudOperations('users', 'getMe', 'GET'),
   });
-
   useEffect(() => {
     if (!isPending && !user) {
       toast.error('Please login to access this page');
@@ -27,6 +30,16 @@ function Protect({ children }) {
     initialData: () => {
       const initialGroups = queryClient.getQueryData(['groups']);
       return initialGroups ? initialGroups : undefined;
+    },
+  });
+
+  useQuery({
+    queryKey: ['invites'],
+    queryFn: () => crudOperations('users', 'getInvites', 'GET'),
+    enabled: !!user,
+    initialData: () => {
+      const initialInvites = queryClient.getQueryData(['invites']);
+      return initialInvites ? initialInvites : undefined;
     },
   });
 

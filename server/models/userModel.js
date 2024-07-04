@@ -105,6 +105,25 @@ userSchema.methods.correctPassword = async function (
   return await bcrypt.compare(candidatePassword, userPassword);
 };
 
+userSchema.statics.getInvites = async function (userId) {
+  return this.findById(userId)
+    .select('invites') // Only select the invites field
+    .populate({
+      path: 'invites',
+      select: '-conversations -plans',
+      populate: [
+        {
+          path: 'admin',
+          select: 'username photo',
+        },
+        {
+          path: 'members',
+          select: 'username photo',
+        },
+      ],
+    });
+};
+
 userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
   if (this.passwordChangedAt) {
     const changedTimestamp = parseInt(

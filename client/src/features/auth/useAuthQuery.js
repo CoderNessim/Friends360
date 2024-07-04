@@ -15,9 +15,12 @@ export function useAuthQuery(authFunction) {
       };
 
       const groups = flattenedUser.groups;
+      const invites = flattenedUser.invites;
       delete flattenedUser.groups;
+      delete flattenedUser.invites;
       queryClient.setQueryData(['groups'], groups);
       queryClient.setQueryData(['user'], flattenedUser);
+      queryClient.setQueryData(['invites'], invites);
       toast.success(`Welcome back, ${flattenedUser.username}!`);
       navigate('/app/map');
     },
