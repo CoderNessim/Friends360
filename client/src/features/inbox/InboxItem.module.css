@@ -1,0 +1,26 @@
+.title {
+  padding-top: 40px;
+}
+
+.inviteItem {
+  margin-bottom: 20px; /* Ensures spacing between items */
+  padding: 10px; /* Reduced padding for less height */
+}
+
+.inviteDetails {
+  display: flex;
+  align-items: center; /* Ensures vertical alignment */
+  justify-content: space-between; /* Spreads out elements across the available space */
+  gap: 10px; /* Consistent spacing between members */
+  flex-wrap: wrap; /* Allows items to wrap in smaller views */
+}
+
+.inviteTitle {
+  flex-grow: 1; /* Allows the title to take up available space */
+  margin-bottom: 0; /* Reduced unnecessary margin */
+}
+
+.noinvites {
+  text-align: center;
+  padding-top: 20px;
+}

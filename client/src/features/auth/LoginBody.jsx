@@ -47,6 +47,7 @@ function LoginBody() {
             component="button"
             size="sm"
             onClick={() => navigate('/forgotPassword')}
+            type="button"
           >
             Forgot password?
           </Anchor>
