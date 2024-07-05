@@ -54,3 +54,52 @@ exports.deleteGroupProtect = catchAsync(async (req, res, next) => {
 });
 
 exports.deleteGroup = factory.deleteOne(Group);
+
+exports.acceptInvite = catchAsync(async (req, res, next) => {
+  const group = await Group.findById(req.params.id);
+
+  if (!group) {
+    return next(new AppError('Group doesnt or no longer exists', 404));
+  }
+  if (group.members.includes(req.user.id)) {
+    return next(new AppError('You are already a member of this group', 400));
+  }
+  group.members.push(req.user.id);
+  const user = await User.findById(req.user.id);
+
+  // Remove the group ID from the user's invites
+  user.invites = user.invites.filter(
+    (invite) => invite.toString() !== req.params.id,
+  );
+
+  // Save the updated user document
+  await user.save();
+  // Update req.user to reflect the current state of the user
+  req.user.invites = user.invites;
+
+  await group.save();
+  res.status(200).json({
+    status: 'success',
+    data: {
+      group,
+    },
+  });
+});
+
+exports.declineInvite = catchAsync(async (req, res, next) => {
+  const group = await Group.findById(req.params.id);
+
+  if (!group) {
+    return next(new AppError('Group doesnt or no longer exists', 404));
+  }
+
+  group.invites = group.invites.filter(
+    (invite) => invite.toString() !== req.user.id,
+  );
+
+  await group.save();
+  res.status(204).json({
+    status: 'success',
+    data: null,
+  });
+});

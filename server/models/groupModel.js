@@ -43,12 +43,5 @@ groupSchema.pre(/^find/, function (next) {
 });
 
 const Group = mongoose.model('Group', groupSchema);
-Group.on('index', (err) => {
-  if (err) {
-    console.error('Group index error: %s', err);
-  } else {
-    console.info('Group indexing complete');
-  }
-});
 
 module.exports = Group;
