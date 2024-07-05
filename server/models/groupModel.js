@@ -5,6 +5,8 @@ const groupSchema = new mongoose.Schema(
     name: {
       type: String,
       required: [true, 'A group must have a name'],
+      unique: [true, 'This group name is already taken'],
+      maxlength: [20, 'A group name must have less than 20 characters'],
     },
     members: [
       {
@@ -41,5 +43,12 @@ groupSchema.pre(/^find/, function (next) {
 });
 
 const Group = mongoose.model('Group', groupSchema);
+Group.on('index', (err) => {
+  if (err) {
+    console.error('Group index error: %s', err);
+  } else {
+    console.info('Group indexing complete');
+  }
+});
 
 module.exports = Group;
