@@ -5,12 +5,11 @@ import { crudOperations } from '../../utils/helpers';
 import CustomLoader from '../../ui/CustomLoader';
 
 function InboxPage() {
-  const { data: user, isPending } = useQuery({
-    queryKey: ['user'],
-    queryFn: () => crudOperations('users', 'getMe', 'GET'),
+  const { data: invites, isPending } = useQuery({
+    queryKey: ['invites'],
+    queryFn: () => crudOperations('users', 'getInvites', 'GET'),
   });
   if (isPending) return <CustomLoader />;
-
   return (
     <Title order={1} align="center" mt="md" mb="lg" className={styles.title}>
       Inbox

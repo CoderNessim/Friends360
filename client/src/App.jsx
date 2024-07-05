@@ -11,7 +11,8 @@ import ResetPassword from './features/auth/ResetPassword';
 import HomeRedirect from './ui/HomeRedirect';
 import Sidebar from './features/sidebar/Sidebar';
 import Protect from './ui/Protect';
-import GroupPage from './features/Groups/GroupPage';
+//weird error
+import GroupPage from './features/groups/GroupPage';
 import InboxPage from './features/inbox/InboxPage';
 
 function App() {

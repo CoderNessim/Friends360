@@ -1,7 +1,7 @@
 import { modals } from '@mantine/modals';
-import GroupModal from '../features/Groups/GroupModal';
-import InviteModal from '../features/Groups/InviteModal';
-import DeleteModal from '../features/Groups/DeleteModal';
+import GroupModal from '../features/groups/GroupModal';
+import InviteModal from '../features/groups/InviteModal';
+import DeleteModal from '../features/groups/DeleteModal';
 
 export function openGroupModal(queryClient) {
   modals.open({

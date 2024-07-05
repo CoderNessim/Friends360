@@ -56,6 +56,7 @@ export default function Sidebar() {
                   src={imagePath}
                   className={classes.image}
                   alt="Friends 360"
+                  onClick={() => navigate('/app/map')}
                 />
               </Center>
 

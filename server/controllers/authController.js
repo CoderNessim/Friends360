@@ -95,7 +95,25 @@ exports.login = catchAsync(async (req, res, next) => {
   }
   const user = await User.findOne({ email })
     .select('+password')
-    .populate('groups invites');
+    .populate([
+      {
+        path: 'groups',
+      },
+      {
+        path: 'invites',
+        select: '-conversations -plans',
+        populate: [
+          {
+            path: 'admin',
+            select: 'username photo',
+          },
+          {
+            path: 'members',
+            select: 'username photo',
+          },
+        ],
+      },
+    ]);
 
   if (!user || !(await user.correctPassword(password, user.password))) {
     return next(new AppError('Incorrect email or password', 401));
@@ -104,8 +122,10 @@ exports.login = catchAsync(async (req, res, next) => {
   if (!user.emailVerified) {
     return next(new AppError('Please verify your email', 401));
   }
+  // const userWithInvites = await User.getInvites(user.id);
+  // user.invites = userWithInvites.invites;
 
-  await user.save({ validateBeforeSave: false });
+  await user.save({ validateBeforeSave: true });
   createSendToken(user, 200, req, res);
 });
 
