@@ -14,6 +14,10 @@ import Protect from './ui/Protect';
 //weird error
 import GroupPage from './features/groups/GroupPage';
 import InboxPage from './features/inbox/InboxPage';
+import { StreamChat } from 'stream-chat';
+import { Chat } from 'stream-chat-react';
+
+const streamApiKey = import.meta.env.VITE_STREAM_API;
 
 function App() {
   const queryClient = new QueryClient({
