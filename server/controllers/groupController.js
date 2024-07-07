@@ -21,9 +21,18 @@ exports.getGroups = catchAsync(async (req, res, next) => {
 
 exports.inviteToGroup = catchAsync(async (req, res, next) => {
   const user = await User.findOne({ username: req.body.username });
+  const group = await Group.findById(req.body.groupId);
+
+  if (!group) {
+    return next(new AppError('Group doesnt or no longer exists', 404));
+  }
 
   if (!user) {
     return next(new AppError('This user does not exist', 404));
+  }
+
+  if (group.members.includes(user.id)) {
+    return next(new AppError('User is already a member of this group', 400));
   }
 
   if (user.username === req.user.username) {
@@ -54,6 +63,27 @@ exports.deleteGroupProtect = catchAsync(async (req, res, next) => {
 });
 
 exports.deleteGroup = factory.deleteOne(Group);
+
+exports.leaveGroup = catchAsync(async (req, res, next) => {
+  const group = await Group.findById(req.params.id);
+  //may have to account for messages and plan delettion later
+  if (!group) {
+    return next(new AppError('Group doesnt or no longer exists', 404));
+  }
+
+  if (group.admin.toString() === req.user.id) {
+    return next(new AppError('Group creator cannot leave group', 403));
+  }
+
+  group.members = group.members.filter(
+    (member) => member.toString() !== req.user.id,
+  );
+  await group.save();
+  res.status(204).json({
+    status: 'success',
+    data: null,
+  });
+});
 
 exports.acceptInvite = catchAsync(async (req, res, next) => {
   const group = await Group.findById(req.params.id);

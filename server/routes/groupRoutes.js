@@ -15,5 +15,6 @@ router.delete(
   groupController.deleteGroup,
 );
 router.patch('/acceptInvite/:id', groupController.acceptInvite);
-
+router.patch('/declineInvite/:id', groupController.declineInvite);
+router.delete('/leaveGroup/:id', groupController.leaveGroup);
 module.exports = router;

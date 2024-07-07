@@ -1,9 +1,24 @@
 import { Paper, Text, Group, Avatar, Badge } from '@mantine/core';
 import styles from './GroupPage.module.css'; // Ensure correct import path
 import ActionIcons from './ActionIcons';
+import { useQueryClient } from '@tanstack/react-query';
+import { openDeleteModal, openInviteModal } from '../../utils/modalHandlers';
+import { crudOperations } from '../../utils/helpers';
+import toast from 'react-hot-toast';
 
 function GroupItem({ group }) {
   const displayMembers = group.members.slice(0, 3);
+  const queryClient = useQueryClient();
+
+  async function handleLeaveGroup() {
+    try {
+      await crudOperations('groups', `leaveGroup/${group._id}`, 'DELETE');
+      queryClient.invalidateQueries({ queryKey: ['groups'] });
+      toast.success(`You have left "${group.name}"`);
+    } catch (err) {
+      toast.error(err.message);
+    }
+  }
 
   return (
     <Paper
@@ -21,7 +36,12 @@ function GroupItem({ group }) {
         <Text size="lg" weight={500}>
           {group.name}
         </Text>
-        <ActionIcons group={group} />
+        <ActionIcons
+          handleInvite={() => openInviteModal(group)}
+          handleDelete={() => openDeleteModal(group, queryClient)}
+          handleLeaveGroup={handleLeaveGroup}
+          isInbox={false}
+        />
       </Group>
 
       <Group spacing="sm" align="center" className={styles.groupDetails}>

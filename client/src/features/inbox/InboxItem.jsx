@@ -1,8 +1,29 @@
 import { Avatar, Badge, Group, Paper, Text } from '@mantine/core';
 import styles from './InboxItem.module.css';
+import ActionIcons from '../groups/ActionIcons';
+import toast from 'react-hot-toast';
+import { useQueryClient } from '@tanstack/react-query';
+import { crudOperations } from '../../utils/helpers';
 
 function InboxItem({ invite }) {
   const displayMembers = invite.members.slice(0, 3);
+  const queryClient = useQueryClient();
+
+  async function handleInvite(isAccept) {
+    try {
+      // Call your API to accept or decline the invite
+      if (isAccept) {
+        await crudOperations('groups', `acceptInvite/${invite._id}`, 'PATCH');
+      } else {
+        await crudOperations('groups', `declineInvite/${invite._id}`, 'PATCH');
+      }
+      queryClient.invalidateQueries({ queryKey: ['invites'] });
+      toast.success(`You ${isAccept ? 'accepted' : 'declined'} the invite`);
+    } catch (err) {
+      toast.error(err.message);
+    }
+  }
+
   return (
     <Paper
       withBorder
@@ -17,9 +38,14 @@ function InboxItem({ invite }) {
         noWrap
       >
         <Text size="lg" weight={500}>
-          {invite.name}
+          You were invited to join group <strong>{invite.name}</strong>
         </Text>
-        {/* <ActionIcons group={invite} /> */}
+
+        <ActionIcons
+          handleInvite={() => handleInvite(true)}
+          handleDelete={() => handleInvite(false)}
+          isInbox={true}
+        />
       </Group>
 
       <Group spacing="sm" align="center" className={styles.inviteDetails}>

@@ -98,6 +98,10 @@ exports.login = catchAsync(async (req, res, next) => {
     .populate([
       {
         path: 'groups',
+        populate: {
+          path: 'admin',
+          select: 'username photo',
+        },
       },
       {
         path: 'invites',
