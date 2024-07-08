@@ -11,13 +11,10 @@ import ResetPassword from './features/auth/ResetPassword';
 import HomeRedirect from './ui/HomeRedirect';
 import Sidebar from './features/sidebar/Sidebar';
 import Protect from './ui/Protect';
-//weird error
 import GroupPage from './features/groups/GroupPage';
 import InboxPage from './features/inbox/InboxPage';
-import { StreamChat } from 'stream-chat';
-import { Chat } from 'stream-chat-react';
+import Messages from './features/messaging/Messages';
 
-const streamApiKey = import.meta.env.VITE_STREAM_API;
 
 function App() {
   const queryClient = new QueryClient({
@@ -73,6 +70,10 @@ function App() {
         {
           path: 'inbox',
           element: <InboxPage />,
+        },
+        {
+          path: 'messages',
+          element: <Messages />,
         },
       ],
     },
