@@ -2,7 +2,7 @@ import { StreamChat } from 'stream-chat';
 import { Chat } from 'stream-chat-react';
 import ChannelListContainer from './ChannelListContainer';
 import ChannelContainer from './ChannelContainer';
-import '../../App.css';
+import './Messaging.css';
 
 const streamApiKey = import.meta.env.VITE_STREAM_API;
 

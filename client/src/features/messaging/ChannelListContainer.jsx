@@ -1,11 +1,8 @@
-import { ChannelList, useChatContext } from 'stream-chat-react';
-// import {
-//   ChannelSearch,
-//   TeamChannelList,
-//   TeamChannelPreview,
-// } from 'stream-chat-react';
+import { ChannelList, ChannelSearch, useChatContext } from 'stream-chat-react';
 import Cookies from 'js-cookie';
-import '../../App.css';
+import TeamChannelList from './TeamChannelList';
+import TeamChannelPreview from './TeamChannelPreview';
+
 
 function MessageHeader() {
   return (
@@ -20,6 +17,25 @@ function ChannelListContainer() {
     <>
       <div className="channel-list__list__wrapper">
         <MessageHeader />
+        <ChannelSearch />
+        <ChannelList
+          filters={{}}
+          channelRenderFilterFn={() => {}}
+          List={(listProps) => <TeamChannelList {...listProps} type="team" />}
+          Preview={(previewProps) => (
+            <TeamChannelPreview {...previewProps} type="team" />
+          )}
+        />
+        <ChannelList
+          filters={{}}
+          channelRenderFilterFn={() => {}}
+          List={(listProps) => (
+            <TeamChannelList {...listProps} type="messaging" />
+          )}
+          Preview={(previewProps) => (
+            <TeamChannelPreview {...previewProps} type="messaging" />
+          )}
+        />
       </div>
     </>
   );
