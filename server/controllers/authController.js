@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const { connect } = require('getstream');
@@ -8,13 +9,23 @@ const AppError = require('../utils/appError');
 const User = require('../models/userModel');
 const Email = require('../utils/email');
 
+const api_key = process.env.STREAM_API_KEY;
+const api_secret = process.env.STREAM_API_SECRET;
+const app_id = process.env.STREAM_APP_ID;
+
 function signToken(id) {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN,
   });
 }
 
+function generateStreamToken(userId) {
+  const serverClient = StreamChat.getInstance(api_key, api_secret, app_id);
+  return serverClient.createToken(userId.toString());
+}
+
 function createSendToken(user, statusCode, req, res) {
+  const streamToken = generateStreamToken(user._id);
   const token = signToken(user._id);
   res.cookie('jwt', token, {
     expires: new Date(
@@ -27,6 +38,7 @@ function createSendToken(user, statusCode, req, res) {
   res.status(statusCode).json({
     status: 'success',
     token,
+    streamToken,
     data: {
       user,
     },
@@ -48,7 +60,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     password,
     phone,
   });
-
+  const streamToken = generateStreamToken(newUser._id);
   const signupToken = newUser.createToken('signup');
   await newUser.save({ validateBeforeSave: false });
   const url = `http://localhost:5173/confirmEmail/${signupToken}`;
@@ -58,6 +70,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     status: 'success',
     data: {
       user: newUser,
+      streamToken,
     },
   });
 });
@@ -94,6 +107,7 @@ exports.login = catchAsync(async (req, res, next) => {
   if (!email || !password) {
     return next(new AppError('Please provide email and password!', 400));
   }
+
   const user = await User.findOne({ email })
     .select('+password')
     .populate([
