@@ -1,5 +1,6 @@
 import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api';
 import CustomLoader from '../../ui/CustomLoader';
+import { useNavigation } from 'react-router-dom';
 
 const containerStyle = {
   width: '100%',
@@ -16,6 +17,10 @@ function Map() {
     id: 'google-map-script',
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API,
   });
+
+  const navigationState = useNavigation();
+
+  if (navigationState === 'loading') return <CustomLoader />;
 
   return isLoaded ? (
     <>

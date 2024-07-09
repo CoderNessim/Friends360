@@ -34,6 +34,13 @@ function createSendToken(user, statusCode, req, res) {
     httpOnly: true,
     secure: req.secure || req.headers['x-forwarded-proto'] === 'https',
   });
+  res.cookie('streamToken', streamToken, {
+    expires: new Date(
+      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000,
+    ),
+    httpOnly: true,
+    secure: req.secure || req.headers['x-forwarded-proto'] === 'https',
+  });
   user.password = undefined;
   res.status(statusCode).json({
     status: 'success',
@@ -150,6 +157,10 @@ exports.login = catchAsync(async (req, res, next) => {
 
 exports.logout = catchAsync(async (req, res) => {
   res.cookie('jwt', 'loggedout', {
+    expires: new Date(Date.now() + 10 * 1000),
+    httpOnly: true,
+  });
+  res.cookie('streamToken', 'loggedout', {
     expires: new Date(Date.now() + 10 * 1000),
     httpOnly: true,
   });

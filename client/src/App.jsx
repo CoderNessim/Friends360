@@ -13,8 +13,7 @@ import Sidebar from './features/sidebar/Sidebar';
 import Protect from './ui/Protect';
 import GroupPage from './features/groups/GroupPage';
 import InboxPage from './features/inbox/InboxPage';
-import Messages from './features/messaging/Messages';
-
+import Messages, { messageLoader } from './features/messaging/Messages';
 
 function App() {
   const queryClient = new QueryClient({
@@ -74,6 +73,7 @@ function App() {
         {
           path: 'messages',
           element: <Messages />,
+          loader: messageLoader,
         },
       ],
     },

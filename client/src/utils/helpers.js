@@ -39,11 +39,12 @@ export async function crudOperations(
   if (operation === 'DELETE') return;
 
   const data = await response.json();
-
   if (type === 'users' && endPoint === 'getMe') {
     delete data.data.data.groups;
     delete data.data.data.invites;
   }
+
+  if(endPoint === 'streamToken') return data.streamToken;
 
   if (endPoint === 'getInvites') {
     return data.data;

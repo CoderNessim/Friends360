@@ -23,3 +23,16 @@ exports.getInvites = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+exports.getStreamToken = catchAsync(async (req, res, next) => {
+  const streamToken = req.cookies.streamToken;
+
+  if (!streamToken) {
+    return next(new AppError('No Stream token found', 401));
+  }
+
+  res.status(200).json({
+    status: 'success',
+    streamToken,
+  });
+});

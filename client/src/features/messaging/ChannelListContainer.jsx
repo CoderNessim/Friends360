@@ -18,7 +18,7 @@ function ChannelListContainer() {
       <div className="channel-list__list__wrapper">
         <MessageHeader />
         <ChannelSearch />
-        <ChannelList
+        {/* <ChannelList
           filters={{}}
           channelRenderFilterFn={() => {}}
           List={(listProps) => <TeamChannelList {...listProps} type="team" />}
@@ -35,7 +35,7 @@ function ChannelListContainer() {
           Preview={(previewProps) => (
             <TeamChannelPreview {...previewProps} type="messaging" />
           )}
-        />
+        /> */}
       </div>
     </>
   );
