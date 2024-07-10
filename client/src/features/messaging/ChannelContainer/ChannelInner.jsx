@@ -57,7 +57,7 @@ const TeamChannelHeader = ({ setIsEditing }) => {
 
   const MessagingHeader = () => {
     const members = Object.values(channel.state.members).filter(
-      ({ user }) => user.id !== client.id
+      ({ user }) => user.id !== client.userID
     );
     const additionalMembers = members.length - 3;
 
@@ -68,11 +68,11 @@ const TeamChannelHeader = ({ setIsEditing }) => {
             <div key={i} className="team-channel-header__name-multi">
               <Avatar
                 image={user.image}
-                name={user.username || user.id}
+                name={user.fullName || user.id}
                 size={32}
               />
               <p className="team-channel-header__name user">
-                {user.username || user.id}
+                {user.fullName || user.id}
               </p>
             </div>
           ))}

@@ -33,9 +33,10 @@ function Messages() {
     client.connectUser(
       {
         id: user.id,
-        username: user.username,
-        phone: user.phone,
-        photo: user.photo,
+        name: user.username,
+        fullName: user.username,
+        phoneNumber: user.phone,
+        image: user.photo,
         token: streamToken,
       },
       streamToken
@@ -58,7 +59,8 @@ function Messages() {
           isCreating={isCreating}
           isEditing={isEditing}
           createType={createType}
-         />
+          user={user}
+        />
       </Chat>
     </div>
   );

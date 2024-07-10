@@ -1,4 +1,9 @@
-import { Channel, useChatContext, MessageSimple } from 'stream-chat-react';
+import {
+  Channel,
+  useChatContext,
+  Message,
+  useMessageContext,
+} from 'stream-chat-react';
 import ChannelInner from './ChannelInner';
 import CreateChannel from './CreateChannel';
 import EditChannel from './EditChannel';
@@ -9,6 +14,7 @@ function ChannelContainer({
   isEditing,
   setIsEditing,
   createType,
+  user,
 }) {
   const { channel } = useChatContext();
 
@@ -41,10 +47,8 @@ function ChannelContainer({
 
   return (
     <div className="channel__container">
-      <Channel
-        EmptyStateIndicator={EmptyState}
-        Message={(messageProps, i) => <MessageSimple key={i} {...messageProps} />}
-      >
+      <Channel EmptyStateIndicator={EmptyState}>
+        <Message message={{ user }} />
         <ChannelInner setIsEditing={setIsEditing} />
       </Channel>
     </div>

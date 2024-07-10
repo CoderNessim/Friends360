@@ -1836,3 +1836,7 @@ div.rta__autocomplete.str-chat__emojisearch {
 .str-chat-channel.messaging .str-chat__main-panel {
   padding: var(--xxs-p) var(--xxs-p) 0 !important;
 }
+
+.str-chat__message.has-no-text {
+  display: none !important;
+}
