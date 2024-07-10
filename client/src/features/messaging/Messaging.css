@@ -1831,3 +1831,8 @@ div.rta__autocomplete.str-chat__emojisearch {
     display: none;
   }
 }
+
+/* Target the main panel of the message component */
+.str-chat-channel.messaging .str-chat__main-panel {
+  padding: var(--xxs-p) var(--xxs-p) 0 !important;
+}
