@@ -2,6 +2,7 @@ import { Avatar, useChatContext } from 'stream-chat-react';
 
 function TeamChannelPreview({ channel, type }) {
   const { channel: activeChannel, client } = useChatContext();
+
   function ChannelPreview() {
     return (
       <p className="channel-preview__item">
@@ -18,10 +19,10 @@ function TeamChannelPreview({ channel, type }) {
       <div className="channel-preview__item single">
         <Avatar
           image={members[0]?.user?.image}
-          name={members[0]?.user?.fullName}
+          name={members[0]?.user?.username}
           size={24}
         />
-        <p>{members[0]?.user?.fullName}</p>
+        <p>{members[0]?.user?.username}</p>
       </div>
     );
   }

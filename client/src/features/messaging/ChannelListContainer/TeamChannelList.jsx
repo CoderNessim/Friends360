@@ -1,4 +1,5 @@
 function TeamChannelList({ children, error = false, loading, type }) {
+  console.log(children);
   if (error) {
     return type === 'team' ? (
       <div className="team-channel-list">

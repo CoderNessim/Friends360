@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
-// import { useChatContext } from 'stream-chat-react';
-import { SearchIcon } from '../../assets/SearchIcon';
+import { SearchIcon } from '../../../assets/SearchIcon';
 import toast from 'react-hot-toast';
 
 function ChannelSearch() {
