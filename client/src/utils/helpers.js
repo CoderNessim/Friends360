@@ -44,11 +44,27 @@ export async function crudOperations(
     delete data.data.data.invites;
   }
 
-  if(endPoint === 'streamToken') return data.streamToken;
+  if (endPoint === 'streamToken') return data.streamToken;
 
   if (endPoint === 'getInvites') {
     return data.data;
   }
 
   return data.data.data;
+}
+
+export function connectUser(client, streamToken, user) {
+  if (streamToken) {
+    client.connectUser(
+      {
+        id: user.id,
+        name: user.username,
+        fullName: user.username,
+        phoneNumber: user.phone,
+        image: user.photo,
+        token: streamToken,
+      },
+      streamToken
+    );
+  }
 }

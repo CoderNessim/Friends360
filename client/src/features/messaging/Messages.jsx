@@ -2,7 +2,7 @@ import { StreamChat } from 'stream-chat';
 import { Chat } from 'stream-chat-react';
 import { useLoaderData } from 'react-router-dom';
 import ChannelListContainer from './ChannelListContainer/ChannelListContainer';
-import { crudOperations } from '../../utils/helpers';
+import { connectUser, crudOperations } from '../../utils/helpers';
 import toast from 'react-hot-toast';
 import { useQuery } from '@tanstack/react-query';
 import CustomLoader from '../../ui/CustomLoader';
@@ -21,29 +21,16 @@ function Messages() {
   const [isCreating, setIsCreating] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
-  const streamToken = useLoaderData();
   const { data: user, isPending } = useQuery({
     queryKey: ['user'],
     queryFn: () => crudOperations('users', 'getMe', 'GET'),
   });
 
+  const streamToken = useLoaderData();
+  connectUser(client, streamToken, user);
+
   if (isPending) return <CustomLoader />;
 
-  if (streamToken) {
-    client.connectUser(
-      {
-        id: user.id,
-        name: user.username,
-        fullName: user.username,
-        phoneNumber: user.phone,
-        image: user.photo,
-        token: streamToken,
-      },
-      streamToken
-    );
-  }
-
-  console.log(user);
   return (
     <div className="app__wrapper">
       <Chat client={client}>

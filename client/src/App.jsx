@@ -61,6 +61,7 @@ function App() {
         {
           path: 'map',
           element: <Map />,
+          loader: messageLoader,
         },
         {
           path: 'groups',

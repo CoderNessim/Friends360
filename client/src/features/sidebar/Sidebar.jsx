@@ -2,7 +2,11 @@ import { useState } from 'react';
 import { Center, Loader, Stack } from '@mantine/core';
 import { IconLogout } from '@tabler/icons-react';
 import classes from './Sidebar.module.css';
-import { Outlet, useNavigate, useNavigation } from 'react-router-dom';
+import {
+  Outlet,
+  useNavigate,
+  useNavigation,
+} from 'react-router-dom';
 import { SidebarLink } from './SidebarLink';
 import imagePath from '../../assets/friends360-removebg-preview.png';
 import { loginSignup } from '../../services/apiAuth';
@@ -19,6 +23,7 @@ export default function Sidebar() {
   const navigate = useNavigate();
   const [active, setActive] = useState(0);
   const isLoading = navigation.state === 'loading';
+
   const links = navLinks.map((link, index) => (
     <SidebarLink
       {...link}
