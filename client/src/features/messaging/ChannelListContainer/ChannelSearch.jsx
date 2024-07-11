@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { SearchIcon } from '../../../assets/SearchIcon';
+// import { SearchIcon } from '../../../assets/SearchIcon';
 import toast from 'react-hot-toast';
 
 function ChannelSearch() {
@@ -26,7 +26,7 @@ function ChannelSearch() {
     <div className="channel-search__container">
       <div className="channel-search__input__wrapper">
         <div className="channel-serach__input__icon">
-          <SearchIcon />
+          {/* <SearchIcon /> */}
         </div>
         <input
           className="channel-search__input__text"

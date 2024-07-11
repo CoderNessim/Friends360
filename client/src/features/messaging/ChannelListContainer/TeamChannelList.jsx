@@ -1,4 +1,15 @@
-function TeamChannelList({ children, error = false, loading, type }) {
+import { AddChannel } from '../../../assets/AddChannel';
+
+function TeamChannelList({
+  children,
+  error = false,
+  loading,
+  type,
+  setIsCreating,
+  setIsEditing,
+  isCreating,
+  setCreateType,
+}) {
   if (error) {
     return type === 'team' ? (
       <div className="team-channel-list">
@@ -25,6 +36,13 @@ function TeamChannelList({ children, error = false, loading, type }) {
         <p className="team-channel-list__header__title">
           {type === 'team' ? 'Channels' : 'Direct Messages'}
         </p>
+        <AddChannel
+          setIsCreating={setIsCreating}
+          setIsEditing={setIsEditing}
+          isCreating={isCreating}
+          setCreateType={setCreateType}
+          type={type === 'team' ? 'team' : 'messaging'}
+        />
       </div>
       {children}
     </div>
