@@ -16,6 +16,7 @@ export async function loginSignup(body, type) {
   }
   if (type === 'login') Cookies.set('currentGroupIndex', 0);
   if (type === 'logout') Cookies.remove('currentGroupIndex');
+
   const data = await response.json();
   return data;
 }

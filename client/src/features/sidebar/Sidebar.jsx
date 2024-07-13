@@ -15,6 +15,11 @@ import { useQueryClient } from '@tanstack/react-query';
 import SidebarLinksGroup from './SidebarLinksGroup';
 import Nav from './Nav';
 import { useNavLinks } from '../../utils/navLinks.jsx';
+import { StreamChat } from 'stream-chat';
+
+const streamApiKey = import.meta.env.VITE_STREAM_API;
+
+const client = StreamChat.getInstance(streamApiKey);
 
 export default function Sidebar() {
   const navLinks = useNavLinks();
@@ -39,6 +44,7 @@ export default function Sidebar() {
   async function handleLogout() {
     try {
       await loginSignup({}, 'logout');
+      client.disconnectUser();
       toast.success('Logout successful');
       queryClient.removeQueries(['user']);
       navigate('/login');

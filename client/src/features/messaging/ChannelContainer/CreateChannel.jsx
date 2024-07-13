@@ -31,7 +31,7 @@ const CreateChannel = ({ createType, setIsCreating }) => {
 
   const createChannel = async (e) => {
     e.preventDefault();
-    if(!channelName) return;
+    if(!channelName && createType === 'team') return;
     try {
       const newChannel = client.channel(createType, channelName, {
         name: channelName,
