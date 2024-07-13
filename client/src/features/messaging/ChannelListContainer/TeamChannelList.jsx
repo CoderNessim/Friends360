@@ -9,6 +9,7 @@ function TeamChannelList({
   setIsEditing,
   isCreating,
   setCreateType,
+  setToggleContainer,
 }) {
   if (error) {
     return type === 'team' ? (
@@ -41,6 +42,7 @@ function TeamChannelList({
           setIsEditing={setIsEditing}
           isCreating={isCreating}
           setCreateType={setCreateType}
+          setToggleContainer={setToggleContainer}
           type={type === 'team' ? 'team' : 'messaging'}
         />
       </div>

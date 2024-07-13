@@ -4,52 +4,57 @@ import { CloseCreateChannel } from '../../../assets/CloseCreateChannel';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 
-function ChannelNameInput({ channelName = '', setChannelName }) {
-  function handleChange(e) {
-    e.preventDefault();
-    setChannelName(e.target.value);
-  }
+const ChannelNameInput = ({ channelName = '', setChannelName }) => {
+  const handleChange = (event) => {
+    event.preventDefault();
+
+    setChannelName(event.target.value);
+  };
+
   return (
     <div className="channel-name-input__wrapper">
       <p>Name</p>
       <input
         value={channelName}
         onChange={handleChange}
-        placeholder="channel name"
+        placeholder="channel-name"
       />
       <p>Add Members</p>
     </div>
   );
-}
+};
 
-function CreateChannel({ createType, setIsCreating }) {
-  const [channelName, setChannelName] = useState('');
+const CreateChannel = ({ createType, setIsCreating }) => {
   const { client, setActiveChannel } = useChatContext();
   const [selectedUsers, setSelectedUsers] = useState([client.userID || '']);
+  const [channelName, setChannelName] = useState('');
 
-  async function createChannel(e) {
+  const createChannel = async (e) => {
     e.preventDefault();
-    if (!channelName) return;
+    if(!channelName) return;
     try {
       const newChannel = client.channel(createType, channelName, {
         name: channelName,
         members: selectedUsers,
       });
+
       await newChannel.watch();
+
       setChannelName('');
       setIsCreating(false);
       setSelectedUsers([client.userID]);
       setActiveChannel(newChannel);
-    } catch (err) {
-      toast.error(err.message || 'Something went wrong');
+    } catch (error) {
+      toast.error('Channel creation failed. Please try again.');
     }
-  }
+  };
+
   return (
     <div className="create-channel__container">
       <div className="create-channel__header">
         <p>
           {createType === 'team'
-            ? 'Create a new Channel'
+            ? 'Create a New Channel'
             : 'Send a Direct Message'}
         </p>
         <CloseCreateChannel setIsCreating={setIsCreating} />
@@ -68,6 +73,6 @@ function CreateChannel({ createType, setIsCreating }) {
       </div>
     </div>
   );
-}
+};
 
 export default CreateChannel;

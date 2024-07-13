@@ -1,12 +1,19 @@
 import { Avatar, useChatContext } from 'stream-chat-react';
 
-function TeamChannelPreview({ channel, type }) {
+function TeamChannelPreview({
+  channel,
+  type,
+  setToggleContainer,
+  setIsCreating,
+  setIsEditing,
+  setActiveChannel,
+}) {
   const { channel: activeChannel, client } = useChatContext();
 
   function ChannelPreview() {
     return (
       <p className="channel-preview__item">
-        # {channel?.data?.name || channel?.data?.id}
+        # {channel?.data?.name || 'Channel'}
       </p>
     );
   }
@@ -19,10 +26,10 @@ function TeamChannelPreview({ channel, type }) {
       <div className="channel-preview__item single">
         <Avatar
           image={members[0]?.user?.image}
-          name={members[0]?.user?.username}
+          name={members[0]?.user?.username || members[0]?.user?.id}
           size={24}
         />
-        <p>{members[0]?.user?.username}</p>
+        <p>{members[0]?.user?.username || members[0]?.user?.id}</p>
       </div>
     );
   }
@@ -35,7 +42,12 @@ function TeamChannelPreview({ channel, type }) {
           : 'channel-preview__wrapper'
       }
       onClick={() => {
-        console.log(channel);
+        setIsCreating(false);
+        setIsEditing(false);
+        setActiveChannel(channel);
+        if (setToggleContainer) {
+          setToggleContainer((p) => !p);
+        }
       }}
     >
       {type === 'team' ? <ChannelPreview /> : <DirectPreview />}
