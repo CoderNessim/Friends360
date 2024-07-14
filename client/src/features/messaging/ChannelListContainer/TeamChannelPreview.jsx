@@ -9,7 +9,6 @@ function TeamChannelPreview({
   setActiveChannel,
 }) {
   const { channel: activeChannel, client } = useChatContext();
-console.log(channel.state.members)
   function ChannelPreview() {
     return (
       <p className="channel-preview__item">

@@ -1538,6 +1538,7 @@ div.rta__autocomplete.str-chat__emojisearch {
 
 .str-chat__thread-header-details {
   display: flex;
+
   height: 62px !important;
   align-items: center;
 }
@@ -1716,7 +1717,7 @@ div.rta__autocomplete.str-chat__emojisearch {
   display: none;
 }
 
-.channerl-list__container-toggle {
+.channel-list__container-toggle {
   display: none;
   height: 50px;
   width: 50px;
@@ -1728,12 +1729,13 @@ div.rta__autocomplete.str-chat__emojisearch {
   z-index: 2;
 }
 
+
 .channel-list__container-responsive {
   display: none;
   height: 100%;
   box-shadow: inset 1px 0px 0px rgba(0, 0, 0, 0.1);
   position: absolute;
-  width: 90%;
+  width: 89.5%;
   top: 0%;
   z-index: 5;
   transition: 0.8s ease;
@@ -1787,7 +1789,7 @@ div.rta__autocomplete.str-chat__emojisearch {
     width: 100%;
   } */
 
-  .channerl-list__container-toggle {
+  .channel-list__container-toggle {
     display: flex;
   }
 
@@ -1812,7 +1814,7 @@ div.rta__autocomplete.str-chat__emojisearch {
 }
 
 @media screen and (max-width: 650px) {
-  .channerl-list__container-toggle {
+  .channel-list__container-toggle {
     right: -3%;
   }
 }
@@ -1822,7 +1824,7 @@ div.rta__autocomplete.str-chat__emojisearch {
     width: 150px;
   }
 
-  .channerl-list__container-toggle {
+  .channel-list__container-toggle {
     right: -5%;
   }
 }
@@ -1840,4 +1842,8 @@ div.rta__autocomplete.str-chat__emojisearch {
 
 .str-chat__message.has-no-text {
   display: none !important;
+}
+
+.str-chat__thread-header-title {
+  margin-right: 4px;
 }

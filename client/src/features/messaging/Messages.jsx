@@ -33,7 +33,7 @@ function Messages() {
 
   return (
     <div className="app__wrapper">
-      <Chat client={client}>
+      <Chat client={client} theme="team light">
         <ChannelListContainer
           setIsCreating={setIsCreating}
           setIsEditing={setIsEditing}

@@ -2,7 +2,6 @@ import {
   Channel,
   useChatContext,
   Message,
-  useMessageContext,
 } from 'stream-chat-react';
 import ChannelInner from './ChannelInner';
 import CreateChannel from './CreateChannel';
@@ -16,7 +15,6 @@ function ChannelContainer({
   createType,
   user,
 }) {
-  const { channel } = useChatContext();
 
   if (isCreating) {
     return (
