@@ -1,0 +1,8 @@
+.groupSelect {
+  position: absolute;
+  top: 10px; /* Adjust this value to move the element downwards */
+  right: 10px; /* Adjust this value for horizontal spacing from the right */
+  margin-top: 50px; /* Additional margin to move it further down */
+  z-index: 1000; /* Ensure it stays on top of the map */
+}
+

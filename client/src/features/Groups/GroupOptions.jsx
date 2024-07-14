@@ -6,7 +6,7 @@ function GroupOptions({ styles, queryClient, groupNames }) {
   return (
     <div className={styles.centerStack}>
       <Stack spacing="sm" mb="lg">
-        <GroupSelect groupNames={groupNames} />
+        <GroupSelect groupNames={groupNames} size="xs" showLabel={true} />
         <Button onClick={() => openGroupModal(queryClient)} size="sm">
           Create a Group
         </Button>
