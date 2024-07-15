@@ -14,6 +14,7 @@ import Protect from './ui/Protect';
 import GroupPage from './features/groups/GroupPage';
 import InboxPage from './features/inbox/InboxPage';
 import Messages, { messageLoader } from './features/messaging/Messages';
+import { GroupProvider } from './context/GroupContext';
 
 function App() {
   const queryClient = new QueryClient({
@@ -88,7 +89,9 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={false} />
       <Toaster />
-      <RouterProvider router={router} />
+      <GroupProvider>
+        <RouterProvider router={router} />
+      </GroupProvider>
     </QueryClientProvider>
   );
 }

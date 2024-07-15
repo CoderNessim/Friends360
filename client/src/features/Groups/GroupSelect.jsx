@@ -1,11 +1,12 @@
 import { Select } from '@mantine/core';
-import Cookies from 'js-cookie';
+import { useGroupProvider } from '../../context/GroupContext';
 
 function GroupSelect({ groupNames, size, showLabel }) {
+  const { currentGroupIndex, setCurrentGroupIndex } = useGroupProvider();
   function handleSelect(value) {
     const index = groupNames.indexOf(value);
     if (index !== -1) {
-      Cookies.set('currentGroupIndex', index);
+      setCurrentGroupIndex(index);
     }
   }
 
@@ -18,6 +19,7 @@ function GroupSelect({ groupNames, size, showLabel }) {
       nothingFoundMessage="No groups found"
       maxDropdownHeight={100}
       size={size}
+      value={groupNames[currentGroupIndex]}
       onChange={handleSelect}
     />
   );

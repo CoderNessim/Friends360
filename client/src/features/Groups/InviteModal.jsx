@@ -26,7 +26,7 @@ function InviteModal({ group }) {
     <form onSubmit={handleSubmit}>
       <TextInput
         label="Name of user"
-        placeholder="Enter the username of the user you want to invite"
+        placeholder="Enter a username"
         data-autofocus
         required
         {...form.getInputProps('username')}

@@ -1847,3 +1847,8 @@ div.rta__autocomplete.str-chat__emojisearch {
 .str-chat__thread-header-title {
   margin-right: 4px;
 }
+
+.str-chat__container {
+  margin-left: 10px;
+  margin-right: 10px;
+}
