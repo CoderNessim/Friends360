@@ -20,7 +20,6 @@ const channelByUser = async ({ client, setActiveChannel, channel, setChannel }) 
 
 const SearchResult = ({ channel, focusedId, type, setChannel, setToggleContainer }) => {
   const { client, setActiveChannel } = useChatContext();
-
   if (type === 'channel') {
     return (
       <div
@@ -37,7 +36,6 @@ const SearchResult = ({ channel, focusedId, type, setChannel, setToggleContainer
       </div>
     );
   }
-
   return (
     <div
       onClick={async () => {
@@ -89,7 +87,7 @@ const ResultsDropdown = ({ teamChannels, directChannels, focusedId, loading, set
         </p>
       )}
       {!loading && !directChannels.length ? (
-        <p className='channel-search__res ults-header'>
+        <p className='channel-search__results-header'>
           <i>No direct messages found</i>
         </p>
       ) : (

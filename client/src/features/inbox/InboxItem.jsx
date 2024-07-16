@@ -18,6 +18,8 @@ function InboxItem({ invite }) {
         await crudOperations('groups', `declineInvite/${invite._id}`, 'PATCH');
       }
       queryClient.invalidateQueries({ queryKey: ['invites'] });
+      queryClient.invalidateQueries({ queryKey: ['groups'] });
+      queryClient.invalidateQueries({ queryKey: ['user'] });
       toast.success(`You ${isAccept ? 'accepted' : 'declined'} the invite`);
     } catch (err) {
       toast.error(err.message);

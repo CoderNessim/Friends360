@@ -1,6 +1,5 @@
 import {
   Channel,
-  useChatContext,
   Message,
 } from 'stream-chat-react';
 import ChannelInner from './ChannelInner';

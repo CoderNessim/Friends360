@@ -2,11 +2,7 @@ import { useState } from 'react';
 import { Center, Loader, Stack } from '@mantine/core';
 import { IconLogout } from '@tabler/icons-react';
 import classes from './Sidebar.module.css';
-import {
-  Outlet,
-  useNavigate,
-  useNavigation,
-} from 'react-router-dom';
+import { Outlet, useNavigate, useNavigation } from 'react-router-dom';
 import { SidebarLink } from './SidebarLink';
 import imagePath from '../../assets/friends360-removebg-preview.png';
 import { loginSignup } from '../../services/apiAuth';
@@ -26,18 +22,24 @@ export default function Sidebar() {
   const navigation = useNavigation();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const [active, setActive] = useState(0);
   const isLoading = navigation.state === 'loading';
+  // Get the pathname part of the URL
+  const pathname = window.location.pathname;
 
-  const links = navLinks.map((link, index) => (
+  // Split the pathname into an array of segments
+  const pathSegments = pathname.split('/');
+
+  // Filter out any empty segments (in case the URL ends with a slash)
+  const filteredSegments = pathSegments.filter((segment) => segment.length > 0);
+
+  // Get the last segment
+  const lastSegment = filteredSegments[filteredSegments.length - 1];
+  const links = navLinks.map((link) => (
     <SidebarLink
       {...link}
       key={link.label}
-      active={index === active}
-      onClick={() => {
-        setActive(index);
-        navigate(link.label === 'Home' ? 'map' : link.label.toLowerCase());
-      }}
+      active={lastSegment === link.label.toLowerCase()}
+      onClick={() => navigate(link.label.toLowerCase())}
     />
   ));
 

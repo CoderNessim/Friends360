@@ -11,6 +11,7 @@ import { useState } from 'react';
 
 import './Messaging.css';
 import 'stream-chat-react/dist/css/index.css';
+import { useGroupProvider } from '../../context/GroupContext';
 
 const streamApiKey = import.meta.env.VITE_STREAM_API;
 
@@ -20,16 +21,20 @@ function Messages() {
   const [createType, setCreateType] = useState('');
   const [isCreating, setIsCreating] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-
-  const { data: user, isPending } = useQuery({
+  const { currentGroupIndex } = useGroupProvider();
+  const { data: user, isPending: isUserPending } = useQuery({
     queryKey: ['user'],
     queryFn: () => crudOperations('users', 'getMe', 'GET'),
   });
 
+  const { data: groups, isPending: isGroupsPending } = useQuery({
+    queryKey: ['groups'],
+    queryFn: () => crudOperations('groups', 'getGroups', 'GET'),
+  });
   const streamToken = useLoaderData();
   connectUser(client, streamToken, user);
 
-  if (isPending) return <CustomLoader />;
+  if (isUserPending || isGroupsPending) return <CustomLoader />;
 
   return (
     <div className="app__wrapper">
@@ -39,6 +44,7 @@ function Messages() {
           setIsEditing={setIsEditing}
           isCreating={isCreating}
           setCreateType={setCreateType}
+          group={groups[currentGroupIndex]}
         />
         <ChannelContainer
           setIsCreating={setIsCreating}

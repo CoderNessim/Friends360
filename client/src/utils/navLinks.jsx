@@ -15,7 +15,7 @@ export function useNavLinks() {
   const queryClient = useQueryClient();
 
   const links = [
-    { icon: IconHome2, label: 'Home' },
+    { icon: IconHome2, label: 'Map' },
     { icon: IconMessage2, label: 'Messages' },
     { icon: IconInbox, label: 'Inbox' },
     { icon: IconCalendarStats, label: 'Calender' },
