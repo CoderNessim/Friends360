@@ -23,7 +23,6 @@ const ChannelSearch = ({ setToggleContainer, group }) => {
         return;
       }
     try {
-      const memberIDs = group.members.concat(client.userID);
       const channelResponse = client.queryChannels({
         type: 'team',
         name: { $autocomplete: text },
@@ -31,11 +30,10 @@ const ChannelSearch = ({ setToggleContainer, group }) => {
       });
 
       let userResponse = { users: [] };
-      const filteredMemberIDs = memberIDs.filter((id) => id !== client.userID);
 
-      if (filteredMemberIDs.length > 0) {
+      if (group.length > 0) {
         userResponse = await client.queryUsers({
-          id: { $in: filteredMemberIDs }, // Include only IDs in memberIDs excluding client.userID
+          id: { $in: group }, // Include only IDs in memberIDs excluding client.userID
           name: { $autocomplete: text },
         });
       }

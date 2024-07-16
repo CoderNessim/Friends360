@@ -1,7 +1,6 @@
 import { Avatar, useChatContext } from 'stream-chat-react';
 import { InviteIcon } from '../../../assets/InviteIcon';
 import { useEffect, useState } from 'react';
-import toast from 'react-hot-toast';
 
 function ListContainer({ children }) {
   return (
@@ -55,7 +54,6 @@ function UserList({ setSelectedUsers, group }) {
         const memberIDs = group.members.filter((id) => id !== client.userID);
         const response = await client.queryUsers(
           {
-            //FIXME: edit this
             id: { $in: memberIDs },
           },
           { id: 1 }

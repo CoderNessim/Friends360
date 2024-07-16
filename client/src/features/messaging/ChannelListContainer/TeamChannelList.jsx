@@ -11,6 +11,7 @@ function TeamChannelList({
   setCreateType,
   setToggleContainer,
 }) {
+  
   if (error) {
     return type === 'team' ? (
       <div className="team-channel-list">

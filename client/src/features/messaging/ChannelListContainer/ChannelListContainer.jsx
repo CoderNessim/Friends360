@@ -2,7 +2,13 @@ import { ChannelList, useChatContext } from 'stream-chat-react';
 import TeamChannelList from './TeamChannelList';
 import TeamChannelPreview from './TeamChannelPreview';
 import ChannelSearch from './ChannelSearch';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import CustomLoader from '../../../ui/CustomLoader';
+import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
+import { useQuery } from '@tanstack/react-query';
+import { crudOperations } from '../../../utils/helpers';
+import { useGroupProvider } from '../../../context/GroupContext';
 
 const ChannelHeader = () => (
   <div className="channel-list__header">
@@ -18,24 +24,39 @@ const customChannelMessagingFilter = (channels) => {
   return channels.filter((channel) => channel.type === 'messaging');
 };
 
-const ChannelListContent = ({
+function ChannelListContent({
   isCreating,
   setIsCreating,
   setCreateType,
   setIsEditing,
   setToggleContainer,
-  group,
-}) => {
-  const { client } = useChatContext();
-
+}) {
+  const navigate = useNavigate();
+  const { currentGroupIndex } = useGroupProvider();
+  //must fetch the data again in this component since it becomes undefined when i try to pass it down as props
+  const { data: groups, isPending: isGroupsPending } = useQuery({
+    queryKey: ['groups'],
+    queryFn: () => crudOperations('groups', 'getGroups', 'GET'),
+  });
+  const errorShownRef = useRef(false);
+  useEffect(() => {
+    if (!groups[currentGroupIndex] && !errorShownRef.current && !isGroupsPending) {
+      navigate('/app/groups');
+      toast.error('You need to create a group to access this feature');
+      errorShownRef.current = true; // Set the ref to true to prevent further toasts
+    }
+  }, [groups, navigate, currentGroupIndex, isGroupsPending]);
+  if (isGroupsPending) return <CustomLoader />;
   //FIXME: change this later
-  const filters = { members: { $in: [client.userID] } };
+  //group may need to load before rendering
+  
+  const filters = { members: { $in: groups[currentGroupIndex]?.members } };
 
   return (
     <>
       <div className="channel-list__list__wrapper">
         <ChannelHeader />
-        <ChannelSearch setToggleContainer={setToggleContainer} group={group} />
+        <ChannelSearch setToggleContainer={setToggleContainer} group={groups[currentGroupIndex]?.members} />
         <ChannelList
           filters={filters}
           channelRenderFilterFn={customChannelTeamFilter}
@@ -87,13 +108,12 @@ const ChannelListContent = ({
       </div>
     </>
   );
-};
+}
 
 const ChannelListContainer = ({
   setCreateType,
   setIsCreating,
   setIsEditing,
-  group,
 }) => {
   const [toggleContainer, setToggleContainer] = useState(false);
 
@@ -104,7 +124,6 @@ const ChannelListContainer = ({
           setIsCreating={setIsCreating}
           setCreateType={setCreateType}
           setIsEditing={setIsEditing}
-          group={group}
         />
       </div>
 

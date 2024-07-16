@@ -7,7 +7,7 @@ import toast from 'react-hot-toast';
 import { useQuery } from '@tanstack/react-query';
 import CustomLoader from '../../ui/CustomLoader';
 import ChannelContainer from './ChannelContainer/ChannelContainer';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import './Messaging.css';
 import 'stream-chat-react/dist/css/index.css';
@@ -26,11 +26,15 @@ function Messages() {
     queryKey: ['user'],
     queryFn: () => crudOperations('users', 'getMe', 'GET'),
   });
-
-  const { data: groups, isPending: isGroupsPending } = useQuery({
+  const { data: groups = [], isPending: isGroupsPending } = useQuery({
     queryKey: ['groups'],
     queryFn: () => crudOperations('groups', 'getGroups', 'GET'),
   });
+
+  const currentGroup = useMemo(
+    () => groups[currentGroupIndex],
+    [groups, currentGroupIndex]
+  );
   const streamToken = useLoaderData();
   connectUser(client, streamToken, user);
 
@@ -44,7 +48,6 @@ function Messages() {
           setIsEditing={setIsEditing}
           isCreating={isCreating}
           setCreateType={setCreateType}
-          group={groups[currentGroupIndex]}
         />
         <ChannelContainer
           setIsCreating={setIsCreating}
@@ -53,7 +56,7 @@ function Messages() {
           isEditing={isEditing}
           createType={createType}
           user={user}
-          group={groups[currentGroupIndex]}
+          group={currentGroup}
         />
       </Chat>
     </div>

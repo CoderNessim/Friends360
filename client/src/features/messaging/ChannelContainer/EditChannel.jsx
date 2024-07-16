@@ -28,7 +28,6 @@ function EditChannel({ setIsEditing, group }) {
   const { channel } = useChatContext();
   const [channelName, setChannelName] = useState(channel?.data?.name || '');
   const [selectedUsers, setSelectedUsers] = useState([]);
-
   async function updateChannel(e) {
     e.preventDefault();
     try {
@@ -64,7 +63,7 @@ function EditChannel({ setIsEditing, group }) {
         channelName={channelName}
         setChannelName={setChannelName}
       />
-      <UserList setSelectedUsers={setSelectedUsers} group={group}/>
+      <UserList setSelectedUsers={setSelectedUsers} group={group} />
       <div className="edit-channel__button-wrapper" onClick={updateChannel}>
         <p>Save Changes</p>
       </div>
