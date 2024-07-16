@@ -1,9 +1,7 @@
 import { useState, useEffect } from 'react';
-// import { SearchIcon } from '../../../assets/SearchIcon';
 import toast from 'react-hot-toast';
 import { useChatContext } from 'stream-chat-react';
 import ResultsDropdown from './ResultsDropdown';
-import CustomLoader from '../../../ui/CustomLoader';
 
 const ChannelSearch = ({ setToggleContainer, group }) => {
   const { client, setActiveChannel } = useChatContext();

@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Center, Loader, Stack } from '@mantine/core';
 import { IconLogout } from '@tabler/icons-react';
 import classes from './Sidebar.module.css';

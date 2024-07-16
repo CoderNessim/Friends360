@@ -24,7 +24,7 @@ const ChannelNameInput = ({ channelName = '', setChannelName }) => {
   );
 };
 
-function EditChannel({ setIsEditing }) {
+function EditChannel({ setIsEditing, group }) {
   const { channel } = useChatContext();
   const [channelName, setChannelName] = useState(channel?.data?.name || '');
   const [selectedUsers, setSelectedUsers] = useState([]);
@@ -64,7 +64,7 @@ function EditChannel({ setIsEditing }) {
         channelName={channelName}
         setChannelName={setChannelName}
       />
-      <UserList setSelectedUsers={setSelectedUsers} />
+      <UserList setSelectedUsers={setSelectedUsers} group={group}/>
       <div className="edit-channel__button-wrapper" onClick={updateChannel}>
         <p>Save Changes</p>
       </div>

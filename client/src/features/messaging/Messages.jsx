@@ -53,6 +53,7 @@ function Messages() {
           isEditing={isEditing}
           createType={createType}
           user={user}
+          group={groups[currentGroupIndex]}
         />
       </Chat>
     </div>

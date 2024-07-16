@@ -28,6 +28,7 @@ const ChannelListContent = ({
 }) => {
   const { client } = useChatContext();
 
+  //FIXME: change this later
   const filters = { members: { $in: [client.userID] } };
 
   return (

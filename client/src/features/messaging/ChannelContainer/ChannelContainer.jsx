@@ -1,7 +1,4 @@
-import {
-  Channel,
-  Message,
-} from 'stream-chat-react';
+import { Channel, Message } from 'stream-chat-react';
 import ChannelInner from './ChannelInner';
 import CreateChannel from './CreateChannel';
 import EditChannel from './EditChannel';
@@ -13,12 +10,16 @@ function ChannelContainer({
   setIsEditing,
   createType,
   user,
+  group,
 }) {
-
   if (isCreating) {
     return (
       <div className="channel__container">
-        <CreateChannel createType={createType} setIsCreating={setIsCreating} />
+        <CreateChannel
+          createType={createType}
+          setIsCreating={setIsCreating}
+          group={group}
+        />
       </div>
     );
   }
@@ -26,7 +27,7 @@ function ChannelContainer({
   if (isEditing) {
     return (
       <div className="channel__container">
-        <EditChannel setIsEditing={setIsEditing} />
+        <EditChannel setIsEditing={setIsEditing} group={group} />
       </div>
     );
   }

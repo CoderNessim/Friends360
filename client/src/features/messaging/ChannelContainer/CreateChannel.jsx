@@ -24,7 +24,7 @@ const ChannelNameInput = ({ channelName = '', setChannelName }) => {
   );
 };
 
-const CreateChannel = ({ createType, setIsCreating }) => {
+const CreateChannel = ({ createType, setIsCreating, group }) => {
   const { client, setActiveChannel } = useChatContext();
   const [selectedUsers, setSelectedUsers] = useState([client.userID || '']);
   const [channelName, setChannelName] = useState('');
@@ -65,7 +65,7 @@ const CreateChannel = ({ createType, setIsCreating }) => {
           setChannelName={setChannelName}
         />
       )}
-      <UserList setSelectedUsers={setSelectedUsers} />
+      <UserList setSelectedUsers={setSelectedUsers} group={group} />
       <div className="create-channel__button-wrapper" onClick={createChannel}>
         <p>
           {createType === 'team' ? 'Create Channel' : 'Create Message Group'}

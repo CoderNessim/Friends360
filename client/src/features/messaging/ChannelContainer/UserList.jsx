@@ -40,7 +40,7 @@ const UserItem = ({ user, setSelectedUsers }) => {
   );
 };
 
-function UserList({ setSelectedUsers }) {
+function UserList({ setSelectedUsers, group }) {
   const { client } = useChatContext();
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -52,10 +52,11 @@ function UserList({ setSelectedUsers }) {
       if (loading || !client.userID) return; // Check if client.userID is set
       setLoading(true);
       try {
+        const memberIDs = group.members.filter((id) => id !== client.userID);
         const response = await client.queryUsers(
           {
-            //edit this
-            id: { $ne: client.userID },
+            //FIXME: edit this
+            id: { $in: memberIDs },
           },
           { id: 1 }
         );
@@ -76,7 +77,8 @@ function UserList({ setSelectedUsers }) {
     return (
       <ListContainer>
         <div className="user-list__message">
-          Error loading, please refresh and try again
+          There are no users in <strong>{group.name}</strong>, invite users to
+          be able to start a chat
         </div>
       </ListContainer>
     );
