@@ -48,7 +48,7 @@ function ChannelListContent({
       !isGroupsPending
     ) {
       navigate('/app/groups');
-      toast.error('You need to create a group to access this feature');
+      toast.error('You need to be in a group to access this feature');
       errorShownRef.current = true; // Set the ref to true to prevent further toasts
     }
   }, [groups, navigate, currentGroupIndex, isGroupsPending]);

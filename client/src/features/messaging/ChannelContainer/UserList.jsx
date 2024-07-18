@@ -49,13 +49,15 @@ function UserList({ setSelectedUsers, group, type = '' }) {
     queryFn: () => crudOperations('groups', 'getGroups', 'GET'),
   });
   const teamChannelGroup = allGroups.find(
-    (group) => group?.id === channel?.data?.custom?.id
+    (group) => group?.id === channel?.data?.metadata?.groupId
   );
+
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [listEmpty, setListEmpty] = useState(false);
   const [error, setError] = useState(false);
   console.log(channel);
+  console.log(teamChannelGroup)
   useEffect(() => {
     async function getUsers() {
       if (loading || !client.userID) return; // Check if client.userID is set
@@ -91,8 +93,8 @@ function UserList({ setSelectedUsers, group, type = '' }) {
     return (
       <ListContainer>
         <div className="user-list__message">
-          There are no users in <strong>{group.name}</strong>, invite users to
-          be able to start a chat
+          There are no users in <strong>{teamChannelGroup.name}</strong>, invite
+          users to be able to start a chat
         </div>
       </ListContainer>
     );

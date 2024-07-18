@@ -37,7 +37,7 @@ function EditChannel({ setIsEditing, group }) {
         await channel.update(
           {
             name: channelName,
-            custom: { id: channel.data.custom.id }, // Preserve custom data
+            custom: { id: channel.data.metadata.groupId }, // Preserve custom data
           },
           { text: `Channel name changed to ${channelName}` }
         );

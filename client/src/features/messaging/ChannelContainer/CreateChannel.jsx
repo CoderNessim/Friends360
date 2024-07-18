@@ -25,7 +25,7 @@ const ChannelNameInput = ({ channelName = '', setChannelName }) => {
 };
 
 const CreateChannel = ({ createType, setIsCreating, group }) => {
-  const { client, setActiveChannel } = useChatContext();
+  const { client, setActiveChannel, channel } = useChatContext();
   const [selectedUsers, setSelectedUsers] = useState([client.userID || '']);
   const [channelName, setChannelName] = useState('');
   const createChannel = async (e) => {
@@ -33,9 +33,12 @@ const CreateChannel = ({ createType, setIsCreating, group }) => {
     if (!channelName && createType === 'team') return;
     try {
       const newChannel = client.channel(createType, channelName, {
-        name: `${channelName}  (Group: ${group.name})`,
+        name: `${channelName} (Group: ${group.name})`,
         members: selectedUsers,
-        custom: { id: group.id } // Add the group property to custom data
+        metadata: {
+          // Assuming custom data is stored in 'metadata'
+          groupId: group.id, // Store custom group ID here
+        },
       });
 
       await newChannel.watch();
