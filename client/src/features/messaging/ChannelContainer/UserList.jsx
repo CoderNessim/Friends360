@@ -1,6 +1,9 @@
 import { Avatar, useChatContext } from 'stream-chat-react';
 import { InviteIcon } from '../../../assets/InviteIcon';
 import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { crudOperations } from '../../../utils/helpers';
+import CustomLoader from '../../../ui/CustomLoader';
 
 function ListContainer({ children }) {
   return (
@@ -39,19 +42,31 @@ const UserItem = ({ user, setSelectedUsers }) => {
   );
 };
 
-function UserList({ setSelectedUsers, group }) {
-  const { client } = useChatContext();
+function UserList({ setSelectedUsers, group, type = '' }) {
+  const { client, channel } = useChatContext();
+  const { data: allGroups, isPending } = useQuery({
+    queryKey: ['groups'],
+    queryFn: () => crudOperations('groups', 'getGroups', 'GET'),
+  });
+  const teamChannelGroup = allGroups.find(
+    (group) => group?.id === channel?.data?.custom?.id
+  );
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [listEmpty, setListEmpty] = useState(false);
   const [error, setError] = useState(false);
-
+  console.log(channel);
   useEffect(() => {
     async function getUsers() {
       if (loading || !client.userID) return; // Check if client.userID is set
       setLoading(true);
       try {
-        const memberIDs = group.members.filter((id) => id !== client.userID);
+        //if we are editing a channel, we want to display the users who are a part of the group associated with the channel
+        //otherwise we want to display the users in the current group rather than the channel that was made with a specific group
+        const memberIDs =
+          type === 'edit'
+            ? teamChannelGroup.members.filter((id) => id !== client.userID)
+            : group.members.filter((id) => id !== client.userID);
         const response = await client.queryUsers(
           {
             id: { $in: memberIDs },
@@ -71,6 +86,7 @@ function UserList({ setSelectedUsers, group }) {
     }
     if (client) getUsers();
   }, []);
+  if (isPending) return <CustomLoader />;
   if (error)
     return (
       <ListContainer>

@@ -35,7 +35,10 @@ function EditChannel({ setIsEditing, group }) {
         channelName !== (channel.data.name || channel.data.id);
       if (nameChanged) {
         await channel.update(
-          { name: channelName },
+          {
+            name: channelName,
+            custom: { id: channel.data.custom.id }, // Preserve custom data
+          },
           { text: `Channel name changed to ${channelName}` }
         );
         toast.success('Channel updated successfully');
@@ -53,6 +56,16 @@ function EditChannel({ setIsEditing, group }) {
     }
   }
 
+  async function leaveChannel(e) {
+    e.preventDefault();
+    try {
+      await channel.removeMembers([channel._client.userID]);
+      toast.success('Channel left successfully');
+    } catch (err) {
+      toast.error('An error occurred, please try again');
+    }
+  }
+
   return (
     <div className="edit-channel__container">
       <div className="edit-channel__header">
@@ -63,9 +76,10 @@ function EditChannel({ setIsEditing, group }) {
         channelName={channelName}
         setChannelName={setChannelName}
       />
-      <UserList setSelectedUsers={setSelectedUsers} group={group} />
+      <UserList setSelectedUsers={setSelectedUsers} group={group} type="edit" />
       <div className="edit-channel__button-wrapper" onClick={updateChannel}>
         <p>Save Changes</p>
+        <p onClick={leaveChannel}>Leave Group</p>
       </div>
     </div>
   );

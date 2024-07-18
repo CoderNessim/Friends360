@@ -32,6 +32,7 @@ function ChannelListContent({
   setToggleContainer,
 }) {
   const navigate = useNavigate();
+  const { client } = useChatContext();
   const { currentGroupIndex } = useGroupProvider();
   //must fetch the data again in this component since it becomes undefined when i try to pass it down as props
   const { data: groups, isPending: isGroupsPending } = useQuery({
@@ -39,24 +40,31 @@ function ChannelListContent({
     queryFn: () => crudOperations('groups', 'getGroups', 'GET'),
   });
   const errorShownRef = useRef(false);
+  
   useEffect(() => {
-    if (!groups[currentGroupIndex] && !errorShownRef.current && !isGroupsPending) {
+    if (
+      !groups[currentGroupIndex] &&
+      !errorShownRef.current &&
+      !isGroupsPending
+    ) {
       navigate('/app/groups');
       toast.error('You need to create a group to access this feature');
       errorShownRef.current = true; // Set the ref to true to prevent further toasts
     }
   }, [groups, navigate, currentGroupIndex, isGroupsPending]);
-  if (isGroupsPending) return <CustomLoader />;
-  //FIXME: change this later
-  //group may need to load before rendering
   
-  const filters = { members: { $in: groups[currentGroupIndex]?.members } };
+  if (isGroupsPending) return <CustomLoader />;
+ 
+  const filters = { members: { $in: [client.userID] } };
 
   return (
     <>
       <div className="channel-list__list__wrapper">
         <ChannelHeader />
-        <ChannelSearch setToggleContainer={setToggleContainer} group={groups[currentGroupIndex]?.members} />
+        <ChannelSearch
+          setToggleContainer={setToggleContainer}
+          group={groups[currentGroupIndex]?.members}
+        />
         <ChannelList
           filters={filters}
           channelRenderFilterFn={customChannelTeamFilter}

@@ -3,11 +3,11 @@ import UserList from './UserList';
 import { CloseCreateChannel } from '../../../assets/CloseCreateChannel';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
+import { useGroupProvider } from '../../../context/GroupContext';
 
 const ChannelNameInput = ({ channelName = '', setChannelName }) => {
   const handleChange = (event) => {
     event.preventDefault();
-
     setChannelName(event.target.value);
   };
 
@@ -28,14 +28,14 @@ const CreateChannel = ({ createType, setIsCreating, group }) => {
   const { client, setActiveChannel } = useChatContext();
   const [selectedUsers, setSelectedUsers] = useState([client.userID || '']);
   const [channelName, setChannelName] = useState('');
-
   const createChannel = async (e) => {
     e.preventDefault();
-    if(!channelName && createType === 'team') return;
+    if (!channelName && createType === 'team') return;
     try {
       const newChannel = client.channel(createType, channelName, {
-        name: channelName,
+        name: `${channelName}  (Group: ${group.name})`,
         members: selectedUsers,
+        custom: { id: group.id } // Add the group property to custom data
       });
 
       await newChannel.watch();
