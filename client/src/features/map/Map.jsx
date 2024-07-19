@@ -5,7 +5,8 @@ import { useQuery } from '@tanstack/react-query';
 import { connectUser, crudOperations } from '../../utils/helpers';
 import { StreamChat } from 'stream-chat';
 import GroupSelect from '../groups/GroupSelect';
-import styles from './Map.module.css'
+import styles from './Map.module.css';
+import { Button } from '@mantine/core';
 
 const containerStyle = {
   width: '100%',
@@ -52,6 +53,16 @@ function Map() {
         {/* Child components, such as markers, info windows, etc. */}
         <div className={styles.groupSelect}>
           <GroupSelect groupNames={groupNames} showLabel={false} />
+        </div>
+        <div className={styles.checkIn}>
+          <Button
+            radius="xl"
+            fullWidth
+            variant="gradient"
+            gradient={{ from: 'blue', to: 'cyan', deg: 90 }}
+          >
+            Check in
+          </Button>
         </div>
       </GoogleMap>
     </>

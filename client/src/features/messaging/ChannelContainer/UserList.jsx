@@ -56,8 +56,7 @@ function UserList({ setSelectedUsers, group, type = '' }) {
   const [loading, setLoading] = useState(false);
   const [listEmpty, setListEmpty] = useState(false);
   const [error, setError] = useState(false);
-  console.log(channel);
-  console.log(teamChannelGroup)
+  
   useEffect(() => {
     async function getUsers() {
       if (loading || !client.userID) return; // Check if client.userID is set
@@ -93,8 +92,13 @@ function UserList({ setSelectedUsers, group, type = '' }) {
     return (
       <ListContainer>
         <div className="user-list__message">
-          There are no users in <strong>{teamChannelGroup.name}</strong>, invite
-          users to be able to start a chat
+          There are no users in{' '}
+          {type === 'edit' ? (
+            <strong>{teamChannelGroup.name}</strong>
+          ) : (
+            <strong>{group.name}</strong>
+          )}
+          , invite users to be able to start a chat
         </div>
       </ListContainer>
     );

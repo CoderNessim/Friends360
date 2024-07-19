@@ -5,4 +5,17 @@
   margin-top: 50px; /* Additional margin to move it further down */
   z-index: 1000; /* Ensure it stays on top of the map */
 }
+.checkIn {
+  position: absolute;
+  bottom: 20px; /* Adjust this value for vertical spacing from the bottom */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  width: 40%;
+}
 
+@media(min-width: 768px) {
+  .checkIn {
+    width: 20%;
+  }
+}
