@@ -4,7 +4,6 @@ import { useLoaderData } from 'react-router-dom';
 import ChannelListContainer from './ChannelListContainer/ChannelListContainer';
 import { connectUser, crudOperations } from '../../utils/helpers';
 import toast from 'react-hot-toast';
-import { useQuery } from '@tanstack/react-query';
 import CustomLoader from '../../ui/CustomLoader';
 import ChannelContainer from './ChannelContainer/ChannelContainer';
 import { useMemo, useState } from 'react';
@@ -12,6 +11,8 @@ import { useMemo, useState } from 'react';
 import './Messaging.css';
 import 'stream-chat-react/dist/css/index.css';
 import { useGroupProvider } from '../../context/GroupContext';
+import { useGetUser } from '../../hooks/useGetUser';
+import { useGetGroups } from '../../hooks/useGetGroups';
 
 const streamApiKey = import.meta.env.VITE_STREAM_API;
 
@@ -22,14 +23,8 @@ function Messages() {
   const [isCreating, setIsCreating] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const { currentGroupIndex } = useGroupProvider();
-  const { data: user, isPending: isUserPending } = useQuery({
-    queryKey: ['user'],
-    queryFn: () => crudOperations('users', 'getMe', 'GET'),
-  });
-  const { data: groups = [], isPending: isGroupsPending } = useQuery({
-    queryKey: ['groups'],
-    queryFn: () => crudOperations('groups', 'getGroups', 'GET'),
-  });
+  const { user, isUserPending } = useGetUser();
+  const { groups = [], isGroupsPending } = useGetGroups();
 
   const currentGroup = useMemo(
     () => groups[currentGroupIndex],

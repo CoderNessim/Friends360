@@ -509,6 +509,7 @@ body {
   z-index: 10;
   left: 230px;
   top: 16px;
+  overflow: scroll;
 }
 
 .channel-search__results-header {
@@ -944,6 +945,7 @@ body {
   width: 100%;
   display: flex;
   flex-direction: column;
+  overflow: scroll;
 }
 
 .team-channel-list__message {

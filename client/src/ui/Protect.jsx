@@ -4,24 +4,18 @@ import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import CustomLoader from './CustomLoader';
 import { crudOperations } from '../utils/helpers';
+import { useGetUser } from '../hooks/useGetUser';
 
 function Protect({ children }) {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const {
-    data: user,
-    isPending,
-    isError,
-  } = useQuery({
-    queryKey: ['user'],
-    queryFn: () => crudOperations('users', 'getMe', 'GET'),
-  });
+  const { user, isUserPending, isUserError } = useGetUser();
   useEffect(() => {
-    if (!isPending && !user) {
+    if (!isUserPending && !user) {
       toast.error('Please login to access this page');
       navigate('/login');
     }
-  }, [user, isPending, navigate]); // Include isPending in the dependencies
+  }, [user, isUserPending, navigate]); // Include isPending in the dependencies
 
   useQuery({
     queryKey: ['groups'],
@@ -43,11 +37,11 @@ function Protect({ children }) {
     },
   });
 
-  if (isPending) {
+  if (isUserPending) {
     return <CustomLoader size="lg" />;
   }
 
-  if (isError) {
+  if (isUserError) {
     return <div>Failed to load user data</div>;
   }
 

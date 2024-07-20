@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import toast from 'react-hot-toast';
 import { useChatContext } from 'stream-chat-react';
 import ResultsDropdown from './ResultsDropdown';
 

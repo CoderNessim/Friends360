@@ -6,9 +6,8 @@ import { useEffect, useRef, useState } from 'react';
 import CustomLoader from '../../../ui/CustomLoader';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import { useQuery } from '@tanstack/react-query';
-import { crudOperations } from '../../../utils/helpers';
 import { useGroupProvider } from '../../../context/GroupContext';
+import { useGetGroups } from '../../../hooks/useGetGroups';
 
 const ChannelHeader = () => (
   <div className="channel-list__header">
@@ -35,12 +34,9 @@ function ChannelListContent({
   const { client } = useChatContext();
   const { currentGroupIndex } = useGroupProvider();
   //must fetch the data again in this component since it becomes undefined when i try to pass it down as props
-  const { data: groups, isPending: isGroupsPending } = useQuery({
-    queryKey: ['groups'],
-    queryFn: () => crudOperations('groups', 'getGroups', 'GET'),
-  });
+  const { groups, isGroupsPending } = useGetGroups();
   const errorShownRef = useRef(false);
-  
+
   useEffect(() => {
     if (
       !groups[currentGroupIndex] &&
@@ -52,9 +48,9 @@ function ChannelListContent({
       errorShownRef.current = true; // Set the ref to true to prevent further toasts
     }
   }, [groups, navigate, currentGroupIndex, isGroupsPending]);
-  
+
   if (isGroupsPending) return <CustomLoader />;
- 
+
   const filters = { members: { $in: [client.userID] } };
 
   return (

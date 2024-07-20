@@ -1,22 +1,18 @@
 import { Pagination, Stack, Title } from '@mantine/core';
 import styles from './InboxPage.module.css';
-import { useQuery } from '@tanstack/react-query';
-import { crudOperations } from '../../utils/helpers';
 import CustomLoader from '../../ui/CustomLoader';
 import InboxItem from './InboxItem';
 import { useSearchParams } from 'react-router-dom';
+import { useGetInvites } from '../../hooks/useGetInvites';
 
 const itemsPerPage = 3;
 
 function InboxPage() {
-  const { data, isPending } = useQuery({
-    queryKey: ['invites'],
-    queryFn: () => crudOperations('users', 'getInvites', 'GET'),
-  });
+  const { invites: data, isInvitesPending } = useGetInvites();
 
   const [searchParams, setSearchParams] = useSearchParams();
 
-  if (isPending) return <CustomLoader />;
+  if (isInvitesPending) return <CustomLoader />;
 
   const invites = data.invites || data;
 

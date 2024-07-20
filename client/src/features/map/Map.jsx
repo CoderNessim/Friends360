@@ -1,12 +1,13 @@
 import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api';
 import CustomLoader from '../../ui/CustomLoader';
 import { useLoaderData, useNavigation } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
-import { connectUser, crudOperations } from '../../utils/helpers';
+import { connectUser } from '../../utils/helpers';
 import { StreamChat } from 'stream-chat';
 import GroupSelect from '../groups/GroupSelect';
 import styles from './Map.module.css';
 import { Button } from '@mantine/core';
+import { useGetUser } from '../../hooks/useGetUser';
+import { useGetGroups } from '../../hooks/useGetGroups';
 
 const containerStyle = {
   width: '100%',
@@ -23,16 +24,8 @@ const streamApiKey = import.meta.env.VITE_STREAM_API;
 const client = StreamChat.getInstance(streamApiKey);
 
 function Map() {
-  const { data: user, isPending: isUserPending } = useQuery({
-    queryKey: ['user'],
-    queryFn: () => crudOperations('users', 'getMe', 'GET'),
-  });
-
-  const { data: groups, isPending: isGroupsPending } = useQuery({
-    queryKey: ['groups'],
-    queryFn: () => crudOperations('groups', 'getGroups', 'GET'),
-  });
-
+  const { user, isUserPending } = useGetUser();
+  const { groups, isGroupsPending } = useGetGroups();
   const groupNames = groups?.map((group) => group.name);
 
   const { isLoaded } = useJsApiLoader({

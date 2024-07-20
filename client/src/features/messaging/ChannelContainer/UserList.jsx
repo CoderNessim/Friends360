@@ -1,9 +1,8 @@
 import { Avatar, useChatContext } from 'stream-chat-react';
 import { InviteIcon } from '../../../assets/InviteIcon';
 import { useEffect, useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { crudOperations } from '../../../utils/helpers';
 import CustomLoader from '../../../ui/CustomLoader';
+import { useGetGroups } from '../../../hooks/useGetGroups';
 
 function ListContainer({ children }) {
   return (
@@ -44,10 +43,7 @@ const UserItem = ({ user, setSelectedUsers }) => {
 
 function UserList({ setSelectedUsers, group, type = '' }) {
   const { client, channel } = useChatContext();
-  const { data: allGroups, isPending } = useQuery({
-    queryKey: ['groups'],
-    queryFn: () => crudOperations('groups', 'getGroups', 'GET'),
-  });
+  const { groups: allGroups, isGroupsPending } = useGetGroups();
   const teamChannelGroup = allGroups.find(
     (group) => group?.id === channel?.data?.metadata?.groupId
   );
@@ -56,7 +52,7 @@ function UserList({ setSelectedUsers, group, type = '' }) {
   const [loading, setLoading] = useState(false);
   const [listEmpty, setListEmpty] = useState(false);
   const [error, setError] = useState(false);
-  
+
   useEffect(() => {
     async function getUsers() {
       if (loading || !client.userID) return; // Check if client.userID is set
@@ -87,7 +83,7 @@ function UserList({ setSelectedUsers, group, type = '' }) {
     }
     if (client) getUsers();
   }, []);
-  if (isPending) return <CustomLoader />;
+  if (isGroupsPending) return <CustomLoader />;
   if (error)
     return (
       <ListContainer>

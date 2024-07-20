@@ -1,22 +1,19 @@
 import { Container, Pagination, Stack, Title } from '@mantine/core';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import styles from './GroupPage.module.css';
-import { crudOperations } from '../../utils/helpers';
 import GroupOptions from './GroupOptions';
 import CustomLoader from '../../ui/CustomLoader';
 import GroupItem from './GroupItem';
 import { useSearchParams } from 'react-router-dom';
+import { useGetGroups } from '../../hooks/useGetGroups';
 
 const itemsPerPage = 3;
 
 function GroupPage() {
   const queryClient = useQueryClient();
   const [searchParams, setSearchParams] = useSearchParams();
-  const { data: groups, isPending } = useQuery({
-    queryKey: ['groups'],
-    queryFn: () => crudOperations('groups', 'getGroups', 'GET'),
-  });
-  if (isPending) return <CustomLoader />;
+  const { groups, isGroupsPending } = useGetGroups();
+  if (isGroupsPending) return <CustomLoader />;
   const currentPage = parseInt(searchParams.get('page')) || 1;
   const totalPages = Math.ceil(groups.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
