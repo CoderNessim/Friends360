@@ -8,15 +8,11 @@ import styles from './Map.module.css';
 import { Button } from '@mantine/core';
 import { useGetUser } from '../../hooks/useGetUser';
 import { useGetGroups } from '../../hooks/useGetGroups';
+import { useGeolocation } from './useGeolocation';
 
 const containerStyle = {
   width: '100%',
   height: '100vh',
-};
-
-const center = {
-  lat: 25.9561024,
-  lng: -80.1710398,
 };
 
 const streamApiKey = import.meta.env.VITE_STREAM_API;
@@ -27,7 +23,15 @@ function Map() {
   const { user, isUserPending } = useGetUser();
   const { groups, isGroupsPending } = useGetGroups();
   const groupNames = groups?.map((group) => group.name);
-
+  const {
+    position,
+    getPosition,
+    isLoading: isPositionLoading,
+    error,
+  } = useGeolocation();
+  if (!isPositionLoading) {
+    console.log(position);
+  }
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API,
@@ -40,9 +44,9 @@ function Map() {
   if (isGroupsPending || isUserPending) return <CustomLoader />;
   if (navigationState === 'loading') return <CustomLoader />;
 
-  return isLoaded ? (
+  return isLoaded || isPositionLoading ? (
     <>
-      <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={10}>
+      <GoogleMap mapContainerStyle={containerStyle} center={position} zoom={10}>
         {/* Child components, such as markers, info windows, etc. */}
         <div className={styles.groupSelect}>
           <GroupSelect groupNames={groupNames} showLabel={false} />
@@ -53,6 +57,7 @@ function Map() {
             fullWidth
             variant="gradient"
             gradient={{ from: 'blue', to: 'cyan', deg: 90 }}
+            onClick={() => getPosition()}
           >
             Check in
           </Button>
