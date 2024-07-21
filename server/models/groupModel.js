@@ -18,12 +18,6 @@ const groupSchema = new mongoose.Schema(
       type: mongoose.Schema.ObjectId,
       ref: 'User',
     },
-    conversations: [
-      {
-        type: mongoose.Schema.ObjectId,
-        ref: 'Conversation',
-      },
-    ],
     plans: [
       {
         type: mongoose.Schema.ObjectId,

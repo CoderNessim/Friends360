@@ -51,6 +51,15 @@ const userSchema = new mongoose.Schema(
         ref: 'Group',
       },
     ],
+    coordinates: {
+      type: [Number],
+      validate: {
+        validator: function (value) {
+          return value.length === 2;
+        },
+        message: 'Coordinates must have exactly 2 values (latitude, longitude)',
+      },
+    },
     passwordChangedAt: Date,
     passwordResetToken: String,
     passwordResetExpires: Date,

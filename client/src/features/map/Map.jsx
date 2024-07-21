@@ -44,7 +44,7 @@ function Map() {
   if (isGroupsPending || isUserPending) return <CustomLoader />;
   if (navigationState === 'loading') return <CustomLoader />;
 
-  return isLoaded || isPositionLoading ? (
+  return isLoaded && !isPositionLoading ? (
     <>
       <GoogleMap mapContainerStyle={containerStyle} center={position} zoom={10}>
         {/* Child components, such as markers, info windows, etc. */}

@@ -17,6 +17,7 @@ router.use(authController.protect);
 
 //populate groups?
 router.get('/getMe', userController.getMe, factory.getOne(User));
+router.patch('/updateMe', userController.updateMe);
 router.get('/getInvites', userController.getInvites);
 router.get('/streamToken', userController.getStreamToken);
 

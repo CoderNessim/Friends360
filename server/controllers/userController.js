@@ -1,6 +1,7 @@
 const User = require('../models/userModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
+const factory = require('./handlerFactory');
 
 exports.getMe = (req, res, next) => {
   req.params.id = req.user.id;
@@ -36,3 +37,5 @@ exports.getStreamToken = catchAsync(async (req, res, next) => {
     streamToken,
   });
 });
+
+exports.updateMe = factory.updateOne(User);
