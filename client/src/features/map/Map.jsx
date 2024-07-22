@@ -37,17 +37,17 @@ function Map() {
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API,
   });
 
-  const navigationState = useNavigation();
   const streamToken = useLoaderData();
   connectUser(client, streamToken, user);
 
   if (isGroupsPending || isUserPending) return <CustomLoader />;
-  if (navigationState === 'loading') return <CustomLoader />;
 
   return isLoaded && !isPositionLoading ? (
     <>
-      <GoogleMap mapContainerStyle={containerStyle} center={position} zoom={10}>
-        {/* Child components, such as markers, info windows, etc. */}
+      <GoogleMap mapContainerStyle={containerStyle} center={position} zoom={8}>
+        <Marker>
+          dsfsdfas
+        </Marker>
         <div className={styles.groupSelect}>
           <GroupSelect groupNames={groupNames} showLabel={false} />
         </div>

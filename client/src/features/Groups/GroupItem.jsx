@@ -19,7 +19,6 @@ function GroupItem({ group }) {
       toast.error(err.message);
     }
   }
-
   return (
     <Paper
       withBorder
@@ -31,7 +30,6 @@ function GroupItem({ group }) {
       <Group
         position="apart"
         style={{ width: '100%', alignItems: 'center', marginBottom: '10px' }}
-        noWrap
       >
         <Text size="lg" weight={500}>
           {group.name}
@@ -49,26 +47,30 @@ function GroupItem({ group }) {
           Admin: {group.admin.username}
         </Text>
         <Avatar
-          src={`/path/to/avatars/${group.admin.profilePic}`} // Correct path to admin's picture
+          name={group.admin.username}
+          // src={`/path/to/avatars/${group.admin.profilePic}`} // Correct path to admin's picture
           alt={group.admin.username}
           radius="xl"
           size="md"
+          color="red"
         />
         <Text size="sm" color="dimmed">
           Members: {group.members.length}
         </Text>
-        {displayMembers.map((member, index) => (
-          <Avatar
-            key={index}
-            src={`/path/to/avatars/${member.photo}`} // Adjust based on your member object structure
-            alt={member.username}
-            radius="xl"
-            size="md"
-          />
-        ))}
-        {group.members.length > 3 && (
-          <Badge>+{group.members.length - 3} more</Badge>
-        )}
+        <Avatar.Group>
+          {displayMembers.map((member, index) => (
+            <Avatar
+              key={index}
+              src={`/path/to/avatars/${member.photo}`} // Adjust based on your member object structure
+              alt={member.username}
+              radius="xl"
+              size="md"
+            />
+          ))}
+          {group.members.length > 3 && (
+            <Avatar>+{group.members.length - 3}</Avatar>
+          )}
+        </Avatar.Group>
       </Group>
     </Paper>
   );

@@ -8,7 +8,7 @@ function ActionIcons({
   handleLeaveGroup,
 }) {
   return (
-    <Group spacing="xs" noWrap>
+    <Group spacing="xs">
       <ActionIcon
         color="red"
         size="lg"
