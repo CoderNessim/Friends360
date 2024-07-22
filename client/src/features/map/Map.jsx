@@ -1,14 +1,19 @@
-import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api';
 import CustomLoader from '../../ui/CustomLoader';
-import { useLoaderData, useNavigation } from 'react-router-dom';
+import { useLoaderData } from 'react-router-dom';
 import { connectUser } from '../../utils/helpers';
 import { StreamChat } from 'stream-chat';
-import GroupSelect from '../groups/GroupSelect';
 import styles from './Map.module.css';
 import { Button } from '@mantine/core';
 import { useGetUser } from '../../hooks/useGetUser';
 import { useGetGroups } from '../../hooks/useGetGroups';
 import { useGeolocation } from './useGeolocation';
+import {
+  AdvancedMarker,
+  APIProvider,
+  Map as GoogleMap,
+  Marker,
+} from '@vis.gl/react-google-maps';
+import GroupSelect from '../groups/GroupSelect';
 
 const containerStyle = {
   width: '100%',
@@ -32,37 +37,40 @@ function Map() {
   if (!isPositionLoading) {
     console.log(position);
   }
-  const { isLoaded } = useJsApiLoader({
-    id: 'google-map-script',
-    googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API,
-  });
 
   const streamToken = useLoaderData();
   connectUser(client, streamToken, user);
 
   if (isGroupsPending || isUserPending) return <CustomLoader />;
 
-  return isLoaded && !isPositionLoading ? (
+  return !isPositionLoading ? (
     <>
-      <GoogleMap mapContainerStyle={containerStyle} center={position} zoom={8}>
-        <Marker>
-          dsfsdfas
-        </Marker>
-        <div className={styles.groupSelect}>
-          <GroupSelect groupNames={groupNames} showLabel={false} />
-        </div>
-        <div className={styles.checkIn}>
-          <Button
-            radius="xl"
-            fullWidth
-            variant="gradient"
-            gradient={{ from: 'blue', to: 'cyan', deg: 90 }}
-            onClick={() => getPosition()}
-          >
-            Check in
-          </Button>
-        </div>
-      </GoogleMap>
+      <APIProvider
+        apiKey={import.meta.env.VITE_GOOGLE_MAPS_API}
+      >
+        <GoogleMap
+          style={containerStyle}
+          defaultCenter={position}
+          defaultZoom={8}
+          mapId={import.meta.env.VITE_GOOGLE_MAPS_ID}
+        >
+          <AdvancedMarker position={position}></AdvancedMarker>
+          <div className={styles.groupSelect}>
+            <GroupSelect groupNames={groupNames} showLabel={false} />
+          </div>
+          <div className={styles.checkIn}>
+            <Button
+              radius="xl"
+              fullWidth
+              variant="gradient"
+              gradient={{ from: 'blue', to: 'cyan', deg: 90 }}
+              onClick={() => getPosition()}
+            >
+              Check in
+            </Button>
+          </div>
+        </GoogleMap>
+      </APIProvider>
     </>
   ) : (
     <CustomLoader />
