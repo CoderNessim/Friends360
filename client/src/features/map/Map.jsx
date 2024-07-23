@@ -11,7 +11,6 @@ import {
   AdvancedMarker,
   APIProvider,
   Map as GoogleMap,
-  Marker,
 } from '@vis.gl/react-google-maps';
 import GroupSelect from '../groups/GroupSelect';
 
@@ -33,7 +32,7 @@ function Map() {
     getPosition,
     isLoading: isPositionLoading,
     error,
-  } = useGeolocation();
+  } = useGeolocation({ lat: user.coordinates[0], lng: user.coordinates[1] });
   if (!isPositionLoading) {
     console.log(position);
   }
@@ -45,9 +44,7 @@ function Map() {
 
   return !isPositionLoading ? (
     <>
-      <APIProvider
-        apiKey={import.meta.env.VITE_GOOGLE_MAPS_API}
-      >
+      <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API}>
         <GoogleMap
           style={containerStyle}
           defaultCenter={position}

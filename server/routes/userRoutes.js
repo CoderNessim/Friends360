@@ -20,5 +20,6 @@ router.get('/getMe', userController.getMe, factory.getOne(User));
 router.patch('/updateMe', userController.updateMe);
 router.get('/getInvites', userController.getInvites);
 router.get('/streamToken', userController.getStreamToken);
+router.patch('/updateCoords', userController.updateCoords);
 
 module.exports = router;

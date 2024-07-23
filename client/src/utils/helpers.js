@@ -26,7 +26,10 @@ export async function crudOperations(
       headers: {
         'Content-Type': 'application/json',
       },
-      body: operation === 'POST' ? JSON.stringify(body) : undefined,
+      body:
+        operation === 'POST' || operation === 'PATCH'
+          ? JSON.stringify(body)
+          : undefined,
       credentials: 'include',
     }
   );
