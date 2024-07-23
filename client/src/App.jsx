@@ -67,6 +67,7 @@ function App() {
         {
           path: 'groups',
           element: <GroupPage />,
+          loader: messageLoader,
         },
         {
           path: 'inbox',

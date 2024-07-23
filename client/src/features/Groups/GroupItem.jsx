@@ -1,4 +1,4 @@
-import { Paper, Text, Group, Avatar, Badge } from '@mantine/core';
+import { Paper, Text, Group, Avatar } from '@mantine/core';
 import styles from './GroupPage.module.css'; // Ensure correct import path
 import ActionIcons from './ActionIcons';
 import { useQueryClient } from '@tanstack/react-query';
@@ -6,7 +6,8 @@ import { openDeleteModal, openInviteModal } from '../../utils/modalHandlers';
 import { crudOperations } from '../../utils/helpers';
 import toast from 'react-hot-toast';
 
-function GroupItem({ group }) {
+
+function GroupItem({ group, groupMessageChannels }) {
   const displayMembers = group.members.slice(0, 3);
   const queryClient = useQueryClient();
 
@@ -52,7 +53,6 @@ function GroupItem({ group }) {
           alt={group.admin.username}
           radius="xl"
           size="md"
-          color="red"
         />
         <Text size="sm" color="dimmed">
           Members: {group.members.length}

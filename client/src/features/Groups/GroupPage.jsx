@@ -4,16 +4,38 @@ import styles from './GroupPage.module.css';
 import GroupOptions from './GroupOptions';
 import CustomLoader from '../../ui/CustomLoader';
 import GroupItem from './GroupItem';
-import { useSearchParams } from 'react-router-dom';
+import { useLoaderData, useSearchParams } from 'react-router-dom';
 import { useGetGroups } from '../../hooks/useGetGroups';
+import { useEffect } from 'react';
+import { connectUser } from '../../utils/helpers';
+import { StreamChat } from 'stream-chat';
+import { useGetUser } from '../../hooks/useGetUser';
+import useGetUserGroups from '../../hooks/useGetUserGroups';
 
+const streamApiKey = import.meta.env.VITE_STREAM_API;
+const client = StreamChat.getInstance(streamApiKey);
 const itemsPerPage = 3;
 
 function GroupPage() {
   const queryClient = useQueryClient();
   const [searchParams, setSearchParams] = useSearchParams();
   const { groups, isGroupsPending } = useGetGroups();
-  if (isGroupsPending) return <CustomLoader />;
+  const { user, isUserPending } = useGetUser();
+  const streamToken = useLoaderData();
+
+  useEffect(() => {
+    if (!client.userID && user && streamToken) {
+      connectUser(client, streamToken, user);
+    }
+  }, [user, streamToken]);
+  const {
+    groups: groupMessageChannels,
+    isLoading: isGroupMessageChannelsLoading,
+  } = useGetUserGroups(user?.id, client);
+
+  if (isGroupsPending || isUserPending || isGroupMessageChannelsLoading)
+    return <CustomLoader />;
+
   const currentPage = parseInt(searchParams.get('page')) || 1;
   const totalPages = Math.ceil(groups.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -50,7 +72,11 @@ function GroupPage() {
         ) : (
           <Stack>
             {currentGroups.map((group, i) => (
-              <GroupItem key={i} group={group} />
+              <GroupItem
+                key={i}
+                group={group}
+                groupMessageChannels={groupMessageChannels}
+              />
             ))}
           </Stack>
         )}
