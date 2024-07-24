@@ -8,8 +8,8 @@ export function useGeolocation(defaultPosition = null) {
   const [position, setPosition] = useState(defaultPosition);
   const [error, setError] = useState(null);
   const queryClient = useQueryClient();
-console.log(defaultPosition)
-  async function getPosition() {
+  console.log(defaultPosition);
+  async function getPosition(onClick = false) {
     if (!navigator.geolocation) {
       alert('Your browser does not support geolocation');
       return;
@@ -31,14 +31,14 @@ console.log(defaultPosition)
             coordinates: [newPosition.lat, newPosition.lng],
           });
           queryClient.invalidateQueries({ queryKey: ['users'] });
+          if (onClick) toast.success('Location updated');
         } catch (err) {
           toast.error(err.message);
         }
       },
       (error) => {
-        setError(error);
+        setError(error.message);
         setIsLoading(false);
-        toast.error(error.message);
       }
     );
   }

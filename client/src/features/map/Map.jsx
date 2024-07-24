@@ -7,6 +7,7 @@ import { Button } from '@mantine/core';
 import { useGetUser } from '../../hooks/useGetUser';
 import { useGetGroups } from '../../hooks/useGetGroups';
 import { useGeolocation } from './useGeolocation';
+import Error from '../../ui/Error';
 import {
   AdvancedMarker,
   APIProvider,
@@ -41,7 +42,7 @@ function Map() {
   connectUser(client, streamToken, user);
 
   if (isGroupsPending || isUserPending) return <CustomLoader />;
-
+  if (error) return <Error customErrorMessage={error} />;
   return !isPositionLoading ? (
     <>
       <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API}>
@@ -61,7 +62,7 @@ function Map() {
               fullWidth
               variant="gradient"
               gradient={{ from: 'blue', to: 'cyan', deg: 90 }}
-              onClick={() => getPosition()}
+              onClick={() => getPosition(true)}
             >
               Check in
             </Button>

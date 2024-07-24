@@ -6,20 +6,33 @@ import { openDeleteModal, openInviteModal } from '../../utils/modalHandlers';
 import { crudOperations } from '../../utils/helpers';
 import toast from 'react-hot-toast';
 
-
-function GroupItem({ group, groupMessageChannels }) {
+function GroupItem({ group, groupMessageChannels, client }) {
   const displayMembers = group.members.slice(0, 3);
   const queryClient = useQueryClient();
-
+  
   async function handleLeaveGroup() {
     try {
+      const id = group._id;
       await crudOperations('groups', `leaveGroup/${group._id}`, 'DELETE');
+      const associatedGroupChannels = groupMessageChannels.filter(
+        (channel) => channel.data.metadata.groupId === id
+      );
+      if (associatedGroupChannels.length > 0) {
+        await Promise.all(
+          associatedGroupChannels.map((channel) =>
+            client
+              .channel(channel.type, channel.id)
+              .removeMembers([client.userID])
+          )
+        );
+      }
       queryClient.invalidateQueries({ queryKey: ['groups'] });
       toast.success(`You have left "${group.name}"`);
     } catch (err) {
       toast.error(err.message);
     }
   }
+  
   return (
     <Paper
       withBorder

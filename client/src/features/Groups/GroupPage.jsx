@@ -73,6 +73,7 @@ function GroupPage() {
           <Stack>
             {currentGroups.map((group, i) => (
               <GroupItem
+                client={client}
                 key={i}
                 group={group}
                 groupMessageChannels={groupMessageChannels}
