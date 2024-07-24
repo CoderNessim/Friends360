@@ -9,7 +9,7 @@ import toast from 'react-hot-toast';
 function GroupItem({ group, groupMessageChannels, client }) {
   const displayMembers = group.members.slice(0, 3);
   const queryClient = useQueryClient();
-  
+
   async function handleLeaveGroup() {
     try {
       const id = group._id;
@@ -32,7 +32,7 @@ function GroupItem({ group, groupMessageChannels, client }) {
       toast.error(err.message);
     }
   }
-  
+
   return (
     <Paper
       withBorder
@@ -50,7 +50,9 @@ function GroupItem({ group, groupMessageChannels, client }) {
         </Text>
         <ActionIcons
           handleInvite={() => openInviteModal(group)}
-          handleDelete={() => openDeleteModal(group, queryClient)}
+          handleDelete={() =>
+            openDeleteModal(group, queryClient, groupMessageChannels, client)
+          }
           handleLeaveGroup={handleLeaveGroup}
           isInbox={false}
         />

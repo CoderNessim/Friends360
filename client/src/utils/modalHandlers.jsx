@@ -17,11 +17,18 @@ export function openInviteModal(group) {
   });
 }
 
-export function openDeleteModal(group, queryClient) {
+export function openDeleteModal(group, queryClient, groupMessageChannels, client) {
   modals.open({
     title: 'Are you sure you want to delete this group?',
     size: 'lg',
     centered: true,
-    children: <DeleteModal group={group} queryClient={queryClient} />,
+    children: (
+      <DeleteModal
+        group={group}
+        queryClient={queryClient}
+        groupMessageChannels={groupMessageChannels}
+        client={client}
+      />
+    ),
   });
 }
