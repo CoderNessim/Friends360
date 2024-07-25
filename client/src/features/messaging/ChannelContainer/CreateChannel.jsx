@@ -3,7 +3,6 @@ import UserList from './UserList';
 import { CloseCreateChannel } from '../../../assets/CloseCreateChannel';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
-import { useGroupProvider } from '../../../context/GroupContext';
 
 const ChannelNameInput = ({ channelName = '', setChannelName }) => {
   const handleChange = (event) => {
@@ -25,7 +24,7 @@ const ChannelNameInput = ({ channelName = '', setChannelName }) => {
 };
 
 const CreateChannel = ({ createType, setIsCreating, group }) => {
-  const { client, setActiveChannel, channel } = useChatContext();
+  const { client, setActiveChannel } = useChatContext();
   const [selectedUsers, setSelectedUsers] = useState([client.userID || '']);
   const [channelName, setChannelName] = useState('');
   const createChannel = async (e) => {
@@ -38,9 +37,9 @@ const CreateChannel = ({ createType, setIsCreating, group }) => {
         metadata: {
           // Assuming custom data is stored in 'metadata'
           groupId: group.id, // Store custom group ID here
+          group,
         },
       });
-
       await newChannel.watch();
 
       setChannelName('');
@@ -48,7 +47,9 @@ const CreateChannel = ({ createType, setIsCreating, group }) => {
       setSelectedUsers([client.userID]);
       setActiveChannel(newChannel);
     } catch (error) {
-      toast.error('Channel creation failed. Please try again.');
+      toast.error(
+        error.message || 'Channel creation failed. Please try again.'
+      );
     }
   };
 

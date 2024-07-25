@@ -13,6 +13,7 @@ const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
 const userRouter = require('./routes/userRoutes');
 const groupRouter = require('./routes/groupRoutes');
+const messageRouter = require('./routes/messageRoutes');
 
 const app = express();
 
@@ -68,6 +69,8 @@ const limiter = rateLimit({
 app.use('/api', limiter);
 app.use('/api/users', userRouter);
 app.use('/api/groups', groupRouter);
+app.use('/api/messages', messageRouter);
+
 // Custom error handling
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));

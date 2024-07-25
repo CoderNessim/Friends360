@@ -50,9 +50,7 @@ function GroupItem({ group, groupMessageChannels, client }) {
         </Text>
         <ActionIcons
           handleInvite={() => openInviteModal(group)}
-          handleDelete={() =>
-            openDeleteModal(group, queryClient, groupMessageChannels, client)
-          }
+          handleDelete={() => openDeleteModal(group, queryClient)}
           handleLeaveGroup={handleLeaveGroup}
           isInbox={false}
         />

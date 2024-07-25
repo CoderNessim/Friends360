@@ -48,6 +48,8 @@ function UserList({ setSelectedUsers, group, type = '' }) {
     (group) => group?.id === channel?.data?.metadata?.groupId
   );
 
+  console.log(teamChannelGroup);
+
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [listEmpty, setListEmpty] = useState(false);
@@ -87,12 +89,20 @@ function UserList({ setSelectedUsers, group, type = '' }) {
   if (error)
     return (
       <ListContainer>
+        {!teamChannelGroup && (
+          <p className="user-list__message">
+            This group has been deleted, however, you can still message with
+            people who were in the group{' '}
+          </p>
+        )}
         <div className="user-list__message">
           There are no users in{' '}
           {type === 'edit' ? (
-            <strong>{teamChannelGroup.name}</strong>
+            <strong>
+              {teamChannelGroup?.name || channel.data.metadata.group.name}
+            </strong>
           ) : (
-            <strong>{group.name}</strong>
+            <strong>{group.name || channel.data.metadata.group.name}</strong>
           )}
           , invite users to be able to start a chat
         </div>

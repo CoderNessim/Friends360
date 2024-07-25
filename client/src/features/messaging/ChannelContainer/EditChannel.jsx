@@ -48,6 +48,7 @@ function EditChannel({ setIsEditing, group }) {
         toast.success('Members added successfully');
       }
     } catch (err) {
+      console.log(err);
       toast.error('Only the channel owner can update the channel');
     } finally {
       setChannelName('');
