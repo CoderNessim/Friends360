@@ -27,7 +27,7 @@ function Protect({ children }) {
     },
   });
 
-  useQuery({
+  const { isPending: isInvitesPending } = useQuery({
     queryKey: ['invites'],
     queryFn: () => crudOperations('users', 'getInvites', 'GET'),
     enabled: !!user,
@@ -37,7 +37,7 @@ function Protect({ children }) {
     },
   });
 
-  if (isUserPending) {
+  if (isUserPending || isInvitesPending) {
     return <CustomLoader size="lg" />;
   }
 

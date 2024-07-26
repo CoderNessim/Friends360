@@ -89,7 +89,7 @@ function UserList({ setSelectedUsers, group, type = '' }) {
   if (error)
     return (
       <ListContainer>
-        {!teamChannelGroup && (
+        {!teamChannelGroup && type === 'edit' && (
           <p className="user-list__message">
             This group has been deleted, however, you can still message with
             people who were in the group{' '}

@@ -10,14 +10,40 @@ import {
 import { openGroupModal } from './modalHandlers';
 import { useQueryClient } from '@tanstack/react-query';
 
+const IconWithNotification = ({ icon: Icon, showNotification }) => (
+  <div style={{ position: 'relative', display: 'inline-block' }}>
+    <Icon stroke="currentColor" strokeWidth={1.3} />
+    {showNotification && (
+      <span
+        style={{
+          position: 'absolute',
+          top: 0,
+          right: 0,
+          width: '8px',
+          height: '8px',
+          backgroundColor: 'red',
+          borderRadius: '50%',
+          border: '1px solid white',
+        }}
+      />
+    )}
+  </div>
+);
 // This function returns an array of objects with icon and label properties
-export function useNavLinks() {
+export function useNavLinks(invites = []) {
   const queryClient = useQueryClient();
-
   const links = [
     { icon: IconHome2, label: 'Map' },
     { icon: IconMessage2, label: 'Messages' },
-    { icon: IconInbox, label: 'Inbox' },
+    {
+      icon: () => (
+        <IconWithNotification
+          icon={IconInbox}
+          showNotification={invites.length > 0}
+        />
+      ),
+      label: 'Inbox',
+    },
     { icon: IconCalendarStats, label: 'Calender' },
     { icon: IconUser, label: 'Account' },
     {

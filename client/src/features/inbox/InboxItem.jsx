@@ -1,4 +1,4 @@
-import { Avatar, Badge, Group, Paper, Text } from '@mantine/core';
+import { Avatar, Group, Paper, Text } from '@mantine/core';
 import styles from './InboxItem.module.css';
 import ActionIcons from '../groups/ActionIcons';
 import toast from 'react-hot-toast';
@@ -55,7 +55,8 @@ function InboxItem({ invite }) {
           Admin: {invite.admin.username}
         </Text>
         <Avatar
-          src={`/path/to/avatars/${invite.admin.profilePic}`} // Correct path to admin's picture
+          name={invite.admin.username}
+          // src={`/path/to/avatars/${invite.admin.profilePic}`} // Correct path to admin's picture
           alt={invite.admin.username}
           radius="xl"
           size="md"
@@ -63,18 +64,20 @@ function InboxItem({ invite }) {
         <Text size="sm" color="dimmed">
           Members: {invite.members.length}
         </Text>
-        {displayMembers.map((member, index) => (
-          <Avatar
-            key={index}
-            src={`/path/to/avatars/${member.photo}`} // Adjust based on your member object structure
-            alt={member.username}
-            radius="xl"
-            size="md"
-          />
-        ))}
-        {invite.members.length > 3 && (
-          <Badge>+{invite.members.length - 3} more</Badge>
-        )}
+        <Avatar.Group>
+          {displayMembers.map((member, index) => (
+            <Avatar
+              key={index}
+              src={`/path/to/avatars/${member.photo}`} // Adjust based on your member object structure
+              alt={member.username}
+              radius="xl"
+              size="md"
+            />
+          ))}
+          {invite.members.length > 3 && (
+            <Avatar>+{invite.members.length - 3}</Avatar>
+          )}
+        </Avatar.Group>
       </Group>
     </Paper>
   );

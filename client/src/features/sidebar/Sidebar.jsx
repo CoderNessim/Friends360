@@ -1,4 +1,4 @@
-import { Center, Loader, Stack } from '@mantine/core';
+import { Center, Stack } from '@mantine/core';
 import { IconLogout } from '@tabler/icons-react';
 import classes from './Sidebar.module.css';
 import { Outlet, useNavigate, useNavigation } from 'react-router-dom';
@@ -11,13 +11,17 @@ import SidebarLinksGroup from './SidebarLinksGroup';
 import Nav from './Nav';
 import { useNavLinks } from '../../utils/navLinks.jsx';
 import { StreamChat } from 'stream-chat';
+import { useGetInvites } from '../../hooks/useGetInvites.jsx';
+import CustomLoader from '../../ui/CustomLoader.jsx';
 
 const streamApiKey = import.meta.env.VITE_STREAM_API;
 
 const client = StreamChat.getInstance(streamApiKey);
 
 export default function Sidebar() {
-  const navLinks = useNavLinks();
+  const { invites } = useGetInvites();
+  //for some reason the invites object is nested in another object sometimes
+  const navLinks = useNavLinks(invites.invites || invites);
   const navigation = useNavigation();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -57,7 +61,7 @@ export default function Sidebar() {
   return (
     <div className={classes.layout}>
       {isLoading ? (
-        <Loader />
+        <CustomLoader />
       ) : (
         <>
           {/* <Header /> */}
