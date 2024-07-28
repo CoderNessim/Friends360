@@ -14,6 +14,7 @@ import {
   Map as GoogleMap,
 } from '@vis.gl/react-google-maps';
 import GroupSelect from '../groups/GroupSelect';
+import { useGroupProvider } from '../../context/GroupContext';
 
 const containerStyle = {
   width: '100%',
@@ -27,7 +28,10 @@ const client = StreamChat.getInstance(streamApiKey);
 function Map() {
   const { user, isUserPending } = useGetUser();
   const { groups, isGroupsPending } = useGetGroups();
-  const groupNames = groups?.map((group) => group.name);
+  const { currentGroupIndex } = useGroupProvider();
+  let currentGroup = {};
+  if (groups) currentGroup = groups[currentGroupIndex];
+  const groupNames = groups?.map((group) => group?.name);
   const {
     position,
     getPosition,
@@ -40,7 +44,7 @@ function Map() {
 
   const streamToken = useLoaderData();
   connectUser(client, streamToken, user);
-
+  console.log(currentGroup?.members);
   if (isGroupsPending || isUserPending) return <CustomLoader />;
   if (error) return <Error customErrorMessage={error} />;
   return !isPositionLoading ? (
@@ -52,7 +56,20 @@ function Map() {
           defaultZoom={8}
           mapId={import.meta.env.VITE_GOOGLE_MAPS_ID}
         >
-          <AdvancedMarker position={position}></AdvancedMarker>
+          {currentGroup?.members.map((member) => {
+            console.log(member?.coordinates);
+            {
+              return (
+                <AdvancedMarker
+                  position={{
+                    lat: member.coordinates[0],
+                    lng: member.coordinates[1],
+                  }}
+                  key={member.id}
+                ></AdvancedMarker>
+              );
+            }
+          })}
           <div className={styles.groupSelect}>
             <GroupSelect groupNames={groupNames} showLabel={false} />
           </div>

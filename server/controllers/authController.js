@@ -19,6 +19,36 @@ function signToken(id) {
   });
 }
 
+const popOptions = [
+  {
+    path: 'groups',
+    populate: [
+      {
+        path: 'admin',
+        select: 'username photo coordinates',
+      },
+      {
+        path: 'members',
+        select: 'username photo coordinates', // Specify the fields you want to include for members
+      },
+    ],
+  },
+  {
+    path: 'invites',
+    select: '-plans',
+    populate: [
+      {
+        path: 'admin',
+        select: 'username photo coordinates',
+      },
+      {
+        path: 'members',
+        select: 'username photo coordinates',
+      },
+    ],
+  },
+];
+
 function generateStreamToken(userId) {
   const serverClient = StreamChat.getInstance(api_key, api_secret, app_id);
   return serverClient.createToken(userId.toString());
@@ -91,7 +121,7 @@ exports.confirmEmail = catchAsync(async (req, res, next) => {
   const user = await User.findOne({
     signupToken: hashedToken,
     signupExpires: { $gt: Date.now() },
-  }).populate('groups invites');
+  }).populate(popOptions);
 
   if (!user) {
     return next(new AppError('Token is invalid or has expired', 400));
@@ -117,29 +147,7 @@ exports.login = catchAsync(async (req, res, next) => {
 
   const user = await User.findOne({ email })
     .select('+password')
-    .populate([
-      {
-        path: 'groups',
-        populate: {
-          path: 'admin',
-          select: 'username photo',
-        },
-      },
-      {
-        path: 'invites',
-        select: '-conversations -plans',
-        populate: [
-          {
-            path: 'admin',
-            select: 'username photo',
-          },
-          {
-            path: 'members',
-            select: 'username photo',
-          },
-        ],
-      },
-    ]);
+    .populate(popOptions);
 
   if (!user || !(await user.correctPassword(password, user.password))) {
     return next(new AppError('Incorrect email or password', 401));

@@ -54,7 +54,7 @@ exports.createOne = (Model, modelType = '') =>
     });
   });
 
-exports.getOne = (Model, popOptions) =>
+exports.getOne = (Model, popOptions = '') =>
   catchAsync(async (req, res, next) => {
     let id = req.params.id;
     if (!id) id = req.user.id;

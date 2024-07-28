@@ -3,14 +3,15 @@ const Group = require('../models/groupModel');
 const catchAsync = require('../utils/catchAsync');
 const User = require('../models/userModel');
 const AppError = require('../utils/appError');
+const { patch } = require('../routes/userRoutes');
 
 exports.createGroup = factory.createOne(Group, 'Group');
 
 exports.getGroups = catchAsync(async (req, res, next) => {
-  const groups = await Group.find({ members: req.user.id }).populate({
-    path: 'admin',
-    select: 'username photo',
-  });
+  const groups = await Group.find({ members: { $in: [req.user.id] } })
+    .populate('admin', 'username photo coordinates') // Simplified population for 'admin'
+    .populate('members', 'username photo coordinates'); // Population for 'members'
+
   res.status(200).json({
     status: 'success',
     data: {

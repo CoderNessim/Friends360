@@ -31,6 +31,7 @@ export function useGeolocation(defaultPosition = null) {
             coordinates: [newPosition.lat, newPosition.lng],
           });
           queryClient.invalidateQueries({ queryKey: ['users'] });
+          queryClient.invalidateQueries({ queryKey: ['groups'] });
           if (onClick) toast.success('Location updated');
         } catch (err) {
           toast.error(err.message);
