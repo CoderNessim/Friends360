@@ -66,6 +66,7 @@ function GroupItem({ group, groupMessageChannels, client }) {
           alt={group.admin.username}
           radius="xl"
           size="md"
+          color="initials"
         />
         <Text size="sm" color="dimmed">
           Members: {group.members.length}
@@ -76,8 +77,10 @@ function GroupItem({ group, groupMessageChannels, client }) {
               key={index}
               src={`/path/to/avatars/${member.photo}`} // Adjust based on your member object structure
               alt={member.username}
+              name={member.username}
               radius="xl"
               size="md"
+              color="initials"
             />
           ))}
           {group.members.length > 3 && (

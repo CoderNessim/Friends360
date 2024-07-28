@@ -3,7 +3,7 @@ import { useLoaderData } from 'react-router-dom';
 import { connectUser } from '../../utils/helpers';
 import { StreamChat } from 'stream-chat';
 import styles from './Map.module.css';
-import { Button } from '@mantine/core';
+import { Avatar, Button } from '@mantine/core';
 import { useGetUser } from '../../hooks/useGetUser';
 import { useGetGroups } from '../../hooks/useGetGroups';
 import { useGeolocation } from './useGeolocation';
@@ -38,7 +38,7 @@ function Map() {
     isLoading: isPositionLoading,
     error,
   } = useGeolocation({ lat: user.coordinates[0], lng: user.coordinates[1] });
-  if (!isPositionLoading) {
+  if (isPositionLoading) {
     console.log(position);
   }
 
@@ -56,20 +56,22 @@ function Map() {
           defaultZoom={8}
           mapId={import.meta.env.VITE_GOOGLE_MAPS_ID}
         >
-          {currentGroup?.members.map((member) => {
-            console.log(member?.coordinates);
-            {
-              return (
-                <AdvancedMarker
-                  position={{
-                    lat: member.coordinates[0],
-                    lng: member.coordinates[1],
-                  }}
-                  key={member.id}
-                ></AdvancedMarker>
-              );
-            }
-          })}
+          {currentGroup?.members.map((member) => (
+            <AdvancedMarker
+              position={{
+                lat: member.coordinates[0],
+                lng: member.coordinates[1],
+              }}
+              key={member.id}
+            >
+              <Avatar
+                color="initials"
+                name={member.username}
+                allowedInitialsColors={['blue', 'red', 'green']} // Add more colors as needed
+                key={member.username}
+              />
+            </AdvancedMarker>
+          ))}
           <div className={styles.groupSelect}>
             <GroupSelect groupNames={groupNames} showLabel={false} />
           </div>

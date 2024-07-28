@@ -8,7 +8,6 @@ export function useGeolocation(defaultPosition = null) {
   const [position, setPosition] = useState(defaultPosition);
   const [error, setError] = useState(null);
   const queryClient = useQueryClient();
-  console.log(defaultPosition);
   async function getPosition(onClick = false) {
     if (!navigator.geolocation) {
       alert('Your browser does not support geolocation');

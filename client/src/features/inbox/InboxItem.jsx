@@ -60,6 +60,7 @@ function InboxItem({ invite }) {
           alt={invite.admin.username}
           radius="xl"
           size="md"
+          color="initials"
         />
         <Text size="sm" color="dimmed">
           Members: {invite.members.length}
@@ -72,6 +73,8 @@ function InboxItem({ invite }) {
               alt={member.username}
               radius="xl"
               size="md"
+              name={member.username}
+              color="initials"
             />
           ))}
           {invite.members.length > 3 && (
