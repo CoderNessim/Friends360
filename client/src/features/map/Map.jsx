@@ -3,18 +3,15 @@ import { useLoaderData } from 'react-router-dom';
 import { connectUser } from '../../utils/helpers';
 import { StreamChat } from 'stream-chat';
 import styles from './Map.module.css';
-import { Avatar, Button } from '@mantine/core';
+import { Button } from '@mantine/core';
 import { useGetUser } from '../../hooks/useGetUser';
 import { useGetGroups } from '../../hooks/useGetGroups';
 import { useGeolocation } from './useGeolocation';
 import Error from '../../ui/Error';
-import {
-  AdvancedMarker,
-  APIProvider,
-  Map as GoogleMap,
-} from '@vis.gl/react-google-maps';
+import { APIProvider, Map as GoogleMap } from '@vis.gl/react-google-maps';
 import GroupSelect from '../groups/GroupSelect';
 import { useGroupProvider } from '../../context/GroupContext';
+import CustomMarker from './CustomMarker';
 
 const containerStyle = {
   width: '100%',
@@ -38,13 +35,9 @@ function Map() {
     isLoading: isPositionLoading,
     error,
   } = useGeolocation({ lat: user.coordinates[0], lng: user.coordinates[1] });
-  if (isPositionLoading) {
-    console.log(position);
-  }
 
   const streamToken = useLoaderData();
   connectUser(client, streamToken, user);
-  console.log(currentGroup?.members);
   if (isGroupsPending || isUserPending) return <CustomLoader />;
   if (error) return <Error customErrorMessage={error} />;
   return !isPositionLoading ? (
@@ -57,20 +50,7 @@ function Map() {
           mapId={import.meta.env.VITE_GOOGLE_MAPS_ID}
         >
           {currentGroup?.members.map((member) => (
-            <AdvancedMarker
-              position={{
-                lat: member.coordinates[0],
-                lng: member.coordinates[1],
-              }}
-              key={member.id}
-            >
-              <Avatar
-                color="initials"
-                name={member.username}
-                allowedInitialsColors={['blue', 'red', 'green']} // Add more colors as needed
-                key={member.username}
-              />
-            </AdvancedMarker>
+            <CustomMarker member={member} key={member.id} />
           ))}
           <div className={styles.groupSelect}>
             <GroupSelect groupNames={groupNames} showLabel={false} />

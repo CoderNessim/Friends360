@@ -28,13 +28,9 @@ function GroupPage() {
       connectUser(client, streamToken, user);
     }
   }, [user, streamToken]);
-  const {
-    groups: groupMessageChannels,
-    isLoading: isGroupMessageChannelsLoading,
-  } = useGetUserGroups(user?.id, client);
+  const { groups: groupMessageChannels } = useGetUserGroups(user?.id, client);
 
-  if (isGroupsPending || isUserPending || isGroupMessageChannelsLoading)
-    return <CustomLoader />;
+  if (isGroupsPending || isUserPending) return <CustomLoader />;
 
   const currentPage = parseInt(searchParams.get('page')) || 1;
   const totalPages = Math.ceil(groups.length / itemsPerPage);
@@ -85,7 +81,7 @@ function GroupPage() {
       <div className={styles.paginationWrapper}>
         <Pagination
           total={totalPages}
-          page={currentPage}
+          value={currentPage}
           onChange={handlePageChange}
         />
       </div>
