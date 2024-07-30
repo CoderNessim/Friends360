@@ -5,6 +5,7 @@ import {
   useAdvancedMarkerRef,
 } from '@vis.gl/react-google-maps';
 import { useCallback, useState } from 'react';
+import styles from './CustomMarker.module.css';
 
 function CustomMarker({ member }) {
   const [markerRef, marker] = useAdvancedMarkerRef();
@@ -34,7 +35,27 @@ function CustomMarker({ member }) {
       />
       {infoWindowShown && (
         <InfoWindow anchor={marker} onClose={handleClose}>
-          <h2>{member.username}</h2>
+          <div className={styles.infoWindow}>
+            <div className={styles.headerContainer}>
+              <Avatar
+                color="initials"
+                name={member.username}
+                allowedInitialsColors={[
+                  'blue',
+                  'red',
+                  'green',
+                  'purple',
+                  'black',
+                ]}
+                key={member.username}
+                size={32}
+              />
+              <h2 className={styles.header}>{member.username}</h2>
+            </div>
+            <p className={styles.text}>
+              Coordinates: {member.coordinates.join(', ')}
+            </p>
+          </div>
         </InfoWindow>
       )}
     </AdvancedMarker>
