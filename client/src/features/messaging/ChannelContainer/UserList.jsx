@@ -48,8 +48,6 @@ function UserList({ setSelectedUsers, group, type = '' }) {
     (group) => group?.id === channel?.data?.metadata?.groupId
   );
 
-  console.log(teamChannelGroup);
-
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [listEmpty, setListEmpty] = useState(false);
@@ -64,14 +62,19 @@ function UserList({ setSelectedUsers, group, type = '' }) {
         //otherwise we want to display the users in the current group rather than the channel that was made with a specific group
         const memberIDs =
           type === 'edit'
-            ? teamChannelGroup.members.filter((id) => id !== client.userID)
-            : group.members.filter((id) => id !== client.userID);
+            ? teamChannelGroup.members
+                .filter((member) => member.id !== client.userID)
+                .map((member) => member.id.toString())
+            : group.members
+                .filter((member) => member.id !== client.userID)
+                .map((member) => member.id.toString());
         const response = await client.queryUsers(
           {
             id: { $in: memberIDs },
           },
           { id: 1 }
         );
+        console.log(memberIDs);
         if (response.users.length) {
           setUsers(response.users);
         } else {

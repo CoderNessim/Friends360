@@ -18,7 +18,7 @@ function LoginBody() {
   const navigate = useNavigate();
   const { mutate, isPending } = useAuthQuery(loginSignup);
 
-  function handleSubmit(values) {
+  async function handleSubmit(values) {
     mutate({ body: values, type: 'login' });
     form.reset();
   }
