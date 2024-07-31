@@ -8,10 +8,16 @@ import { useGetUser } from '../../hooks/useGetUser';
 import { useGetGroups } from '../../hooks/useGetGroups';
 import { useGeolocation } from './useGeolocation';
 import Error from '../../ui/Error';
-import { APIProvider, Map as GoogleMap } from '@vis.gl/react-google-maps';
+import {
+  APIProvider,
+  Map as GoogleMap,
+  useMapsLibrary,
+} from '@vis.gl/react-google-maps';
 import GroupSelect from '../groups/GroupSelect';
 import { useGroupProvider } from '../../context/GroupContext';
 import CustomMarker from './CustomMarker';
+import { useGeocoding } from './useGeocoding';
+import { useEffect } from 'react';
 
 const containerStyle = {
   width: '100%',
@@ -23,6 +29,7 @@ const streamApiKey = import.meta.env.VITE_STREAM_API;
 const client = StreamChat.getInstance(streamApiKey);
 
 function Map() {
+
   const { user, isUserPending } = useGetUser();
   const { groups, isGroupsPending } = useGetGroups();
   const { currentGroupIndex } = useGroupProvider();
@@ -35,11 +42,12 @@ function Map() {
     isLoading: isPositionLoading,
     error,
   } = useGeolocation({ lat: user.coordinates[0], lng: user.coordinates[1] });
-
+  const address = useGeocoding(position.lat, position.lng);
   const streamToken = useLoaderData();
   connectUser(client, streamToken, user);
   if (isGroupsPending || isUserPending) return <CustomLoader />;
   if (error) return <Error customErrorMessage={error} />;
+
   return !isPositionLoading ? (
     <>
       <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API}>
