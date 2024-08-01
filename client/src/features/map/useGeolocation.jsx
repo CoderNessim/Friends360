@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { crudOperations } from '../../utils/helpers';
 import { useQueryClient } from '@tanstack/react-query';
-import { useGeocoding } from './useGeocoding';
+// import { Geocoding } from './Geocoding';
 
 export function useGeolocation(defaultPosition = null) {
   const [isLoading, setIsLoading] = useState(false);

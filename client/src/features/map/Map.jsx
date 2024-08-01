@@ -16,8 +16,8 @@ import {
 import GroupSelect from '../groups/GroupSelect';
 import { useGroupProvider } from '../../context/GroupContext';
 import CustomMarker from './CustomMarker';
-import { useGeocoding } from './useGeocoding';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { Geocoding } from './Geocoding';
 
 const containerStyle = {
   width: '100%',
@@ -29,7 +29,7 @@ const streamApiKey = import.meta.env.VITE_STREAM_API;
 const client = StreamChat.getInstance(streamApiKey);
 
 function Map() {
-
+  const [address, setAddress] = useState('');
   const { user, isUserPending } = useGetUser();
   const { groups, isGroupsPending } = useGetGroups();
   const { currentGroupIndex } = useGroupProvider();
@@ -42,7 +42,6 @@ function Map() {
     isLoading: isPositionLoading,
     error,
   } = useGeolocation({ lat: user.coordinates[0], lng: user.coordinates[1] });
-  const address = useGeocoding(position.lat, position.lng);
   const streamToken = useLoaderData();
   connectUser(client, streamToken, user);
   if (isGroupsPending || isUserPending) return <CustomLoader />;
@@ -51,6 +50,13 @@ function Map() {
   return !isPositionLoading ? (
     <>
       <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API}>
+        <Geocoding
+          lat={position.lat}
+          lng={position.lng}
+          address={address}
+          setAddress={setAddress}
+          position={position}
+        />
         <GoogleMap
           style={containerStyle}
           defaultCenter={position}

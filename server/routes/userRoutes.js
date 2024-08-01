@@ -21,5 +21,6 @@ router.patch('/updateMe', userController.updateMe);
 router.get('/getInvites', userController.getInvites);
 router.get('/streamToken', userController.getStreamToken);
 router.patch('/updateCoords', userController.updateCoords);
+router.patch('/updateAddress', userController.updateAddress);
 
 module.exports = router;

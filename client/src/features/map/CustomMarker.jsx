@@ -17,7 +17,6 @@ function CustomMarker({ member }) {
 
   // if the maps api closes the infowindow, we have to synchronize our state
   const handleClose = useCallback(() => setInfoWindowShown(false), []);
-
   return (
     <AdvancedMarker
       position={{
@@ -53,7 +52,7 @@ function CustomMarker({ member }) {
               <h2 className={styles.header}>{member.username}</h2>
             </div>
             <p className={styles.text}>
-              Coordinates: {member.coordinates.join(', ')}
+              Location: {member.location}
             </p>
           </div>
         </InfoWindow>

@@ -9,8 +9,8 @@ exports.createGroup = factory.createOne(Group, 'Group');
 
 exports.getGroups = catchAsync(async (req, res, next) => {
   const groups = await Group.find({ members: { $in: [req.user.id] } })
-    .populate('admin', 'username photo coordinates') // Simplified population for 'admin'
-    .populate('members', 'username photo coordinates'); // Population for 'members'
+    .populate('admin', 'username photo coordinates location') // Simplified population for 'admin'
+    .populate('members', 'username photo coordinates location'); // Population for 'members'
 
   res.status(200).json({
     status: 'success',

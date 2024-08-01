@@ -39,5 +39,5 @@ exports.getStreamToken = catchAsync(async (req, res, next) => {
 });
 
 exports.updateCoords = factory.updateOne(User);
-
+exports.updateAddress = factory.updateOne(User);
 exports.updateMe = factory.updateOne(User);

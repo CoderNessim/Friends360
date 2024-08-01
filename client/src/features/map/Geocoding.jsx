@@ -1,43 +1,41 @@
 import { useMapsLibrary } from '@vis.gl/react-google-maps';
 import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
+import { crudOperations } from '../../utils/helpers';
 
-export function useGeocoding(lat, lng) {
+//this must be a component because it needs to be the child of the APIprovider
+export function Geocoding({ lat, lng, address, setAddress, position }) {
   const geocodingApiLoaded = useMapsLibrary('geocoding');
-  console.log(geocodingApiLoaded);
-  const [address, setAddress] = useState('');
   const [geocodingService, setGeocodingService] = useState();
-
   useEffect(() => {
-    if (!geocodingApiLoaded) {
-      console.error('Google Maps API not loaded');
-      return;
-    }
+    if (!geocodingApiLoaded) return;
+
     setGeocodingService(new window.google.maps.Geocoder());
-    console.log('Geocoding service set:', new window.google.maps.Geocoder());
   }, [geocodingApiLoaded]);
   useEffect(() => {
     if (!geocodingService) return;
-    console.log('Geocoding service initialized');
 
     const geocode = async () => {
-      console.log('Geocoding coordinates:', lat, lng);
       geocodingService.geocode(
         { location: { lat, lng } },
         (results, status) => {
           if (results && status === 'OK') {
-            console.log('Geocoding results:', results);
             setAddress(results[0].formatted_address);
           } else {
-            console.error(
-              'Geocode was not successful for the following reason: ' + status
+            toast.error(
+              'Geocode was not successful for the following reason:',
+              status
             );
           }
         }
       );
+      await crudOperations('users', 'updateAddress', 'PATCH', {
+        location: address,
+      });
     };
 
     geocode();
-  }, [geocodingService, lat, lng]);
+  }, [geocodingService, lat, lng, setAddress, position, address]);
 
-  return address;
+  return null;
 }
