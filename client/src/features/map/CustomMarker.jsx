@@ -1,22 +1,30 @@
 import { Avatar } from '@mantine/core';
 import {
   AdvancedMarker,
+  CollisionBehavior,
   InfoWindow,
   useAdvancedMarkerRef,
+  useMap,
 } from '@vis.gl/react-google-maps';
 import { useCallback, useState } from 'react';
 import styles from './CustomMarker.module.css';
+import HeaderContent from './HeaderContent';
 
 function CustomMarker({ member }) {
   const [markerRef, marker] = useAdvancedMarkerRef();
   const [infoWindowShown, setInfoWindowShown] = useState(false);
-  const handleMarkerClick = useCallback(
-    () => setInfoWindowShown((isShown) => !isShown),
-    []
-  );
+  const map = useMap();
 
-  // if the maps api closes the infowindow, we have to synchronize our state
+  const handleMarkerClick = useCallback(() => {
+    setInfoWindowShown((isShown) => !isShown);
+    if (map) {
+      map.panTo({ lat: member.coordinates[0], lng: member.coordinates[1] });
+      map.setZoom(15); // Adjust zoom level as desired
+    }
+  }, [map, member.coordinates]);
+
   const handleClose = useCallback(() => setInfoWindowShown(false), []);
+
   return (
     <AdvancedMarker
       position={{
@@ -24,36 +32,25 @@ function CustomMarker({ member }) {
         lng: member.coordinates[1],
       }}
       ref={markerRef}
+      collisionBehavior={CollisionBehavior.REQUIRED_AND_HIDES_OPTIONAL}
       onClick={handleMarkerClick}
     >
       <Avatar
         color="initials"
+        className={styles.avatar}
         name={member.username}
-        allowedInitialsColors={['blue', 'red', 'green', 'purple', 'black']}
+        allowedInitialsColors={['blue', 'red', 'purple', 'black']}
         key={member.username}
       />
       {infoWindowShown && (
-        <InfoWindow anchor={marker} onClose={handleClose}>
+        <InfoWindow
+          anchor={marker}
+          onClose={handleClose}
+          shouldFocus={true}
+          headerContent={<HeaderContent member={member} />}
+        >
           <div className={styles.infoWindow}>
-            <div className={styles.headerContainer}>
-              <Avatar
-                color="initials"
-                name={member.username}
-                allowedInitialsColors={[
-                  'blue',
-                  'red',
-                  'green',
-                  'purple',
-                  'black',
-                ]}
-                key={member.username}
-                size={32}
-              />
-              <h2 className={styles.header}>{member.username}</h2>
-            </div>
-            <p className={styles.text}>
-              Location: {member.location}
-            </p>
+            <p className={styles.text}>Location: {member.location}</p>
           </div>
         </InfoWindow>
       )}

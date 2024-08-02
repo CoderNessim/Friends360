@@ -11,12 +11,11 @@ import Error from '../../ui/Error';
 import {
   APIProvider,
   Map as GoogleMap,
-  useMapsLibrary,
 } from '@vis.gl/react-google-maps';
 import GroupSelect from '../groups/GroupSelect';
 import { useGroupProvider } from '../../context/GroupContext';
 import CustomMarker from './CustomMarker';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Geocoding } from './Geocoding';
 
 const containerStyle = {
