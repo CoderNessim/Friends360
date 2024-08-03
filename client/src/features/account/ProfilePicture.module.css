@@ -1,0 +1,9 @@
+.profileWrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.card {
+  width: 100%;
+  max-width: 250px;
+}

@@ -15,6 +15,7 @@ import GroupPage from './features/groups/GroupPage';
 import InboxPage from './features/inbox/InboxPage';
 import Messages, { messageLoader } from './features/messaging/Messages';
 import { GroupProvider } from './context/GroupContext';
+import AccountPage from './features/account/AccountPage';
 
 function App() {
   const queryClient = new QueryClient({
@@ -77,6 +78,10 @@ function App() {
           path: 'messages',
           element: <Messages />,
           loader: messageLoader,
+        },
+        {
+          path: 'account',
+          element: <AccountPage />,
         },
       ],
     },
