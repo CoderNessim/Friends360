@@ -1,9 +1,23 @@
 .profileWrapper {
   display: flex;
+  flex-direction: column;
   justify-content: center;
 }
 
 .card {
   width: 100%;
   max-width: 250px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.image {
+  border-radius: 50%;
+  border: 2px solid #ddd;
+  padding: 5px;
+  background: #fff;
+}
+
+.fileInput {
+  padding-top: 10px;
 }

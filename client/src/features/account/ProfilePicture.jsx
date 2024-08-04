@@ -1,4 +1,4 @@
-import { Card, Image } from '@mantine/core';
+import { Card, FileInput, Image } from '@mantine/core';
 import styles from './ProfilePicture.module.css';
 
 function ProfilePicture({ user }) {
@@ -9,11 +9,15 @@ function ProfilePicture({ user }) {
           <Image
             height={200}
             src={user.photo}
-            fit="contain"
+            fit="cover"
+            withPlaceholder
+            alt="Profile Picture"
+            className={styles.image}
             fallbackSrc="https://placehold.co/600x400?text=Profile"
           />
         </Card.Section>
       </Card>
+      <FileInput variant="filled" placeholder="Input placeholder" className={styles.fileInput} />
     </div>
   );
 }

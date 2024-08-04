@@ -1,12 +1,39 @@
-import { Card, Text } from '@mantine/core';
+import { Card, Text, Group, Badge, Stack } from '@mantine/core';
 import styles from './ProfileDetails.module.css';
 
-function ProfileDetails({ user }) {
+function ProfileDetails({ user, groups }) {
   return (
     <Card padding="lg" radius="md" className={styles.card}>
-      <Text size="lg" weight={500}>Name: {user.username}</Text>
-      <Text size="lg" weight={500}>Email: {user.email}</Text>
-      {/* Add more user details as needed */}
+      <Stack>
+        <Text size="lg" weight={700}>
+          Name:{' '}
+          <Text size="lg" weight={500} color="dimmed">
+            {user.username}
+          </Text>
+        </Text>
+        <Text size="lg" weight={700}>
+          Email:{' '}
+          <Text size="lg" weight={500} color="dimmed">
+            {user.email}
+          </Text>
+        </Text>
+        <Text size="lg" weight={700}>
+          Current Location:{' '}
+          <Text size="lg" weight={500} color="dimmed">
+            {user.location}
+          </Text>
+        </Text>
+        <Group spacing="xs">
+          <Text size="lg" weight={700}>
+            Groups:
+          </Text>
+          {groups.map((group, index) => (
+            <Badge key={index} variant="light" color="blue" radius="sm">
+              {group.name}
+            </Badge>
+          ))}
+        </Group>
+      </Stack>
     </Card>
   );
 }

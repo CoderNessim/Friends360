@@ -1,31 +1,33 @@
 import { useGetUser } from '../../hooks/useGetUser';
+import { useGetGroups } from '../../hooks/useGetGroups';
 import CustomLoader from '../../ui/CustomLoader';
 import AccountSettings from './AccountSettings';
 import ProfileDetails from './ProfileDetails';
 import ProfilePicture from './ProfilePicture';
-import { Container, Grid, Card, Group, Text } from '@mantine/core';
+import { Container, Divider, Title } from '@mantine/core';
 import styles from './AccountPage.module.css';
 
 function AccountPage() {
   const { user, isUserPending } = useGetUser();
+  const { groups, isGroupsPending } = useGetGroups();
 
-  if (isUserPending) return <CustomLoader />;
+  if (isUserPending || isGroupsPending) return <CustomLoader />;
+
   return (
-    <Container>
-      <Grid>
-        <Grid.Col span={12}>
-          <Text className={styles.title}>{user.name}</Text>
-        </Grid.Col>
-        <Grid.Col span={3}>
+    <Container className={styles.container}>
+      <Title order={2} className={styles.title}>
+        Account Page
+      </Title>
+      <div className={styles.content}>
+        <div className={styles.profileCol}>
           <ProfilePicture user={user} />
-        </Grid.Col>
-        <Grid.Col span={9}>
-          <ProfileDetails user={user} />
-        </Grid.Col>
-        <Grid.Col span={12}>
-          <AccountSettings />
-        </Grid.Col>
-      </Grid>
+        </div>
+        <div className={styles.detailsCol}>
+          <ProfileDetails user={user} groups={groups} />
+        </div>
+      </div>
+      <Divider my="sm" />
+      <AccountSettings />
     </Container>
   );
 }
