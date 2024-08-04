@@ -8,6 +8,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const compression = require('compression');
 const cookieParser = require('cookie-parser');
+const path = require('path');
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
@@ -18,8 +19,9 @@ const messageRouter = require('./routes/messageRoutes');
 const app = express();
 
 // Set security HTTP headers
-app.use(helmet());
-
+helmet({
+  crossOriginResourcePolicy: false,
+});
 // Enable CORS
 app.use(
   cors({
@@ -54,6 +56,8 @@ app.use(xss());
 
 // Prevent parameter pollution
 app.use(hpp());
+
+app.use('/public', express.static(path.join(__dirname, 'public')));
 
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();

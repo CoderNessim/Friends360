@@ -16,9 +16,15 @@ exports.deleteOne = (Model) =>
 
 exports.updateOne = (Model) =>
   catchAsync(async (req, res, next) => {
+    const updateData = { ...req.body };
+
+    if (req.file) {
+      updateData.photo = `/public/img/users/${req.file.filename}`; // Store the relative path to the photo
+    }
+
     const doc = await Model.findByIdAndUpdate(
-      req.params.id || req.user.id,
-      req.body,
+      req.user.id || req.params.id,
+      updateData,
       {
         new: true,
         runValidators: true,
@@ -32,10 +38,31 @@ exports.updateOne = (Model) =>
     res.status(200).json({
       status: 'success',
       data: {
-        data: doc,
+        doc,
       },
     });
   });
+// catchAsync(async (req, res, next) => {
+//   const doc = await Model.findByIdAndUpdate(
+//     req.params.id || req.user.id,
+//     req.body,
+//     {
+//       new: true,
+//       runValidators: true,
+//     },
+//   );
+
+//   if (!doc) {
+//     return next(new AppError('No document found with that ID', 404));
+//   }
+
+//   res.status(200).json({
+//     status: 'success',
+//     data: {
+//       data: doc,
+//     },
+//   });
+// });
 
 exports.createOne = (Model, modelType = '') =>
   catchAsync(async (req, res, next) => {

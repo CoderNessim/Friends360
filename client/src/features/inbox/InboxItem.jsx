@@ -3,7 +3,7 @@ import styles from './InboxItem.module.css';
 import ActionIcons from '../groups/ActionIcons';
 import toast from 'react-hot-toast';
 import { useQueryClient } from '@tanstack/react-query';
-import { crudOperations } from '../../utils/helpers';
+import { crudOperations, getPhotoUrl } from '../../utils/helpers';
 
 function InboxItem({ invite }) {
   const displayMembers = invite.members.slice(0, 3);
@@ -56,7 +56,7 @@ function InboxItem({ invite }) {
         </Text>
         <Avatar
           name={invite.admin.username}
-          // src={`/path/to/avatars/${invite.admin.profilePic}`} // Correct path to admin's picture
+          src={getPhotoUrl(invite.admin.photo)}
           alt={invite.admin.username}
           radius="xl"
           size="md"
@@ -69,7 +69,7 @@ function InboxItem({ invite }) {
           {displayMembers.map((member, index) => (
             <Avatar
               key={index}
-              src={`/path/to/avatars/${member.photo}`} // Adjust based on your member object structure
+              src={getPhotoUrl(member.photo)}
               alt={member.username}
               radius="xl"
               size="md"

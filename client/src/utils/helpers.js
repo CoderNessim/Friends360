@@ -1,5 +1,7 @@
 import toast from 'react-hot-toast';
 
+const serverPort = import.meta.env.VITE_SERVER_PORT;
+
 export async function handleAsyncSubmit(asyncFunction, form, values) {
   try {
     await asyncFunction;
@@ -70,4 +72,9 @@ export function connectUser(client, streamToken, user) {
       streamToken
     );
   }
+}
+
+export function getPhotoUrl(photo) {
+  const imageUrl = `http://localhost:${serverPort}${photo}`;
+  return imageUrl;
 }

@@ -9,6 +9,7 @@ import {
 import { useCallback, useState } from 'react';
 import styles from './CustomMarker.module.css';
 import HeaderContent from './HeaderContent';
+import { getPhotoUrl } from '../../utils/helpers';
 
 function CustomMarker({ member }) {
   const [markerRef, marker] = useAdvancedMarkerRef();
@@ -39,6 +40,7 @@ function CustomMarker({ member }) {
         color="initials"
         className={styles.avatar}
         name={member.username}
+        src={getPhotoUrl(member.photo)}
         allowedInitialsColors={['blue', 'red', 'purple', 'black']}
         key={member.username}
       />

@@ -1,5 +1,6 @@
 import { Card, FileInput, Image } from '@mantine/core';
 import styles from './ProfilePicture.module.css';
+import { getPhotoUrl } from '../../utils/helpers';
 
 function ProfilePicture({ user }) {
   return (
@@ -8,16 +9,19 @@ function ProfilePicture({ user }) {
         <Card.Section>
           <Image
             height={200}
-            src={user.photo}
+            src={getPhotoUrl(user.photo)}
             fit="cover"
-            withPlaceholder
             alt="Profile Picture"
             className={styles.image}
             fallbackSrc="https://placehold.co/600x400?text=Profile"
           />
         </Card.Section>
       </Card>
-      <FileInput variant="filled" placeholder="Input placeholder" className={styles.fileInput} />
+      <FileInput
+        variant="filled"
+        placeholder="Input placeholder"
+        className={styles.fileInput}
+      />
     </div>
   );
 }

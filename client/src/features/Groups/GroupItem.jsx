@@ -3,7 +3,7 @@ import styles from './GroupPage.module.css'; // Ensure correct import path
 import ActionIcons from './ActionIcons';
 import { useQueryClient } from '@tanstack/react-query';
 import { openDeleteModal, openInviteModal } from '../../utils/modalHandlers';
-import { crudOperations } from '../../utils/helpers';
+import { crudOperations, getPhotoUrl } from '../../utils/helpers';
 import toast from 'react-hot-toast';
 
 function GroupItem({ group, groupMessageChannels, client }) {
@@ -62,7 +62,7 @@ function GroupItem({ group, groupMessageChannels, client }) {
         </Text>
         <Avatar
           name={group.admin.username}
-          // src={`/path/to/avatars/${group.admin.profilePic}`} // Correct path to admin's picture
+          src={getPhotoUrl(group.admin.photo)}
           alt={group.admin.username}
           radius="xl"
           size="md"
@@ -75,7 +75,7 @@ function GroupItem({ group, groupMessageChannels, client }) {
           {displayMembers.map((member, index) => (
             <Avatar
               key={index}
-              src={`/path/to/avatars/${member.photo}`} // Adjust based on your member object structure
+              src={getPhotoUrl(member.photo)}
               alt={member.username}
               name={member.username}
               radius="xl"

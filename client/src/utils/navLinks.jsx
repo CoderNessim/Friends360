@@ -51,7 +51,6 @@ export function useNavLinks(invites = []) {
       label: 'Groups',
       onClick: () => openGroupModal(queryClient),
     },
-    { icon: IconSettings, label: 'Settings' },
   ];
   return links;
 }
