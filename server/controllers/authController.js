@@ -25,11 +25,11 @@ const popOptions = [
     populate: [
       {
         path: 'admin',
-        select: 'username photo coordinates',
+        select: 'username photo coordinates location',
       },
       {
         path: 'members',
-        select: 'username photo coordinates', // Specify the fields you want to include for members
+        select: 'username photo coordinates location', // Specify the fields you want to include for members
       },
     ],
   },
@@ -39,11 +39,11 @@ const popOptions = [
     populate: [
       {
         path: 'admin',
-        select: 'username photo coordinates',
+        select: 'username photo coordinates location',
       },
       {
         path: 'members',
-        select: 'username photo coordinates',
+        select: 'username photo coordinates location',
       },
     ],
   },

@@ -52,7 +52,9 @@ function CustomMarker({ member }) {
           headerContent={<HeaderContent member={member} />}
         >
           <div className={styles.infoWindow}>
-            <p className={styles.text}>Location: {member.location}</p>
+            <p className={styles.text}>
+              Location: {member.location || member.coordinates.join(', ')}
+            </p>
           </div>
         </InfoWindow>
       )}

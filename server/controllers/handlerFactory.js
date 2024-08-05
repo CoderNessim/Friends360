@@ -21,7 +21,7 @@ exports.updateOne = (Model) =>
     if (req.file) {
       updateData.photo = `/public/img/users/${req.file.filename}`; // Store the relative path to the photo
     }
-
+    console.log(updateData);
     const doc = await Model.findByIdAndUpdate(
       req.user.id || req.params.id,
       updateData,
