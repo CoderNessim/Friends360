@@ -3,7 +3,6 @@ import styles from './ProfilePicture.module.css';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { useChatContext } from 'stream-chat-react';
-import { getPhotoUrl } from '../../utils/helpers';
 import { useQueryClient } from '@tanstack/react-query';
 
 function ProfilePicture({ file, setFile, userId }) {

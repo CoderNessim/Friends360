@@ -1,11 +1,14 @@
-import { Button } from "@mantine/core"
+import { Button } from '@mantine/core';
+import styles from './AccountSettings.module.css';
 
 function AccountSettings() {
   return (
-    <div>
-      <Button color="red">Delete Account</Button>
+    <div className={styles.settingsContainer}>
+      <Button color="red" size="md" className={styles.deleteButton}>
+        Delete Account
+      </Button>
     </div>
-  )
+  );
 }
 
-export default AccountSettings
+export default AccountSettings;

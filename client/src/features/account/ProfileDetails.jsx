@@ -1,4 +1,6 @@
 import { Card, Text, Group, Badge, Stack } from '@mantine/core';
+import { IconEdit } from '@tabler/icons-react';
+
 import styles from './ProfileDetails.module.css';
 
 function ProfileDetails({ user, groups }) {
@@ -8,13 +10,13 @@ function ProfileDetails({ user, groups }) {
         <Text size="lg" weight={700}>
           Name:{' '}
           <Text size="lg" weight={500} color="dimmed">
-            {user.username}
+            {user.username} <IconEdit stroke={2} />
           </Text>
         </Text>
         <Text size="lg" weight={700}>
           Email:{' '}
           <Text size="lg" weight={500} color="dimmed">
-            {user.email}
+            {user.email} <IconEdit stroke={2} />
           </Text>
         </Text>
         <Text size="lg" weight={700}>
