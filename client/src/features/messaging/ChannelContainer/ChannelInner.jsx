@@ -11,6 +11,7 @@ import {
 } from 'stream-chat-react';
 
 import { ChannelInfo } from '../../../assets/ChannelInfo';
+import { getPhotoUrl } from '../../../utils/helpers';
 
 export const GiphyContext = React.createContext({});
 
@@ -60,14 +61,13 @@ const TeamChannelHeader = ({ setIsEditing }) => {
       ({ user }) => user.id !== client.userID
     );
     const additionalMembers = members.length - 3;
-
     if (channel.type === 'messaging') {
       return (
         <div className="team-channel-header__name-wrapper">
           {members.map(({ user }, i) => (
             <div key={i} className="team-channel-header__name-multi">
               <Avatar
-                image={user.image}
+                image={getPhotoUrl(user.image)}
                 name={user.fullName || user.id}
                 size={32}
               />

@@ -16,7 +16,7 @@ export function Geocoding({ lat, lng, address, setAddress, position }) {
   }, [geocodingApiLoaded]);
   useEffect(() => {
     if (!geocodingService) return;
-
+    if(!lat || !lng) return;
     const geocode = async () => {
       geocodingService.geocode(
         { location: { lat, lng } },

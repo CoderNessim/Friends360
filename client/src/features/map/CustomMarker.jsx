@@ -29,8 +29,8 @@ function CustomMarker({ member }) {
   return (
     <AdvancedMarker
       position={{
-        lat: member.coordinates[0],
-        lng: member.coordinates[1],
+        lat: member.coordinates[0] || 37.7749,
+        lng: member.coordinates[1] || -122.4194,
       }}
       ref={markerRef}
       collisionBehavior={CollisionBehavior.REQUIRED_AND_HIDES_OPTIONAL}

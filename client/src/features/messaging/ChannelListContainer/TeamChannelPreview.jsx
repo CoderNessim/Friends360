@@ -1,4 +1,5 @@
 import { Avatar, useChatContext } from 'stream-chat-react';
+import { getPhotoUrl } from '../../../utils/helpers';
 
 function TeamChannelPreview({
   channel,
@@ -21,10 +22,11 @@ function TeamChannelPreview({
     const members = Object.values(channel.state.members).filter(
       ({ user }) => user.id !== client.userID
     );
+    console.log(members)
     return (
       <div className="channel-preview__item single">
         <Avatar
-          image={members[0]?.user?.image}
+          image={getPhotoUrl(members[0]?.user?.image)}
           name={members[0]?.user?.fullName || members[0]?.user?.id}
           size={24}
         />

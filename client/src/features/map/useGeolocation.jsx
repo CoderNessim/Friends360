@@ -35,6 +35,8 @@ export function useGeolocation(defaultPosition = null) {
           if (onClick) toast.success('Location updated');
         } catch (err) {
           toast.error(err.message);
+        } finally {
+          setIsLoading(false);
         }
       },
       (error) => {

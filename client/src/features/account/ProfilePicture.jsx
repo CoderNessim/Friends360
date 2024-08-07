@@ -2,8 +2,13 @@ import { Card, FileInput, Image } from '@mantine/core';
 import styles from './ProfilePicture.module.css';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
+import { useChatContext } from 'stream-chat-react';
+import { getPhotoUrl } from '../../utils/helpers';
+import { useQueryClient } from '@tanstack/react-query';
 
-function ProfilePicture({ file, setFile }) {
+function ProfilePicture({ file, setFile, userId }) {
+  const { client } = useChatContext();
+  const queryClient = useQueryClient();
   const [isFileLoading, setIsFileLoading] = useState(false);
   async function handleFileChange(file) {
     if (!file) return;
@@ -21,11 +26,19 @@ function ProfilePicture({ file, setFile }) {
       });
 
       const data = await response.json();
-
       if (!response.ok) {
         throw new Error(data.message || 'Failed to update profile picture');
       }
+      const update = {
+        id: userId,
+        set: {
+          photo: data.data.doc.photo,
+        },
+      };
+      await client.partialUpdateUser(update);
       toast.success('Profile picture updated successfully');
+      queryClient.invalidateQueries({ queryKey: ['users'] });
+      queryClient.invalidateQueries({ queryKey: ['groups'] });
       setFile(URL.createObjectURL(file)); // Update the local state with the selected file's URL
     } catch (err) {
       toast.error(err.message);
@@ -33,6 +46,7 @@ function ProfilePicture({ file, setFile }) {
       setIsFileLoading(false);
     }
   }
+
   return (
     <div className={styles.profileWrapper}>
       <Card padding="lg" radius="md" className={styles.card}>

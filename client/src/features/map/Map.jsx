@@ -45,7 +45,6 @@ function Map() {
   connectUser(client, streamToken, user);
   if (isGroupsPending || isUserPending) return <CustomLoader />;
   if (error) return <Error customErrorMessage={error} />;
-
   return !isPositionLoading ? (
     <>
       <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API}>
