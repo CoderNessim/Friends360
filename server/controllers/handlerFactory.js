@@ -1,11 +1,21 @@
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 
-exports.deleteOne = (Model) =>
+exports.deleteOne = (Model, type = '') =>
   catchAsync(async (req, res, next) => {
     const doc = await Model.findByIdAndDelete(req.params.id);
     if (!doc) {
       return next(new AppError('No document found with that ID', 404));
+    }
+    if (type === 'user') {
+      res.cookie('jwt', '', {
+        expires: new Date(Date.now() + 10 * 1000),
+        httpOnly: true,
+      });
+      res.cookie('streamToken', '', {
+        expires: new Date(Date.now() + 10 * 1000),
+        httpOnly: true,
+      });
     }
 
     res.status(204).json({

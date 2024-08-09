@@ -6,9 +6,7 @@ import toast from 'react-hot-toast';
 function DeleteModal({ group, queryClient }) {
   async function handleDelete() {
     try {
-      
       await crudOperations('groups', `deleteGroup/${group._id}`, 'DELETE');
-     
       queryClient.invalidateQueries({ queryKey: ['groups'] });
       toast.success(`Group "${group.name}" has been deleted`);
       modals.closeAll();

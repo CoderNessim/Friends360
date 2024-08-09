@@ -36,7 +36,7 @@ function AccountPage() {
           </div>
         </div>
         <Divider my="sm" />
-        <AccountSettings />
+        <AccountSettings userId={user.id} />
       </Container>
     </Chat>
   );

@@ -10,7 +10,7 @@ function ProfileDetails({ user, groups }) {
         <Text size="lg" weight={700}>
           Name:{' '}
           <Text size="lg" weight={500} color="dimmed">
-            {user.username} <IconEdit stroke={2} />
+            {user.username} <IconEdit stroke={2}  />
           </Text>
         </Text>
         <Text size="lg" weight={700}>

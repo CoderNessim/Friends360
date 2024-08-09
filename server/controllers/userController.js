@@ -64,3 +64,5 @@ exports.updateAddress = factory.updateOne(User);
 exports.updateMe = factory.updateOne(User);
 
 exports.uploadUserPhoto = upload.single('photo');
+
+exports.deleteMe = factory.deleteOne(User, 'user');

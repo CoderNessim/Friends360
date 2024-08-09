@@ -2,6 +2,7 @@ import { modals } from '@mantine/modals';
 import GroupModal from '../features/groups/GroupModal';
 import InviteModal from '../features/groups/InviteModal';
 import DeleteModal from '../features/groups/DeleteModal';
+import DeleteAccountModal from '../features/account/DeleteAccountModal';
 
 export function openGroupModal(queryClient) {
   modals.open({
@@ -17,7 +18,12 @@ export function openInviteModal(group) {
   });
 }
 
-export function openDeleteModal(group, queryClient, groupMessageChannels, client) {
+export function openDeleteModal(
+  group,
+  queryClient,
+  groupMessageChannels,
+  client
+) {
   modals.open({
     title: 'Are you sure you want to delete this group?',
     size: 'lg',

@@ -58,15 +58,15 @@ function GroupItem({ group, groupMessageChannels, client }) {
 
       <Group spacing="sm" align="center" className={styles.groupDetails}>
         <Text size="sm" weight={500}>
-          Admin: {group.admin.username}
+          Admin: {group?.admin?.username || 'Deleted User'}
         </Text>
         <Avatar
-          name={group.admin.username}
-          src={getPhotoUrl(group.admin.photo)}
-          alt={group.admin.username}
+          name={group?.admin?.username ||  'Deleted User'}
+          src={getPhotoUrl(group?.admin?.photo) || ''}
+          alt={group?.admin?.username || 'Deleted User'}
           radius="xl"
           size="md"
-          color="initials"
+          color={"initials"}
         />
         <Text size="sm" color="dimmed">
           Members: {group.members.length}

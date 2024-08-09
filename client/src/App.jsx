@@ -16,6 +16,7 @@ import InboxPage from './features/inbox/InboxPage';
 import Messages, { messageLoader } from './features/messaging/Messages';
 import { GroupProvider } from './context/GroupContext';
 import AccountPage from './features/account/AccountPage';
+import { ModalsProvider } from '@mantine/modals';
 
 function App() {
   const queryClient = new QueryClient({
@@ -93,11 +94,11 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen={false} />
-      <Toaster />
-      <GroupProvider>
-        <RouterProvider router={router} />
-      </GroupProvider>
+        <ReactQueryDevtools initialIsOpen={false} />
+        <Toaster />
+        <GroupProvider>
+          <RouterProvider router={router} />
+        </GroupProvider>
     </QueryClientProvider>
   );
 }
