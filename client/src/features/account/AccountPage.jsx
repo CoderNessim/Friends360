@@ -6,23 +6,31 @@ import ProfileDetails from './ProfileDetails';
 import ProfilePicture from './ProfilePicture';
 import { Container, Divider, Title } from '@mantine/core';
 import styles from './AccountPage.module.css';
-import { getPhotoUrl } from '../../utils/helpers';
-import { useState } from 'react';
+import { connectUser, getPhotoUrl } from '../../utils/helpers';
+import { useEffect, useState } from 'react';
 import { Chat } from 'stream-chat-react';
 import { StreamChat } from 'stream-chat';
+import { useLoaderData } from 'react-router-dom';
 
 const streamApiKey = import.meta.env.VITE_STREAM_API;
 
 const client = StreamChat.getInstance(streamApiKey);
 function AccountPage() {
+  const streamToken = useLoaderData();
   const { user, isUserPending } = useGetUser();
   const { groups, isGroupsPending } = useGetGroups();
   const [file, setFile] = useState(getPhotoUrl(user.photo));
+  useEffect(() => {
+    if (!client.userID && user && streamToken) {
+      connectUser(client, streamToken, user);
+    }
+  }, [user, streamToken]);
+
 
   if (isUserPending || isGroupsPending) return <CustomLoader />;
 
   return (
-    <Chat client={client}  >
+    <Chat client={client}>
       <Container className={styles.container}>
         <Title order={2} className={styles.title}>
           Account Page
@@ -32,7 +40,11 @@ function AccountPage() {
             <ProfilePicture file={file} setFile={setFile} userId={user.id} />
           </div>
           <div className={styles.detailsCol}>
-            <ProfileDetails user={user} groups={groups} />
+            <ProfileDetails
+              user={user}
+              groups={groups}
+              userId={user.id}
+            />
           </div>
         </div>
         <Divider my="sm" />

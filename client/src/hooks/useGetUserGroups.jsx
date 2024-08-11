@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import { DEACTIVATED_USER_CODE } from '../utils/helpers';
 
 function useGetUserGroups(userId, client) {
   const [groups, setGroups] = useState([]);
@@ -15,8 +16,10 @@ function useGetUserGroups(userId, client) {
 
         setGroups(channels);
       } catch (err) {
-        setError(err);
-        toast.error(err.message);
+        if (err.code !== DEACTIVATED_USER_CODE) {
+          setError(err);
+          toast.error(err.message);
+        }
       } finally {
         setIsLoading(false);
       }

@@ -1,5 +1,11 @@
+const StreamChat = require('stream-chat').StreamChat;
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
+
+const serverClient = StreamChat.getInstance(
+  process.env.STREAM_API_KEY,
+  process.env.STREAM_API_SECRET,
+);
 
 exports.deleteOne = (Model, type = '') =>
   catchAsync(async (req, res, next) => {
@@ -16,6 +22,7 @@ exports.deleteOne = (Model, type = '') =>
         expires: new Date(Date.now() + 10 * 1000),
         httpOnly: true,
       });
+      await serverClient.deactivateUser(req.params.id);
     }
 
     res.status(204).json({
@@ -27,11 +34,9 @@ exports.deleteOne = (Model, type = '') =>
 exports.updateOne = (Model) =>
   catchAsync(async (req, res, next) => {
     const updateData = { ...req.body };
-
     if (req.file) {
       updateData.photo = `/public/img/users/${req.file.filename}`; // Store the relative path to the photo
     }
-    console.log(updateData);
     const doc = await Model.findByIdAndUpdate(
       req.user.id || req.params.id,
       updateData,

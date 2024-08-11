@@ -8,10 +8,7 @@ import { useGetUser } from '../../hooks/useGetUser';
 import { useGetGroups } from '../../hooks/useGetGroups';
 import { useGeolocation } from './useGeolocation';
 import Error from '../../ui/Error';
-import {
-  APIProvider,
-  Map as GoogleMap,
-} from '@vis.gl/react-google-maps';
+import { APIProvider, Map as GoogleMap } from '@vis.gl/react-google-maps';
 import GroupSelect from '../groups/GroupSelect';
 import { useGroupProvider } from '../../context/GroupContext';
 import CustomMarker from './CustomMarker';
@@ -40,7 +37,7 @@ function Map() {
     getPosition,
     isLoading: isPositionLoading,
     error,
-  } = useGeolocation({ lat: user.coordinates[0], lng: user.coordinates[1] });
+  } = useGeolocation({ lat: user?.coordinates[0], lng: user?.coordinates[1] });
   const streamToken = useLoaderData();
   connectUser(client, streamToken, user);
   if (isGroupsPending || isUserPending) return <CustomLoader />;

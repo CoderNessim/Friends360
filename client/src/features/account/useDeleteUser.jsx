@@ -6,6 +6,7 @@ export function useDeleteUser(client, queryClient, userId) {
   const { mutate, isPending, isError } = useMutation({
     mutationFn: () => crudOperations('users', 'deleteMe', 'DELETE', {}, userId),
     onSuccess: () => {
+      
       queryClient.removeQueries({ queryKey: ['users'] });
       queryClient.removeQueries({ queryKey: ['groups'] });
       queryClient.removeQueries({ queryKey: ['plans'] });

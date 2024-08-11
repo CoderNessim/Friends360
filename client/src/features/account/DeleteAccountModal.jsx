@@ -8,7 +8,7 @@ function DeleteAccountModal({ userId, client }) {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { mutate, isPending } = useDeleteUser(client, queryClient, userId);
-  function deleteAccount() {
+  async function deleteAccount() {
     mutate();
     navigate('/');
   }

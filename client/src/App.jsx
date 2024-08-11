@@ -83,6 +83,7 @@ function App() {
         {
           path: 'account',
           element: <AccountPage />,
+          loader: messageLoader,
         },
       ],
     },

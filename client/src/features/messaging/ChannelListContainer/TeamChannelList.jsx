@@ -1,4 +1,5 @@
 import { AddChannel } from '../../../assets/AddChannel';
+import { DEACTIVATED_USER_CODE } from '../../../utils/helpers';
 
 function TeamChannelList({
   children,
@@ -12,7 +13,7 @@ function TeamChannelList({
   setToggleContainer,
 }) {
   
-  if (error) {
+  if (error && error.code !== DEACTIVATED_USER_CODE) {
     return type === 'team' ? (
       <div className="team-channel-list">
         <p className="team-channel-list__message">

@@ -1,6 +1,7 @@
 import toast from 'react-hot-toast';
 
 const serverPort = import.meta.env.VITE_SERVER_PORT;
+export const DEACTIVATED_USER_CODE = 16;
 
 export async function handleAsyncSubmit(asyncFunction, form, values) {
   try {

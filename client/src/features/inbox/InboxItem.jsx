@@ -52,12 +52,12 @@ function InboxItem({ invite }) {
 
       <Group spacing="sm" align="center" className={styles.inviteDetails}>
         <Text size="sm" weight={500}>
-          Admin: {invite.admin.username}
+          Admin: {invite?.admin?.username || 'Deleted User'}
         </Text>
         <Avatar
-          name={invite.admin.username}
-          src={getPhotoUrl(invite.admin.photo)}
-          alt={invite.admin.username}
+          name={invite?.admin?.username || 'Deleted User'}
+          src={getPhotoUrl(invite?.admin?.photo) || ''}
+          alt={invite?.admin?.username || ''}
           radius="xl"
           size="md"
           color="initials"
