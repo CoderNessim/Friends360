@@ -17,6 +17,7 @@ import Messages, { messageLoader } from './features/messaging/Messages';
 import { GroupProvider } from './context/GroupContext';
 import AccountPage from './features/account/AccountPage';
 import { ModalsProvider } from '@mantine/modals';
+import PlanPage from './features/plans/PlanPage';
 
 function App() {
   const queryClient = new QueryClient({
@@ -85,6 +86,10 @@ function App() {
           element: <AccountPage />,
           loader: messageLoader,
         },
+        {
+          path: 'plans',
+          element: <PlanPage />,
+        },
       ],
     },
     {
@@ -95,11 +100,11 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-        <ReactQueryDevtools initialIsOpen={false} />
-        <Toaster />
-        <GroupProvider>
-          <RouterProvider router={router} />
-        </GroupProvider>
+      <ReactQueryDevtools initialIsOpen={false} />
+      <Toaster />
+      <GroupProvider>
+        <RouterProvider router={router} />
+      </GroupProvider>
     </QueryClientProvider>
   );
 }

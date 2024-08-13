@@ -44,7 +44,7 @@ export function useNavLinks(invites = []) {
       ),
       label: 'Inbox',
     },
-    { icon: IconCalendarStats, label: 'Calender' },
+    { icon: IconCalendarStats, label: 'Plans' },
     { icon: IconUser, label: 'Account' },
     {
       icon: IconUsersGroup,
