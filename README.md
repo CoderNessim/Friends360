@@ -1,4 +1,4 @@
-# Overwatchdle (OWdle)
+# Friends360
 
 Like Life360 but catered towards friends
 
