@@ -18,7 +18,7 @@ This app has multiple features that can be used among friends:
 - The ability to create friend groups 
 - Instant messaging across multiple groups powered by Stream API
 - Account management (profile picture, profile deletion, updating username, etc)
-- A map to track where friends are and the ability to update your location at any given time. This was creating using Google Maps API. Clicking on a user icon on the map shows the current address using reverse geocoding from Google Maps API.
+- A map to track friend location through real-time location updates via WebSocket. This was created using Google Maps API. Clicking on a user icon on the map shows the current address using reverse geocoding from Google Maps API.
 - A feature to invite people to different groups, leave groups, and delete groups
 - A feature that allows groups to find nearby events using Google Places API and then add it to a list of plans. Users can accept or decline specific plans.  
 
@@ -39,7 +39,7 @@ Server/Database: MongoDB
 
 Libraries: React, React Query, React Router, MantineUI
 
-APIs: Google Maps API, Stream API
+APIs: Google Maps API, Stream API, WebSocket
 
 Frameworks: Node.js, Express.js
 
